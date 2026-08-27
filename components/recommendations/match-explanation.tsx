@@ -28,7 +28,7 @@ export function MatchExplanation({ result }: { result: SchemeMatchResult }) {
 
   return (
     <div className="space-y-3 text-sm">
-      <p className="rounded-md bg-secondary/50 p-2.5 text-xs text-foreground">
+      <p className="rounded-md border-l-2 border-primary bg-secondary/50 p-2.5 text-xs text-foreground">
         <span className="font-semibold">Why this matches you: </span>
         {summarizeMatch(result)}
       </p>
@@ -39,22 +39,24 @@ export function MatchExplanation({ result }: { result: SchemeMatchResult }) {
             <Check className="h-3.5 w-3.5 shrink-0" aria-hidden />
             Matched
           </p>
-          <ul className="mt-1 space-y-0.5 pl-5 text-xs text-muted-foreground">
+          <ul className="mt-1.5 space-y-1 pl-0.5 text-xs text-muted-foreground">
             {topMatches.map((c) => (
-              <li key={c.key} className="list-disc">
+              <li key={c.key} className="flex items-start gap-2">
+                <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-success" aria-hidden />
                 {c.label}
               </li>
             ))}
           </ul>
           {remainingMatches.length > 0 && (
-            <details className="group mt-1">
-              <summary className="ml-5 flex w-fit cursor-pointer list-none items-center gap-1 text-xs font-medium text-foreground underline-offset-4 hover:underline">
+            <details className="group mt-1.5">
+              <summary className="flex w-fit cursor-pointer list-none items-center gap-1 text-xs font-medium text-foreground underline-offset-4 transition-colors hover:text-primary hover:underline">
                 +{remainingMatches.length} more matched criteria
-                <ChevronDown className="h-3 w-3 transition-transform group-open:rotate-180" aria-hidden />
+                <ChevronDown className="h-3 w-3 transition-transform duration-200 group-open:rotate-180" aria-hidden />
               </summary>
-              <ul className="mt-1 space-y-0.5 pl-5 text-xs text-muted-foreground">
+              <ul className="mt-1.5 space-y-1 pl-0.5 text-xs text-muted-foreground">
                 {remainingMatches.map((c) => (
-                  <li key={c.key} className="list-disc">
+                  <li key={c.key} className="flex items-start gap-2">
+                    <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-success" aria-hidden />
                     {c.label}
                   </li>
                 ))}

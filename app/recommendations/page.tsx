@@ -43,7 +43,7 @@ export default function RecommendationsPage() {
     return (
       <main className="container flex flex-col gap-6 py-12">
         <div className="space-y-1">
-          <h1 className="text-xl font-semibold text-foreground">Your top scheme matches</h1>
+          <h1 className="font-display text-xl font-semibold text-foreground">Your top scheme matches</h1>
           <p className="text-sm text-muted-foreground">
             Answer a few more questions and we&apos;ll rank the schemes you&apos;re most likely eligible for.
           </p>
@@ -83,7 +83,7 @@ export default function RecommendationsPage() {
     <main className="container flex flex-col gap-6 py-12">
       <div className="flex items-start justify-between gap-3">
         <div className="space-y-1">
-          <h1 className="text-xl font-semibold text-foreground">Your top scheme matches</h1>
+          <h1 className="font-display text-xl font-semibold text-foreground">Your top scheme matches</h1>
           <p className="text-sm text-muted-foreground">
             Ranked by how closely your profile lines up with each scheme&apos;s public eligibility rules.
           </p>

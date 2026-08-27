@@ -20,9 +20,10 @@ export function SchemeOverview({ scheme }: { scheme: Scheme }) {
           <Users className="h-3.5 w-3.5 shrink-0 text-primary" aria-hidden />
           Who can benefit
         </p>
-        <ul className="mt-1.5 space-y-1 pl-5 text-xs text-muted-foreground">
+        <ul className="mt-1.5 space-y-1 text-xs text-muted-foreground">
           {audience.map((line) => (
-            <li key={line} className="list-disc">
+            <li key={line} className="flex items-start gap-2">
+              <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-primary" aria-hidden />
               {line}
             </li>
           ))}

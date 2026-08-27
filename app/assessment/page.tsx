@@ -6,13 +6,13 @@ import { ArrowLeft, ArrowRight, Sparkles } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
-import { Progress } from '@/components/ui/progress'
 import { Select } from '@/components/ui/select'
 import { Input } from '@/components/ui/input'
 import { Checkbox } from '@/components/ui/checkbox'
 import { RadioGroup, RadioOption } from '@/components/ui/radio-group'
 import { Label } from '@/components/ui/label'
 import { StartOverButton } from '@/components/assessment/start-over-button'
+import { StepIndicator } from '@/components/assessment/step-indicator'
 import { useAssessment } from '@/lib/assessment/assessment-context'
 import { ASSESSMENT_STEPS } from '@/lib/assessment/steps'
 import { demoProfiles } from '@/data/demoProfiles'
@@ -54,7 +54,6 @@ export default function AssessmentPage() {
     useAssessment()
 
   const step = ASSESSMENT_STEPS[stepIndex]
-  const progressPct = Math.round(((stepIndex + 1) / ASSESSMENT_STEPS.length) * 100)
 
   // Browser-level unsaved-progress warning (refresh, tab/window close,
   // typing a new URL, following an external link). Scoped to this
@@ -130,15 +129,16 @@ export default function AssessmentPage() {
 
   return (
     <main className="container flex flex-col gap-10 py-12">
-      <div className="mx-auto w-full max-w-xl space-y-6">
-        <div className="space-y-2">
+      <div className="mx-auto w-full max-w-2xl space-y-6">
+        <div className="space-y-4">
           <div className="flex items-center justify-between gap-2">
-            <p className="text-xs font-medium text-muted-foreground">
+            <p className="text-xs font-medium text-muted-foreground sm:hidden">
               Step {stepIndex + 1} of {ASSESSMENT_STEPS.length}
             </p>
+            <span className="hidden sm:block" />
             <StartOverButton />
           </div>
-          <Progress value={progressPct} />
+          <StepIndicator steps={ASSESSMENT_STEPS} currentIndex={stepIndex} />
           {isFirstStep && (
             <a
               href="#demo-profiles"
@@ -149,9 +149,10 @@ export default function AssessmentPage() {
           )}
         </div>
 
-        <Card>
+        <Card className="animate-fade-in-up">
           <CardHeader>
-            <CardTitle>{step.title}</CardTitle>
+            <p className="text-xs font-medium uppercase tracking-wide text-accent">Step {stepIndex + 1}</p>
+            <CardTitle className="font-display text-xl">{step.title}</CardTitle>
             <CardDescription>{step.description}</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -535,26 +536,29 @@ export default function AssessmentPage() {
             {!canAdvance && <p className="text-xs text-warning">{helperText[step.id]}</p>}
           </CardContent>
           <CardFooter className="flex justify-between">
-            <Button variant="outline" onClick={previousStep} disabled={isFirstStep}>
-              <ArrowLeft className="h-4 w-4" />
+            <Button variant="outline" onClick={previousStep} disabled={isFirstStep} className="group">
+              <ArrowLeft className="h-4 w-4 transition-transform duration-150 group-hover:-translate-x-0.5" />
               Back
             </Button>
-            <Button onClick={handleNext} disabled={!canAdvance}>
+            <Button onClick={handleNext} disabled={!canAdvance} className="group">
               {isLastStep ? 'See my recommendations' : 'Next'}
-              <ArrowRight className="h-4 w-4" />
+              <ArrowRight className="h-4 w-4 transition-transform duration-150 group-hover:translate-x-0.5" />
             </Button>
           </CardFooter>
         </Card>
       </div>
 
-      <div id="demo-profiles" className="mx-auto w-full max-w-xl space-y-3 scroll-mt-6">
+      <div id="demo-profiles" className="mx-auto w-full max-w-2xl space-y-3 scroll-mt-6">
         <div className="flex items-center gap-2 text-sm font-medium text-foreground">
-          <Sparkles className="h-4 w-4 text-primary" aria-hidden />
+          <Sparkles className="h-4 w-4 text-accent" aria-hidden />
           Or jump straight to results with a demo profile
         </div>
         <div className="grid gap-3 sm:grid-cols-3">
           {demoProfiles.map((demo) => (
-            <Card key={demo.id} className="flex flex-col justify-between">
+            <Card
+              key={demo.id}
+              className="flex flex-col justify-between transition-all duration-200 hover:-translate-y-0.5 hover:shadow-elevated"
+            >
               <CardHeader>
                 <CardTitle className="text-sm">{demo.label}</CardTitle>
                 <CardDescription className="text-xs">{demo.description}</CardDescription>

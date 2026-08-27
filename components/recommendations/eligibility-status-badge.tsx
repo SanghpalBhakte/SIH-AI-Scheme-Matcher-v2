@@ -28,6 +28,16 @@ export const ELIGIBILITY_STATUS_CONFIG: Record<
   },
 }
 
+// Border-accent color per status, keyed off the same variant mapping
+// above so a card's left accent bar always agrees with its badge —
+// purely visual, reused by RecommendationCard for at-a-glance scanning.
+export const ELIGIBILITY_STATUS_ACCENT: Record<EligibilityStatus, string> = {
+  'Likely Eligible': 'border-l-success',
+  'Possibly Eligible': 'border-l-primary',
+  'Low Match': 'border-l-destructive',
+  'Insufficient Information': 'border-l-warning',
+}
+
 export function EligibilityStatusBadge({
   status,
   className,

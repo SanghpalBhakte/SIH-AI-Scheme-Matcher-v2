@@ -3,8 +3,10 @@
 import type { MouseEvent } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Landmark } from 'lucide-react'
+import { Landmark, Home, ClipboardList, ListChecks } from 'lucide-react'
 
+import { Badge } from '@/components/ui/badge'
+import { ThemeToggle } from '@/components/theme/theme-toggle'
 import { cn } from '@/lib/utils'
 import { useAssessment } from '@/lib/assessment/assessment-context'
 
@@ -15,9 +17,9 @@ import { useAssessment } from '@/lib/assessment/assessment-context'
 // clicking through the header never lands on it by accident; the
 // route itself still exists for anyone who navigates there directly.
 const NAV_LINKS = [
-  { href: '/', label: 'Home' },
-  { href: '/assessment', label: 'Assessment' },
-  { href: '/recommendations', label: 'Recommendations' },
+  { href: '/', label: 'Home', icon: Home },
+  { href: '/assessment', label: 'Assessment', icon: ClipboardList },
+  { href: '/recommendations', label: 'Recommendations', icon: ListChecks },
 ]
 
 export function SiteHeader() {
@@ -44,37 +46,47 @@ export function SiteHeader() {
   }
 
   return (
-    <header className="border-b border-border bg-card">
-      <div className="container flex h-14 items-center justify-between gap-4">
+    <header className="sticky top-0 z-10 border-b border-border bg-card shadow-soft">
+      <div className="container flex h-16 items-center justify-between gap-4">
         <Link
           href="/"
           onClick={(e) => guardNavigation(e, '/')}
-          className="flex shrink-0 items-center gap-2 text-sm font-semibold text-foreground"
+          className="flex shrink-0 items-center gap-2 text-sm font-semibold text-foreground transition-opacity hover:opacity-80"
         >
-          <Landmark className="h-4 w-4 text-primary" aria-hidden />
-          AI Scheme Matcher
+          <Landmark className="h-5 w-5 text-primary" aria-hidden />
+          <span className="font-display text-base">AI Scheme Matcher</span>
         </Link>
 
-        <nav className="flex items-center gap-4 text-sm">
+        <nav className="flex min-w-0 items-center gap-0.5 text-sm sm:gap-1">
           {NAV_LINKS.map((link) => {
             const isActive = link.href === '/' ? pathname === '/' : pathname?.startsWith(link.href)
+            const Icon = link.icon
             return (
               <Link
                 key={link.href}
                 href={link.href}
                 onClick={(e) => guardNavigation(e, link.href)}
+                aria-label={link.label}
                 className={cn(
-                  'transition-colors hover:text-foreground',
-                  isActive ? 'font-medium text-foreground' : 'text-muted-foreground'
+                  'flex items-center gap-1.5 rounded-md border-b-2 px-2 py-1.5 transition-colors duration-150 sm:px-3',
+                  isActive
+                    ? 'border-primary font-medium text-foreground'
+                    : 'border-transparent text-muted-foreground hover:border-border hover:text-foreground'
                 )}
               >
-                {link.label}
+                <Icon className="h-4 w-4 shrink-0 sm:hidden" aria-hidden />
+                <span className="hidden sm:inline">{link.label}</span>
               </Link>
             )
           })}
         </nav>
 
-        <span className="hidden shrink-0 text-xs text-muted-foreground sm:inline">SIH26092 · Prototype</span>
+        <div className="flex shrink-0 items-center gap-2">
+          <Badge variant="secondary" className="hidden sm:inline-flex">
+            SIH26092 · Prototype
+          </Badge>
+          <ThemeToggle />
+        </div>
       </div>
     </header>
   )

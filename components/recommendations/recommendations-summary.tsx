@@ -20,9 +20,11 @@ export function RecommendationsSummary({
 
   return (
     <div className="grid gap-3 sm:grid-cols-3">
-      <Card>
+      <Card className="transition-all duration-200 hover:-translate-y-0.5 hover:shadow-elevated">
         <CardContent className="flex items-center gap-3 p-4">
-          <ListChecks className="h-5 w-5 shrink-0 text-primary" aria-hidden />
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-primary/10">
+            <ListChecks className="h-5 w-5 text-primary" aria-hidden />
+          </div>
           <div>
             <p className="text-xs text-muted-foreground">Schemes shown</p>
             <p className="text-sm font-semibold text-foreground">
@@ -32,10 +34,12 @@ export function RecommendationsSummary({
         </CardContent>
       </Card>
 
-      <Card>
+      <Card className="transition-all duration-200 hover:-translate-y-0.5 hover:shadow-elevated">
         <CardContent className="flex items-center gap-3 p-4">
-          <Award className="h-5 w-5 shrink-0 text-primary" aria-hidden />
-          <div>
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-accent/15">
+            <Award className="h-5 w-5 text-accent" aria-hidden />
+          </div>
+          <div className="min-w-0">
             <p className="text-xs text-muted-foreground">Strongest match</p>
             <p className="truncate text-sm font-semibold text-foreground">
               {strongest ? `${strongest.scheme.name} · ${strongest.matchScore}%` : '—'}
@@ -44,13 +48,20 @@ export function RecommendationsSummary({
         </CardContent>
       </Card>
 
-      <Card>
+      <Card className="transition-all duration-200 hover:-translate-y-0.5 hover:shadow-elevated">
         <CardContent className="flex items-center gap-3 p-4">
-          {needsMoreInfoCount > 0 ? (
-            <AlertCircle className="h-5 w-5 shrink-0 text-warning" aria-hidden />
-          ) : (
-            <CheckCircle2 className="h-5 w-5 shrink-0 text-success" aria-hidden />
-          )}
+          <div
+            className={cn(
+              'flex h-10 w-10 shrink-0 items-center justify-center rounded-md',
+              needsMoreInfoCount > 0 ? 'bg-warning/15' : 'bg-success/15'
+            )}
+          >
+            {needsMoreInfoCount > 0 ? (
+              <AlertCircle className="h-5 w-5 text-warning" aria-hidden />
+            ) : (
+              <CheckCircle2 className="h-5 w-5 text-success" aria-hidden />
+            )}
+          </div>
           <div>
             <p className="text-xs text-muted-foreground">Missing information</p>
             <p className={cn('text-sm font-semibold text-foreground')}>

@@ -146,17 +146,20 @@ export function ApplicationChecklist({ scheme }: { scheme: Scheme }) {
         </p>
       )}
 
-      <ul className="divide-y divide-border rounded-md border border-border">
+      <ul className="divide-y divide-border overflow-hidden rounded-md border border-border shadow-soft">
         {GENERIC_CHECKLIST_STEPS.map((step) => {
           const isDone = completed.has(step.id)
           return (
-            <li key={step.id} className="flex gap-3 p-3">
+            <li
+              key={step.id}
+              className={cn('flex gap-3 p-3 transition-colors duration-150', isDone ? 'bg-success/5' : 'hover:bg-secondary/40')}
+            >
               <button
                 type="button"
                 onClick={() => toggle(step.id)}
                 aria-pressed={isDone}
                 aria-label={`Mark "${step.label}" as ${isDone ? 'not started' : 'completed'}`}
-                className="mt-0.5 shrink-0 text-muted-foreground transition-colors hover:text-primary"
+                className="mt-0.5 shrink-0 text-muted-foreground transition-all duration-150 hover:scale-110 hover:text-primary"
               >
                 {isDone ? (
                   <CheckCircle2 className="h-5 w-5 text-success" aria-hidden />

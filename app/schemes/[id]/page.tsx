@@ -63,17 +63,21 @@ export default function SchemeDetailsPage({ params }: { params: { id: string } }
         </Link>
       </Button>
 
-      <Card className="mx-auto w-full max-w-2xl">
+      <Card className="mx-auto w-full max-w-2xl shadow-elevated">
         <CardHeader className="space-y-2">
-          <div className="flex items-start justify-between gap-2">
+          <div className="flex items-start justify-between gap-3">
             <div>
-              <CardTitle>{scheme.name}</CardTitle>
+              <CardTitle className="font-display">{scheme.name}</CardTitle>
               {scheme.ministry && <CardDescription>{scheme.ministry}</CardDescription>}
             </div>
             {result && (
-              <Badge variant="outline" className="shrink-0 text-sm font-bold text-foreground">
-                {result.matchScore}%
-              </Badge>
+              <div
+                className="flex h-12 w-12 shrink-0 flex-col items-center justify-center rounded-full border-2 border-primary/20 bg-primary/5 text-center leading-none"
+                aria-label={`${result.matchScore} percent match`}
+              >
+                <span className="text-sm font-bold text-primary">{result.matchScore}</span>
+                <span className="text-[9px] font-medium text-muted-foreground">%</span>
+              </div>
             )}
           </div>
 
@@ -100,7 +104,7 @@ export default function SchemeDetailsPage({ params }: { params: { id: string } }
           <DisclaimerBanner />
 
           <section className="space-y-2 border-t border-border pt-4">
-            <h2 className="text-sm font-semibold text-foreground">Overview</h2>
+            <h2 className="text-xs font-semibold uppercase tracking-wide text-accent">Overview</h2>
             <SchemeOverview scheme={scheme} />
           </section>
 
@@ -108,7 +112,7 @@ export default function SchemeDetailsPage({ params }: { params: { id: string } }
             {/* Heading intentionally isn't "Why this matches you" — MatchExplanation
                 already opens with that exact phrase inline, and repeating it as the
                 section heading directly above it read as duplicate messaging. */}
-            <h2 className="text-sm font-semibold text-foreground">Match explanation</h2>
+            <h2 className="text-xs font-semibold uppercase tracking-wide text-accent">Match explanation</h2>
             {!isHydrated ? (
               <p className="text-sm text-muted-foreground">Loading your assessment…</p>
             ) : result ? (
@@ -128,7 +132,7 @@ export default function SchemeDetailsPage({ params }: { params: { id: string } }
           </section>
 
           <section className="space-y-2 border-t border-border pt-4">
-            <h2 className="text-sm font-semibold text-foreground">Application checklist</h2>
+            <h2 className="text-xs font-semibold uppercase tracking-wide text-accent">Application checklist</h2>
             <p className="text-xs text-muted-foreground">
               A guided walkthrough of the general application path, with this scheme&apos;s own documents and steps
               filled in wherever the dataset has them.
