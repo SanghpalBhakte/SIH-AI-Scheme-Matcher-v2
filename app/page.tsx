@@ -28,6 +28,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { MatchMotif } from '@/components/landing/match-motif'
+import { HeroBackdrop } from '@/components/landing/hero-backdrop'
 import { LanguageChipStrip } from '@/components/i18n/language-chip-strip'
 import { schemes } from '@/data/schemes'
 import { useLanguage } from '@/lib/i18n/language-context'
@@ -95,8 +96,9 @@ export default function HomePage() {
 
   return (
     <main>
-      <section className="border-b border-border bg-card">
-        <div className="container grid gap-10 py-16 sm:py-20 lg:grid-cols-[1.15fr_0.85fr] lg:items-center lg:gap-8">
+      <section className="relative overflow-hidden border-b border-border bg-card">
+        <HeroBackdrop />
+        <div className="container relative z-10 grid gap-10 py-16 sm:py-20 lg:grid-cols-[1.15fr_0.85fr] lg:items-center lg:gap-8">
           <div className="flex flex-col gap-6">
             <Badge variant="secondary" className="w-fit">
               {t('landing.eyebrow')}
@@ -109,10 +111,10 @@ export default function HomePage() {
             <p className="max-w-xl text-base leading-relaxed text-muted-foreground">{t('landing.heroSubtitle')}</p>
 
             <div className="flex flex-col gap-3 sm:flex-row">
-              <Button size="lg" asChild>
+              <Button size="lg" className="group" asChild>
                 <Link href="/assessment">
                   {t('landing.ctaStart')}
-                  <ArrowRight className="h-4 w-4" />
+                  <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" />
                 </Link>
               </Button>
               <Button size="lg" variant="outline" asChild>
@@ -133,8 +135,17 @@ export default function HomePage() {
             <LanguageChipStrip />
           </div>
 
-          <div className="hidden justify-self-center lg:block">
+          <div className="relative hidden justify-self-center lg:block">
             <MatchMotif className="h-72 w-72 animate-fade-in-up" />
+            <div
+              className="animate-fade-in-up absolute -bottom-4 left-1/2 w-56 -translate-x-1/2 rounded-lg border border-border bg-card/95 px-3 py-2 text-center shadow-elevated backdrop-blur-sm"
+              style={{ animationDelay: '150ms' }}
+            >
+              <p className="flex items-center justify-center gap-1.5 text-xs font-semibold text-foreground">
+                <ShieldCheck className="h-3.5 w-3.5 text-success" aria-hidden />
+                {t('landing.trust1Title')}
+              </p>
+            </div>
           </div>
         </div>
       </section>
@@ -226,14 +237,15 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="bg-primary py-16 text-primary-foreground sm:py-20">
-        <div className="container flex flex-col items-center gap-4 text-center">
+      <section className="relative overflow-hidden bg-primary py-16 text-primary-foreground sm:py-20">
+        <HeroBackdrop variant="dark" />
+        <div className="container relative z-10 flex flex-col items-center gap-4 text-center">
           <h2 className="font-display text-2xl font-semibold sm:text-3xl">{t('landing.ctaBandTitle')}</h2>
           <p className="max-w-xl text-sm text-primary-foreground/85 sm:text-base">{t('landing.ctaBandSubtitle')}</p>
-          <Button size="lg" variant="secondary" className="mt-2" asChild>
+          <Button size="lg" variant="secondary" className="group mt-2" asChild>
             <Link href="/assessment">
               {t('landing.ctaBandButton')}
-              <ArrowRight className="h-4 w-4" />
+              <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" />
             </Link>
           </Button>
         </div>

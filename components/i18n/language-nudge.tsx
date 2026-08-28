@@ -19,7 +19,7 @@ const STORAGE_KEY = 'sih26092.languageNudgeDismissed'
  * server render and first paint always render nothing, so there's no
  * hydration mismatch and no popover flash for a returning visitor.
  */
-export function LanguageNudge() {
+export function LanguageNudge({ hidden = false }: { hidden?: boolean }) {
   const { locale, isHydrated } = useLanguage()
   const [dismissed, setDismissed] = useState(true)
   const [storageChecked, setStorageChecked] = useState(false)
@@ -48,7 +48,7 @@ export function LanguageNudge() {
     if (isHydrated && locale !== DEFAULT_LOCALE) dismiss()
   }, [isHydrated, locale])
 
-  if (!isHydrated || !storageChecked || dismissed || locale !== DEFAULT_LOCALE) return null
+  if (hidden || !isHydrated || !storageChecked || dismissed || locale !== DEFAULT_LOCALE) return null
 
   return (
     <div
@@ -64,7 +64,7 @@ export function LanguageNudge() {
         <X className="h-3 w-3" aria-hidden />
       </button>
       <p className="pr-4 text-xs leading-relaxed text-foreground">
-        <span className="font-semibold">8 Indian languages available</span> — tap here to read this app in yours.
+        <span className="font-semibold">12 Indian languages available</span> — tap here to read this app in yours.
       </p>
     </div>
   )

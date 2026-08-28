@@ -1,6 +1,6 @@
 'use client'
 
-import type { MouseEvent } from 'react'
+import { useState, type MouseEvent } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Landmark, Home, ClipboardList, LayoutGrid, ListChecks, Bookmark } from 'lucide-react'
@@ -32,6 +32,10 @@ export function SiteHeader() {
   const { savedIds, isHydrated: savedHydrated } = useSavedSchemes()
   const { t } = useLanguage()
   const savedCount = savedHydrated ? savedIds.length : 0
+  // Keeps the one-time language nudge from overlapping the language
+  // dropdown's own floating panel — both are absolutely positioned
+  // under the same trigger (see the `relative` wrapper below).
+  const [langOpen, setLangOpen] = useState(false)
 
   // In-app unsaved-progress guard: only fires when the user is
   // currently ON /assessment, the draft is dirty, and the link would
@@ -114,8 +118,8 @@ export function SiteHeader() {
             )}
           </Link>
           <div className="relative">
-            <LanguageToggle />
-            <LanguageNudge />
+            <LanguageToggle onOpenChange={setLangOpen} />
+            <LanguageNudge hidden={langOpen} />
           </div>
           <ThemeToggle />
         </div>
