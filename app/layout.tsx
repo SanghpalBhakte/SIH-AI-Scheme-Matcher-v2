@@ -22,7 +22,7 @@ import { LanguageProvider } from '@/lib/i18n/language-context'
 import { SavedSchemesProvider } from '@/lib/schemes/saved-schemes-context'
 
 export const metadata: Metadata = {
-  title: 'AI Scheme Matcher — SIH26092',
+  title: 'SchemeSetu — SIH26092',
   description:
     'Prototype: AI-assisted matching of government schemes for marginalized entrepreneurs (SIH26092).',
 }

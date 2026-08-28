@@ -102,7 +102,7 @@ export const schemes: Scheme[] = [
     benefit: 'Subsidised loan up to ₹3 lakh',
     summary:
       'Low-income women, especially from SC/ST/OBC backgrounds, get subsidised loans to start small businesses.',
-    officialUrl: 'https://www.blackboard.co.in/udyogini-scheme',
+    officialUrl: 'https://kswdc.karnataka.gov.in/21/udyogini/en',
   },
   {
     id: 'tread',
@@ -135,7 +135,7 @@ export const schemes: Scheme[] = [
     maxIncomeLakh: null,
     benefit: 'Equity / venture capital funding',
     summary: 'IFCI-managed fund providing growth capital to SC entrepreneurs scaling an established business.',
-    officialUrl: 'https://ifciltd.com/',
+    officialUrl: 'https://www.ifciltd.com/?q=en/content/ifci-venture-capital-fund-ltd',
   },
   {
     id: 'nstfdc-term-loan',

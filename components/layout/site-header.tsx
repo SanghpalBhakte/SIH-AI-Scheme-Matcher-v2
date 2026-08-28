@@ -62,7 +62,7 @@ export function SiteHeader() {
           {/* Wordmark hides below sm — on a narrow phone the icon alone
               plus 4 nav icons plus 3 action icons already crowds the
               row; the icon alone still reads as "home/brand". */}
-          <span className="hidden font-display text-base sm:inline">AI Scheme Matcher</span>
+          <span className="hidden font-display text-base sm:inline">SchemeSetu</span>
         </Link>
 
         <nav className="flex min-w-0 items-center gap-0.5 text-sm sm:gap-1">

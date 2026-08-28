@@ -329,7 +329,7 @@ const en: Dictionary = {
   'footer.importantNote1': 'Recommendations are AI-assisted, not official.',
   'footer.importantNote2': 'Always verify on the official scheme source.',
   'footer.importantNote3': 'Not affiliated with any government body.',
-  'footer.copyright': '© {year} AI Scheme Matcher — SIH26092 prototype. Not an official government portal.',
+  'footer.copyright': '© {year} SchemeSetu — SIH26092 prototype. Not an official government portal.',
 }
 
 const hi: Dictionary = {
@@ -580,7 +580,7 @@ const hi: Dictionary = {
   'footer.importantNote1': 'सिफ़ारिशें एआई-सहायित हैं, आधिकारिक नहीं।',
   'footer.importantNote2': 'हमेशा आधिकारिक योजना स्रोत पर सत्यापित करें।',
   'footer.importantNote3': 'किसी भी सरकारी निकाय से संबद्ध नहीं।',
-  'footer.copyright': '© {year} एआई स्कीम मैचर — SIH26092 प्रोटोटाइप। यह कोई आधिकारिक सरकारी पोर्टल नहीं है।',
+  'footer.copyright': '© {year} SchemeSetu — SIH26092 प्रोटोटाइप। यह कोई आधिकारिक सरकारी पोर्टल नहीं है।',
 }
 
 const bn: Dictionary = {
@@ -805,7 +805,7 @@ const bn: Dictionary = {
   'footer.importantNote1': 'সুপারিশগুলি এআই-সহায়তায় তৈরি, সরকারি নয়।',
   'footer.importantNote2': 'সর্বদা সরকারি স্কিম সূত্রে যাচাই করুন।',
   'footer.importantNote3': 'কোনো সরকারি সংস্থার সাথে সংযুক্ত নয়।',
-  'footer.copyright': '© {year} AI Scheme Matcher — SIH26092 প্রোটোটাইপ। এটি কোনো সরকারি পোর্টাল নয়।',
+  'footer.copyright': '© {year} SchemeSetu — SIH26092 প্রোটোটাইপ। এটি কোনো সরকারি পোর্টাল নয়।',
 }
 
 const mr: Dictionary = {
@@ -1030,7 +1030,7 @@ const mr: Dictionary = {
   'footer.importantNote1': 'शिफारशी एआय-सहाय्यित आहेत, अधिकृत नाहीत.',
   'footer.importantNote2': 'नेहमी अधिकृत योजना स्रोतावर पडताळणी करा.',
   'footer.importantNote3': 'कोणत्याही सरकारी संस्थेशी संलग्न नाही.',
-  'footer.copyright': '© {year} एआय स्कीम मॅचर — SIH26092 प्रोटोटाइप. अधिकृत सरकारी पोर्टल नाही.',
+  'footer.copyright': '© {year} SchemeSetu — SIH26092 प्रोटोटाइप. अधिकृत सरकारी पोर्टल नाही.',
 }
 
 const te: Dictionary = {
@@ -1255,7 +1255,7 @@ const te: Dictionary = {
   'footer.importantNote1': 'సిఫారసులు AI-సహాయితమైనవి, అధికారికమైనవి కావు.',
   'footer.importantNote2': 'ఎల్లప్పుడూ అధికారిక పథక మూలంలో ధృవీకరించుకోండి.',
   'footer.importantNote3': 'ఏ ప్రభుత్వ సంస్థతోనూ అనుబంధం లేదు.',
-  'footer.copyright': '© {year} AI Scheme Matcher — SIH26092 ప్రోటోటైప్. ఇది అధికారిక ప్రభుత్వ పోర్టల్ కాదు.',
+  'footer.copyright': '© {year} SchemeSetu — SIH26092 ప్రోటోటైప్. ఇది అధికారిక ప్రభుత్వ పోర్టల్ కాదు.',
 }
 
 const ta: Dictionary = {
@@ -1480,7 +1480,7 @@ const ta: Dictionary = {
   'footer.importantNote1': 'பரிந்துரைகள் AI-உதவியுடன் கூடியவை, அதிகாரப்பூர்வமானவை அல்ல.',
   'footer.importantNote2': 'எப்போதும் அதிகாரப்பூர்வ திட்ட மூலத்தில் சரிபார்க்கவும்.',
   'footer.importantNote3': 'எந்த அரசு அமைப்புடனும் இணைக்கப்படவில்லை.',
-  'footer.copyright': '© {year} AI Scheme Matcher — SIH26092 முன்மாதிரி. இது அதிகாரப்பூர்வ அரசு போர்ட்டல் அல்ல.',
+  'footer.copyright': '© {year} SchemeSetu — SIH26092 முன்மாதிரி. இது அதிகாரப்பூர்வ அரசு போர்ட்டல் அல்ல.',
 }
 
 const gu: Dictionary = {
@@ -1705,7 +1705,7 @@ const gu: Dictionary = {
   'footer.importantNote1': 'ભલામણો AI-સહાયિત છે, સત્તાવાર નથી.',
   'footer.importantNote2': 'હંમેશા સત્તાવાર યોજના સ્રોત પર ચકાસણી કરો.',
   'footer.importantNote3': 'કોઈપણ સરકારી સંસ્થા સાથે સંલગ્ન નથી.',
-  'footer.copyright': '© {year} AI Scheme Matcher — SIH26092 પ્રોટોટાઇપ. કોઈ સત્તાવાર સરકારી પોર્ટલ નથી.',
+  'footer.copyright': '© {year} SchemeSetu — SIH26092 પ્રોટોટાઇપ. કોઈ સત્તાવાર સરકારી પોર્ટલ નથી.',
 }
 
 const kn: Dictionary = {
@@ -1930,7 +1930,7 @@ const kn: Dictionary = {
   'footer.importantNote1': 'ಶಿಫಾರಸುಗಳು AI-ಸಹಾಯಿತ, ಅಧಿಕೃತವಲ್ಲ.',
   'footer.importantNote2': 'ಯಾವಾಗಲೂ ಅಧಿಕೃತ ಯೋಜನಾ ಮೂಲದಲ್ಲಿ ಪರಿಶೀಲಿಸಿ.',
   'footer.importantNote3': 'ಯಾವುದೇ ಸರ್ಕಾರಿ ಸಂಸ್ಥೆಯೊಂದಿಗೆ ಸಂಬಂಧ ಹೊಂದಿಲ್ಲ.',
-  'footer.copyright': '© {year} AI Scheme Matcher — SIH26092 ಪ್ರೋಟೋಟೈಪ್. ಇದು ಅಧಿಕೃತ ಸರ್ಕಾರಿ ಪೋರ್ಟಲ್ ಅಲ್ಲ.',
+  'footer.copyright': '© {year} SchemeSetu — SIH26092 ಪ್ರೋಟೋಟೈಪ್. ಇದು ಅಧಿಕೃತ ಸರ್ಕಾರಿ ಪೋರ್ಟಲ್ ಅಲ್ಲ.',
 }
 
 export const translations: Record<Locale, Dictionary> = { en, hi, bn, mr, te, ta, gu, kn }

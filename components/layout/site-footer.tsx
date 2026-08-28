@@ -23,7 +23,7 @@ export function SiteFooter() {
           <div className="space-y-2">
             <div className="flex items-center gap-2 text-sm font-semibold text-foreground">
               <Landmark className="h-4 w-4 text-primary" aria-hidden />
-              <span className="font-display text-base">AI Scheme Matcher</span>
+              <span className="font-display text-base">SchemeSetu</span>
             </div>
             <p className="max-w-sm text-sm text-muted-foreground">{t('footer.blurb')}</p>
             <p className="text-xs text-muted-foreground">{t('footer.builtFor')}</p>
