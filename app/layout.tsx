@@ -15,6 +15,7 @@ import '@fontsource/fraunces/700.css'
 import './globals.css'
 import { SiteHeader } from '@/components/layout/site-header'
 import { SiteFooter } from '@/components/layout/site-footer'
+import { ChatWidget } from '@/components/chat/chat-widget'
 import { AssessmentProvider } from '@/lib/assessment/assessment-context'
 import { ThemeProvider, THEME_INIT_SCRIPT } from '@/lib/theme/theme-context'
 import { LanguageProvider } from '@/lib/i18n/language-context'
@@ -51,6 +52,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 <div className="flex-1">{children}</div>
 
                 <SiteFooter />
+
+                {/* App-wide floating assistant — see components/chat/chat-widget.tsx.
+                    Mounted here (inside AssessmentProvider, outside <main>) so it reads
+                    live profile state and persists across route changes without
+                    affecting any page's own layout or scroll. */}
+                <ChatWidget />
               </AssessmentProvider>
             </SavedSchemesProvider>
           </LanguageProvider>
