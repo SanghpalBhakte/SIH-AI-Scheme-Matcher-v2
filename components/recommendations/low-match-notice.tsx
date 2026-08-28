@@ -1,8 +1,11 @@
+'use client'
+
 import Link from 'next/link'
 import { Compass } from 'lucide-react'
 
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
+import { useLanguage } from '@/lib/i18n/language-context'
 
 // Shown instead of a silent/dead screen when nothing in the shown
 // results is a strong match. Calm, not alarming: explains why, offers
@@ -10,18 +13,15 @@ import { Button } from '@/components/ui/button'
 // lower-match schemes below are still worth a look rather than hiding
 // them.
 export function LowMatchNotice() {
+  const { t } = useLanguage()
   return (
     <Alert variant="warning">
       <Compass className="h-4 w-4" aria-hidden />
-      <AlertTitle>None of these are a strong match yet</AlertTitle>
+      <AlertTitle>{t('lowMatch.title')}</AlertTitle>
       <AlertDescription className="space-y-3">
-        <p>
-          Based on what you shared, the schemes below don&apos;t line up strongly with your profile. That doesn&apos;t
-          mean nothing is available — double-check your category, state, sector, and business stage, since a small
-          correction can change the result. The schemes listed below are still worth reading in the meantime.
-        </p>
+        <p>{t('lowMatch.body')}</p>
         <Button variant="outline" size="sm" asChild>
-          <Link href="/assessment">Review your answers</Link>
+          <Link href="/assessment">{t('lowMatch.cta')}</Link>
         </Button>
       </AlertDescription>
     </Alert>

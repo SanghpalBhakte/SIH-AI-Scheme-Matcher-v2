@@ -14,6 +14,7 @@ import { Label } from '@/components/ui/label'
 import { StartOverButton } from '@/components/assessment/start-over-button'
 import { StepIndicator } from '@/components/assessment/step-indicator'
 import { useAssessment } from '@/lib/assessment/assessment-context'
+import { useLanguage } from '@/lib/i18n/language-context'
 import { ASSESSMENT_STEPS } from '@/lib/assessment/steps'
 import { demoProfiles } from '@/data/demoProfiles'
 import {
@@ -52,8 +53,10 @@ export default function AssessmentPage() {
   const router = useRouter()
   const { profile, updateProfile, stepIndex, isFirstStep, isLastStep, nextStep, previousStep, loadProfile, isDirty } =
     useAssessment()
+  const { t } = useLanguage()
 
   const step = ASSESSMENT_STEPS[stepIndex]
+  const translatedSteps = ASSESSMENT_STEPS.map((s) => ({ title: t(`assessment.step.${s.id}.title`) }))
 
   // Browser-level unsaved-progress warning (refresh, tab/window close,
   // typing a new URL, following an external link). Scoped to this
@@ -91,8 +94,8 @@ export default function AssessmentPage() {
   })()
 
   const helperText: Record<string, string> = {
-    basic: 'Select category, gender, and state to continue.',
-    business: 'Select sector, business stage, and first-time status to continue.',
+    basic: t('assessment.helperBasic'),
+    business: t('assessment.helperBusiness'),
   }
 
   // Text/number inputs collect a value the engine never scores on, so
@@ -133,43 +136,43 @@ export default function AssessmentPage() {
         <div className="space-y-4">
           <div className="flex items-center justify-between gap-2">
             <p className="text-xs font-medium text-muted-foreground sm:hidden">
-              Step {stepIndex + 1} of {ASSESSMENT_STEPS.length}
+              {t('assessment.stepOf', { current: stepIndex + 1, total: ASSESSMENT_STEPS.length })}
             </p>
             <span className="hidden sm:block" />
             <StartOverButton />
           </div>
-          <StepIndicator steps={ASSESSMENT_STEPS} currentIndex={stepIndex} />
+          <StepIndicator steps={translatedSteps} currentIndex={stepIndex} />
           {isFirstStep && (
             <a
               href="#demo-profiles"
               className="inline-block text-xs font-medium text-primary underline-offset-4 hover:underline"
             >
-              In a hurry? Jump to a demo profile ↓
+              {t('assessment.jumpToDemo')}
             </a>
           )}
         </div>
 
         <Card className="animate-fade-in-up">
           <CardHeader>
-            <p className="text-xs font-medium uppercase tracking-wide text-accent">Step {stepIndex + 1}</p>
-            <CardTitle className="font-display text-xl">{step.title}</CardTitle>
-            <CardDescription>{step.description}</CardDescription>
+            <p className="text-xs font-medium uppercase tracking-wide text-accent">{t('assessment.stepLabel', { n: stepIndex + 1 })}</p>
+            <CardTitle className="font-display text-xl">{t(`assessment.step.${step.id}.title`)}</CardTitle>
+            <CardDescription>{t(`assessment.step.${step.id}.description`)}</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             {step.id === 'basic' && (
               <>
                 <div className="space-y-1.5">
-                  <Label htmlFor="fullName">Full name (optional)</Label>
+                  <Label htmlFor="fullName">{t('field.fullName')}</Label>
                   <Input
                     id="fullName"
                     value={profile.fullName}
                     onChange={(e) => updateProfile({ fullName: e.target.value })}
-                    placeholder="e.g. Priya Sharma"
+                    placeholder={t('field.fullNamePlaceholder')}
                   />
                 </div>
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div className="space-y-1.5">
-                    <Label htmlFor="age">Age (optional)</Label>
+                    <Label htmlFor="age">{t('field.age')}</Label>
                     <Input
                       id="age"
                       type="number"
@@ -179,14 +182,14 @@ export default function AssessmentPage() {
                     />
                   </div>
                   <div className="space-y-1.5">
-                    <Label htmlFor="gender">Gender</Label>
+                    <Label htmlFor="gender">{t('field.gender')}</Label>
                     <Select
                       id="gender"
                       value={profile.gender}
                       onChange={(e) => updateProfile({ gender: e.target.value as Gender })}
                     >
                       <option value="" disabled>
-                        Select gender
+                        {t('field.selectGender')}
                       </option>
                       {GENDER_OPTIONS.map((g) => (
                         <option key={g} value={g}>
@@ -198,14 +201,14 @@ export default function AssessmentPage() {
                 </div>
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div className="space-y-1.5">
-                    <Label htmlFor="state">State</Label>
+                    <Label htmlFor="state">{t('field.state')}</Label>
                     <Select
                       id="state"
                       value={profile.state}
                       onChange={(e) => updateProfile({ state: e.target.value })}
                     >
                       <option value="" disabled>
-                        Select your state
+                        {t('field.selectState')}
                       </option>
                       {STATE_OPTIONS.map((s) => (
                         <option key={s} value={s}>
@@ -215,17 +218,17 @@ export default function AssessmentPage() {
                     </Select>
                   </div>
                   <div className="space-y-1.5">
-                    <Label htmlFor="district">District (optional)</Label>
+                    <Label htmlFor="district">{t('field.district')}</Label>
                     <Input
                       id="district"
                       value={profile.district}
                       onChange={(e) => updateProfile({ district: e.target.value })}
-                      placeholder="e.g. Patna"
+                      placeholder={t('field.districtPlaceholder')}
                     />
                   </div>
                 </div>
                 <div className="space-y-1.5">
-                  <Label>Rural / Urban (optional)</Label>
+                  <Label>{t('field.locationType')}</Label>
                   <RadioGroup>
                     {LOCATION_TYPE_OPTIONS.map((opt) => (
                       <RadioOption
@@ -240,14 +243,14 @@ export default function AssessmentPage() {
                   </RadioGroup>
                 </div>
                 <div className="space-y-1.5">
-                  <Label htmlFor="category">Social / economic category</Label>
+                  <Label htmlFor="category">{t('field.category')}</Label>
                   <Select
                     id="category"
                     value={profile.category}
                     onChange={(e) => updateProfile({ category: e.target.value as Category })}
                   >
                     <option value="" disabled>
-                      Select category
+                      {t('field.selectCategory')}
                     </option>
                     {CATEGORY_OPTIONS.map((c) => (
                       <option key={c} value={c}>
@@ -257,7 +260,7 @@ export default function AssessmentPage() {
                   </Select>
                 </div>
                 <div className="space-y-1.5">
-                  <Label>Disability status (optional)</Label>
+                  <Label>{t('field.disabilityStatus')}</Label>
                   <RadioGroup>
                     {YES_NO_OPTIONS.map((opt) => (
                       <RadioOption
@@ -272,13 +275,13 @@ export default function AssessmentPage() {
                   </RadioGroup>
                 </div>
                 <div className="space-y-1.5">
-                  <Label htmlFor="educationLevel">Education level (optional)</Label>
+                  <Label htmlFor="educationLevel">{t('field.educationLevel')}</Label>
                   <Select
                     id="educationLevel"
                     value={profile.educationLevel}
                     onChange={(e) => updateProfile({ educationLevel: e.target.value as typeof profile.educationLevel })}
                   >
-                    <option value="">Select education level</option>
+                    <option value="">{t('field.selectEducationLevel')}</option>
                     {EDUCATION_LEVEL_OPTIONS.map((e) => (
                       <option key={e} value={e}>
                         {e}
@@ -292,39 +295,39 @@ export default function AssessmentPage() {
             {step.id === 'business' && (
               <>
                 <div className="space-y-1.5">
-                  <Label htmlFor="businessName">Business name (optional)</Label>
+                  <Label htmlFor="businessName">{t('field.businessName')}</Label>
                   <Input
                     id="businessName"
                     value={profile.businessName}
                     onChange={(e) => updateProfile({ businessName: e.target.value })}
-                    placeholder="e.g. Sharma Handicrafts"
+                    placeholder={t('field.businessNamePlaceholder')}
                   />
                 </div>
                 <div className="space-y-1.5">
-                  <Label htmlFor="businessType">Business type (optional)</Label>
+                  <Label htmlFor="businessType">{t('field.businessType')}</Label>
                   <Select
                     id="businessType"
                     value={profile.businessType}
                     onChange={(e) => updateProfile({ businessType: e.target.value as typeof profile.businessType })}
                   >
-                    <option value="">Select business type</option>
-                    {BUSINESS_TYPE_OPTIONS.map((t) => (
-                      <option key={t} value={t}>
-                        {t}
+                    <option value="">{t('field.selectBusinessType')}</option>
+                    {BUSINESS_TYPE_OPTIONS.map((bt) => (
+                      <option key={bt} value={bt}>
+                        {bt}
                       </option>
                     ))}
                   </Select>
                 </div>
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div className="space-y-1.5">
-                    <Label htmlFor="sector">Industry / sector</Label>
+                    <Label htmlFor="sector">{t('field.sector')}</Label>
                     <Select
                       id="sector"
                       value={profile.sector}
                       onChange={(e) => updateProfile({ sector: e.target.value })}
                     >
                       <option value="" disabled>
-                        Select your sector
+                        {t('field.selectSector')}
                       </option>
                       {SECTOR_OPTIONS.map((s) => (
                         <option key={s} value={s}>
@@ -334,14 +337,14 @@ export default function AssessmentPage() {
                     </Select>
                   </div>
                   <div className="space-y-1.5">
-                    <Label htmlFor="stage">Business stage</Label>
+                    <Label htmlFor="stage">{t('field.stage')}</Label>
                     <Select
                       id="stage"
                       value={profile.stage}
                       onChange={(e) => updateProfile({ stage: e.target.value as BusinessStage })}
                     >
                       <option value="" disabled>
-                        Select business stage
+                        {t('field.selectStage')}
                       </option>
                       {STAGE_OPTIONS.map((s) => (
                         <option key={s} value={s}>
@@ -353,7 +356,7 @@ export default function AssessmentPage() {
                 </div>
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div className="space-y-1.5">
-                    <Label htmlFor="yearsInOperation">Years in operation (optional)</Label>
+                    <Label htmlFor="yearsInOperation">{t('field.yearsInOperation')}</Label>
                     <Input
                       id="yearsInOperation"
                       type="number"
@@ -363,7 +366,7 @@ export default function AssessmentPage() {
                     />
                   </div>
                   <div className="space-y-1.5">
-                    <Label htmlFor="numberOfEmployees">Number of employees (optional)</Label>
+                    <Label htmlFor="numberOfEmployees">{t('field.numberOfEmployees')}</Label>
                     <Input
                       id="numberOfEmployees"
                       type="number"
@@ -375,7 +378,7 @@ export default function AssessmentPage() {
                 </div>
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div className="space-y-1.5">
-                    <Label htmlFor="annualTurnoverLakh">Annual turnover, ₹ lakh (optional)</Label>
+                    <Label htmlFor="annualTurnoverLakh">{t('field.annualTurnoverLakh')}</Label>
                     <Input
                       id="annualTurnoverLakh"
                       type="number"
@@ -386,17 +389,17 @@ export default function AssessmentPage() {
                     />
                   </div>
                   <div className="space-y-1.5">
-                    <Label htmlFor="businessLocation">Business location (optional)</Label>
+                    <Label htmlFor="businessLocation">{t('field.businessLocation')}</Label>
                     <Input
                       id="businessLocation"
                       value={profile.businessLocation}
                       onChange={(e) => updateProfile({ businessLocation: e.target.value })}
-                      placeholder="City / town"
+                      placeholder={t('field.businessLocationPlaceholder')}
                     />
                   </div>
                 </div>
                 <div className="space-y-1.5">
-                  <Label htmlFor="registrationStatus">Registration status (optional)</Label>
+                  <Label htmlFor="registrationStatus">{t('field.registrationStatus')}</Label>
                   <Select
                     id="registrationStatus"
                     value={profile.registrationStatus}
@@ -404,7 +407,7 @@ export default function AssessmentPage() {
                       updateProfile({ registrationStatus: e.target.value as typeof profile.registrationStatus })
                     }
                   >
-                    <option value="">Select registration status</option>
+                    <option value="">{t('field.selectRegistrationStatus')}</option>
                     {REGISTRATION_STATUS_OPTIONS.map((r) => (
                       <option key={r} value={r}>
                         {r}
@@ -413,17 +416,17 @@ export default function AssessmentPage() {
                   </Select>
                 </div>
                 <div className="space-y-1.5">
-                  <Label htmlFor="firstTime">First-time entrepreneur?</Label>
+                  <Label htmlFor="firstTime">{t('field.firstTime')}</Label>
                   <Select
                     id="firstTime"
                     value={profile.firstTimeEntrepreneur === null ? '' : String(profile.firstTimeEntrepreneur)}
                     onChange={(e) => updateProfile({ firstTimeEntrepreneur: e.target.value === 'true' })}
                   >
                     <option value="" disabled>
-                      Select an option
+                      {t('field.selectOption')}
                     </option>
-                    <option value="true">Yes, this is my first business</option>
-                    <option value="false">No, I&apos;ve run a business before</option>
+                    <option value="true">{t('field.firstTimeYes')}</option>
+                    <option value="false">{t('field.firstTimeNo')}</option>
                   </Select>
                 </div>
               </>
@@ -432,7 +435,7 @@ export default function AssessmentPage() {
             {step.id === 'financial' && (
               <>
                 <div className="space-y-1.5">
-                  <Label htmlFor="income">Approximate annual income (optional)</Label>
+                  <Label htmlFor="income">{t('field.income')}</Label>
                   <Select
                     id="income"
                     value={profile.annualIncomeRange}
@@ -449,7 +452,7 @@ export default function AssessmentPage() {
                 </div>
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div className="space-y-1.5">
-                    <Label htmlFor="investmentRequiredLakh">Investment required, ₹ lakh (optional)</Label>
+                    <Label htmlFor="investmentRequiredLakh">{t('field.investmentRequiredLakh')}</Label>
                     <Input
                       id="investmentRequiredLakh"
                       type="number"
@@ -460,7 +463,7 @@ export default function AssessmentPage() {
                     />
                   </div>
                   <div className="space-y-1.5">
-                    <Label htmlFor="fundingRequirementLakh">Funding required, ₹ lakh (optional)</Label>
+                    <Label htmlFor="fundingRequirementLakh">{t('field.fundingRequirementLakh')}</Label>
                     <Input
                       id="fundingRequirementLakh"
                       type="number"
@@ -472,7 +475,7 @@ export default function AssessmentPage() {
                   </div>
                 </div>
                 <div className="space-y-1.5">
-                  <Label>Do you have an existing loan? (optional)</Label>
+                  <Label>{t('field.existingLoan')}</Label>
                   <RadioGroup>
                     {YES_NO_OPTIONS.map((opt) => (
                       <RadioOption
@@ -487,7 +490,7 @@ export default function AssessmentPage() {
                   </RadioGroup>
                 </div>
                 <div className="space-y-1.5">
-                  <Label>Do you need credit support? (optional)</Label>
+                  <Label>{t('field.creditRequirement')}</Label>
                   <RadioGroup>
                     {YES_NO_OPTIONS.map((opt) => (
                       <RadioOption
@@ -502,7 +505,7 @@ export default function AssessmentPage() {
                   </RadioGroup>
                 </div>
                 <div className="space-y-1.5">
-                  <Label>Do you need subsidy support? (optional)</Label>
+                  <Label>{t('field.subsidyRequirement')}</Label>
                   <RadioGroup>
                     {YES_NO_OPTIONS.map((opt) => (
                       <RadioOption
@@ -521,7 +524,7 @@ export default function AssessmentPage() {
 
             {step.id === 'needs' && (
               <div className="space-y-1.5">
-                <Label>Select all that apply (optional)</Label>
+                <Label>{t('field.businessNeedsLabel')}</Label>
                 <div className="grid gap-2.5 sm:grid-cols-2">
                   {BUSINESS_NEED_OPTIONS.map((need) => (
                     <label key={need} className="flex items-center gap-2 text-sm text-foreground">
@@ -538,10 +541,10 @@ export default function AssessmentPage() {
           <CardFooter className="flex justify-between">
             <Button variant="outline" onClick={previousStep} disabled={isFirstStep} className="group">
               <ArrowLeft className="h-4 w-4 transition-transform duration-150 group-hover:-translate-x-0.5" />
-              Back
+              {t('common.back')}
             </Button>
             <Button onClick={handleNext} disabled={!canAdvance} className="group">
-              {isLastStep ? 'See my recommendations' : 'Next'}
+              {isLastStep ? t('assessment.seeRecommendations') : t('common.next')}
               <ArrowRight className="h-4 w-4 transition-transform duration-150 group-hover:translate-x-0.5" />
             </Button>
           </CardFooter>
@@ -551,7 +554,7 @@ export default function AssessmentPage() {
       <div id="demo-profiles" className="mx-auto w-full max-w-2xl space-y-3 scroll-mt-6">
         <div className="flex items-center gap-2 text-sm font-medium text-foreground">
           <Sparkles className="h-4 w-4 text-accent" aria-hidden />
-          Or jump straight to results with a demo profile
+          {t('assessment.demoSectionTitle')}
         </div>
         <div className="grid gap-3 sm:grid-cols-3">
           {demoProfiles.map((demo) => (
@@ -565,7 +568,7 @@ export default function AssessmentPage() {
               </CardHeader>
               <CardFooter>
                 <Button size="sm" variant="secondary" className="w-full" onClick={() => handleLoadDemo(demo.profile)}>
-                  Load this profile
+                  {t('assessment.loadThisProfile')}
                 </Button>
               </CardFooter>
             </Card>

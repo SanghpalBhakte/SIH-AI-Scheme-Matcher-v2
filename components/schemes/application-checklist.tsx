@@ -4,24 +4,23 @@ import { useState } from 'react'
 import { ArrowRight, CheckCircle2, Circle, ExternalLink } from 'lucide-react'
 
 import { cn } from '@/lib/utils'
+import { useLanguage } from '@/lib/i18n/language-context'
 import { GENERIC_CHECKLIST_STEPS, type ChecklistStepId } from '@/lib/schemes/checklist'
 import type { Scheme } from '@/lib/matching/types'
 
 /**
  * Per-step guidance. Reads only the scheme's OWN requiredDocuments /
- * applicationSteps fields — never invents scheme-specific content.
+ * applicationSteps fields — never invents scheme-specific content. The
+ * real scheme-specific document/step text stays in English (sourced
+ * verbatim from official material — see data/schemes.ts); only the
+ * generic surrounding guidance and fallback text is translated.
  * Every branch has a real fallback, so no step is ever a dead end
  * even when the dataset doesn't have scheme-specific detail yet.
  */
-function StepDetail({ id, scheme }: { id: ChecklistStepId; scheme: Scheme }) {
+function StepDetail({ id, scheme, t }: { id: ChecklistStepId; scheme: Scheme; t: (key: string) => string }) {
   switch (id) {
     case 'check-eligibility':
-      return (
-        <p className="text-xs text-muted-foreground">
-          Confirm you meet this scheme&apos;s eligibility rules on the official source — the match shown on this
-          page is a simplified prototype estimate, not a final decision.
-        </p>
-      )
+      return <p className="text-xs text-muted-foreground">{t('checklist.detail.check-eligibility')}</p>
 
     case 'prepare-documents':
       return scheme.requiredDocuments && scheme.requiredDocuments.length > 0 ? (
@@ -31,10 +30,7 @@ function StepDetail({ id, scheme }: { id: ChecklistStepId; scheme: Scheme }) {
           ))}
         </ul>
       ) : (
-        <p className="text-xs text-muted-foreground">
-          Scheme-specific documents aren&apos;t catalogued in this prototype yet — check the official source below
-          for the current list.
-        </p>
+        <p className="text-xs text-muted-foreground">{t('checklist.detail.prepare-documents-fallback')}</p>
       )
 
     case 'visit-portal':
@@ -48,15 +44,11 @@ function StepDetail({ id, scheme }: { id: ChecklistStepId; scheme: Scheme }) {
           {scheme.officialUrl}
         </a>
       ) : (
-        <p className="text-xs text-muted-foreground">No official source link is on file for this entry.</p>
+        <p className="text-xs text-muted-foreground">{t('checklist.detail.visit-portal-fallback')}</p>
       )
 
     case 'register-login':
-      return (
-        <p className="text-xs text-muted-foreground">
-          Most portals need an account or login, often linked to Aadhaar or a business registration.
-        </p>
-      )
+      return <p className="text-xs text-muted-foreground">{t('checklist.detail.register-login')}</p>
 
     case 'complete-application':
       return scheme.applicationSteps && scheme.applicationSteps.length > 0 ? (
@@ -66,25 +58,14 @@ function StepDetail({ id, scheme }: { id: ChecklistStepId; scheme: Scheme }) {
           ))}
         </ol>
       ) : (
-        <p className="text-xs text-muted-foreground">
-          Scheme-specific application steps aren&apos;t catalogued in this prototype yet — the official portal
-          will walk you through its own process.
-        </p>
+        <p className="text-xs text-muted-foreground">{t('checklist.detail.complete-application-fallback')}</p>
       )
 
     case 'upload-documents':
-      return (
-        <p className="text-xs text-muted-foreground">
-          Upload the documents the portal asks for, in the format and size it accepts.
-        </p>
-      )
+      return <p className="text-xs text-muted-foreground">{t('checklist.detail.upload-documents')}</p>
 
     case 'submit-track':
-      return (
-        <p className="text-xs text-muted-foreground">
-          Submit the application and save any reference or tracking number the portal gives you.
-        </p>
-      )
+      return <p className="text-xs text-muted-foreground">{t('checklist.detail.submit-track')}</p>
   }
 }
 
@@ -99,6 +80,7 @@ function StepDetail({ id, scheme }: { id: ChecklistStepId; scheme: Scheme }) {
  * That's a simple, honest implementation for this phase, not a bug.
  */
 export function ApplicationChecklist({ scheme }: { scheme: Scheme }) {
+  const { t } = useLanguage()
   const [completed, setCompleted] = useState<ReadonlySet<ChecklistStepId>>(new Set())
 
   function toggle(id: ChecklistStepId) {
@@ -118,9 +100,7 @@ export function ApplicationChecklist({ scheme }: { scheme: Scheme }) {
   return (
     <div className="space-y-3">
       <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-muted-foreground">
-        <span>
-          {completed.size} of {GENERIC_CHECKLIST_STEPS.length} steps checked off
-        </span>
+        <span>{t('checklist.stepsChecked', { done: completed.size, total: GENERIC_CHECKLIST_STEPS.length })}</span>
         {scheme.officialUrl && (
           <a
             href={scheme.officialUrl}
@@ -128,7 +108,7 @@ export function ApplicationChecklist({ scheme }: { scheme: Scheme }) {
             rel="noreferrer"
             className="inline-flex items-center gap-1 font-semibold text-primary underline-offset-4 hover:underline"
           >
-            Official application portal
+            {t('checklist.officialPortal')}
             <ExternalLink className="h-3 w-3" aria-hidden />
           </a>
         )}
@@ -137,18 +117,16 @@ export function ApplicationChecklist({ scheme }: { scheme: Scheme }) {
       {nextStep ? (
         <p className="flex items-center gap-1.5 rounded-md bg-secondary/50 p-2.5 text-xs font-medium text-foreground">
           <ArrowRight className="h-3.5 w-3.5 shrink-0 text-primary" aria-hidden />
-          Next: {nextStep.label}
+          {t('checklist.next', { step: t(`checklist.step.${nextStep.id}`) })}
         </p>
       ) : (
-        <p className="rounded-md bg-success/10 p-2.5 text-xs font-medium text-success">
-          Every step is checked off for this session — give everything one more look on the official source before
-          you submit.
-        </p>
+        <p className="rounded-md bg-success/10 p-2.5 text-xs font-medium text-success">{t('checklist.allDone')}</p>
       )}
 
       <ul className="divide-y divide-border overflow-hidden rounded-md border border-border shadow-soft">
         {GENERIC_CHECKLIST_STEPS.map((step) => {
           const isDone = completed.has(step.id)
+          const label = t(`checklist.step.${step.id}`)
           return (
             <li
               key={step.id}
@@ -158,7 +136,7 @@ export function ApplicationChecklist({ scheme }: { scheme: Scheme }) {
                 type="button"
                 onClick={() => toggle(step.id)}
                 aria-pressed={isDone}
-                aria-label={`Mark "${step.label}" as ${isDone ? 'not started' : 'completed'}`}
+                aria-label={t('checklist.markAs', { label, state: isDone ? t('checklist.notStarted') : t('checklist.completed') })}
                 className="mt-0.5 shrink-0 text-muted-foreground transition-all duration-150 hover:scale-110 hover:text-primary"
               >
                 {isDone ? (
@@ -170,7 +148,7 @@ export function ApplicationChecklist({ scheme }: { scheme: Scheme }) {
               <div className="min-w-0 flex-1 space-y-1">
                 <div className="flex flex-wrap items-center gap-2">
                   <p className={cn('text-sm font-medium', isDone ? 'text-muted-foreground line-through' : 'text-foreground')}>
-                    {step.label}
+                    {label}
                   </p>
                   <span
                     className={cn(
@@ -178,20 +156,17 @@ export function ApplicationChecklist({ scheme }: { scheme: Scheme }) {
                       isDone ? 'bg-success/15 text-success' : 'bg-secondary text-secondary-foreground'
                     )}
                   >
-                    {isDone ? 'Completed' : 'Not started'}
+                    {isDone ? t('checklist.completed') : t('checklist.notStarted')}
                   </span>
                 </div>
-                <StepDetail id={step.id} scheme={scheme} />
+                <StepDetail id={step.id} scheme={scheme} t={t} />
               </div>
             </li>
           )
         })}
       </ul>
 
-      <p className="text-xs text-muted-foreground">
-        Always verify final eligibility, documents, and application steps on the official source above before you
-        submit anything.
-      </p>
+      <p className="text-xs text-muted-foreground">{t('checklist.footerNote')}</p>
     </div>
   )
 }

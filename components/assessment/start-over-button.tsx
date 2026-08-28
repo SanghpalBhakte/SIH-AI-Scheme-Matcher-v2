@@ -5,6 +5,7 @@ import { RotateCcw } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import { useAssessment } from '@/lib/assessment/assessment-context'
+import { useLanguage } from '@/lib/i18n/language-context'
 import { cn } from '@/lib/utils'
 
 interface StartOverButtonProps {
@@ -35,13 +36,12 @@ interface StartOverButtonProps {
 export function StartOverButton({ className }: StartOverButtonProps) {
   const router = useRouter()
   const { resetAssessment, isDirty } = useAssessment()
+  const { t } = useLanguage()
 
   if (!isDirty) return null
 
   function handleClick() {
-    const confirmed = window.confirm(
-      'Start over? This clears your saved answers and restarts the assessment from the beginning.'
-    )
+    const confirmed = window.confirm(t('common.startOverConfirm'))
     if (!confirmed) return
     resetAssessment()
     router.push('/assessment')
@@ -56,7 +56,7 @@ export function StartOverButton({ className }: StartOverButtonProps) {
       className={cn('text-muted-foreground hover:text-foreground', className)}
     >
       <RotateCcw className="h-3.5 w-3.5" aria-hidden />
-      Start over
+      {t('common.startOver')}
     </Button>
   )
 }

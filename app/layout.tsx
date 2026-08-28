@@ -17,6 +17,8 @@ import { SiteHeader } from '@/components/layout/site-header'
 import { DisclaimerBanner } from '@/components/layout/disclaimer-banner'
 import { AssessmentProvider } from '@/lib/assessment/assessment-context'
 import { ThemeProvider, THEME_INIT_SCRIPT } from '@/lib/theme/theme-context'
+import { LanguageProvider } from '@/lib/i18n/language-context'
+import { SavedSchemesProvider } from '@/lib/schemes/saved-schemes-context'
 
 export const metadata: Metadata = {
   title: 'AI Scheme Matcher — SIH26092',
@@ -41,17 +43,21 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className="flex min-h-screen flex-col antialiased">
         <ThemeProvider>
-          <AssessmentProvider>
-            <SiteHeader />
+          <LanguageProvider>
+            <SavedSchemesProvider>
+              <AssessmentProvider>
+                <SiteHeader />
 
-            <div className="flex-1">{children}</div>
+                <div className="flex-1">{children}</div>
 
-            <footer className="border-t border-border bg-secondary/50">
-              <div className="container py-4">
-                <DisclaimerBanner />
-              </div>
-            </footer>
-          </AssessmentProvider>
+                <footer className="border-t border-border bg-secondary/50">
+                  <div className="container py-4">
+                    <DisclaimerBanner />
+                  </div>
+                </footer>
+              </AssessmentProvider>
+            </SavedSchemesProvider>
+          </LanguageProvider>
         </ThemeProvider>
       </body>
     </html>

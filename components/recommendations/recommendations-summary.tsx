@@ -1,7 +1,10 @@
+'use client'
+
 import { Award, ListChecks, AlertCircle, CheckCircle2 } from 'lucide-react'
 
 import { Card, CardContent } from '@/components/ui/card'
 import { cn } from '@/lib/utils'
+import { useLanguage } from '@/lib/i18n/language-context'
 import type { SchemeMatchResult } from '@/lib/matching/types'
 
 // At-a-glance summary strip: how many schemes are shown, the
@@ -15,6 +18,7 @@ export function RecommendationsSummary({
   results: SchemeMatchResult[]
   totalEvaluated: number
 }) {
+  const { t } = useLanguage()
   const strongest = results[0]
   const needsMoreInfoCount = results.filter((r) => r.missingCriteria.length > 0).length
 
@@ -26,9 +30,9 @@ export function RecommendationsSummary({
             <ListChecks className="h-5 w-5 text-primary" aria-hidden />
           </div>
           <div>
-            <p className="text-xs text-muted-foreground">Schemes shown</p>
+            <p className="text-xs text-muted-foreground">{t('recommendations.schemesShown')}</p>
             <p className="text-sm font-semibold text-foreground">
-              {results.length} of {totalEvaluated} evaluated
+              {t('recommendations.schemesShownDetail', { shown: results.length, total: totalEvaluated })}
             </p>
           </div>
         </CardContent>
@@ -40,7 +44,7 @@ export function RecommendationsSummary({
             <Award className="h-5 w-5 text-accent" aria-hidden />
           </div>
           <div className="min-w-0">
-            <p className="text-xs text-muted-foreground">Strongest match</p>
+            <p className="text-xs text-muted-foreground">{t('recommendations.strongestMatch')}</p>
             <p className="truncate text-sm font-semibold text-foreground">
               {strongest ? `${strongest.scheme.name} · ${strongest.matchScore}%` : '—'}
             </p>
@@ -63,11 +67,13 @@ export function RecommendationsSummary({
             )}
           </div>
           <div>
-            <p className="text-xs text-muted-foreground">Missing information</p>
+            <p className="text-xs text-muted-foreground">{t('recommendations.missingInfo')}</p>
             <p className={cn('text-sm font-semibold text-foreground')}>
               {needsMoreInfoCount > 0
-                ? `${needsMoreInfoCount} scheme${needsMoreInfoCount > 1 ? 's need' : ' needs'} more info`
-                : 'None for what\'s shown'}
+                ? needsMoreInfoCount === 1
+                  ? t('recommendations.needsMoreInfoOne')
+                  : t('recommendations.needsMoreInfoMany', { count: needsMoreInfoCount })
+                : t('recommendations.noneShown')}
             </p>
           </div>
         </CardContent>

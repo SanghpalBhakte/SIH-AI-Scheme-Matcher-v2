@@ -1,9 +1,13 @@
+'use client'
+
 import Link from 'next/link'
 
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { EligibilityStatusBadge, ELIGIBILITY_STATUS_ACCENT } from './eligibility-status-badge'
 import { MatchExplanation } from './match-explanation'
+import { SaveSchemeButton } from '@/components/schemes/save-scheme-button'
+import { useLanguage } from '@/lib/i18n/language-context'
 import { cn } from '@/lib/utils'
 import type { SchemeMatchResult } from '@/lib/matching/types'
 
@@ -15,6 +19,7 @@ import type { SchemeMatchResult } from '@/lib/matching/types'
 // already-computed result the badge and explanation use, nothing new
 // is scored or decided here.
 export function RecommendationCard({ result }: { result: SchemeMatchResult }) {
+  const { t } = useLanguage()
   const { scheme, matchScore, eligibilityStatus } = result
 
   return (
@@ -30,12 +35,15 @@ export function RecommendationCard({ result }: { result: SchemeMatchResult }) {
             <h3 className="text-base font-semibold leading-snug text-foreground">{scheme.name}</h3>
             {scheme.ministry && <p className="mt-0.5 text-xs text-muted-foreground">{scheme.ministry}</p>}
           </div>
-          <div
-            className="flex h-12 w-12 shrink-0 flex-col items-center justify-center rounded-full border-2 border-primary/20 bg-primary/5 text-center leading-none"
-            aria-label={`${matchScore} percent match`}
-          >
-            <span className="text-sm font-bold text-primary">{matchScore}</span>
-            <span className="text-[9px] font-medium text-muted-foreground">%</span>
+          <div className="flex shrink-0 items-start gap-1">
+            <div
+              className="flex h-12 w-12 shrink-0 flex-col items-center justify-center rounded-full border-2 border-primary/20 bg-primary/5 text-center leading-none"
+              aria-label={`${matchScore} percent match`}
+            >
+              <span className="text-sm font-bold text-primary">{matchScore}</span>
+              <span className="text-[9px] font-medium text-muted-foreground">%</span>
+            </div>
+            <SaveSchemeButton schemeId={scheme.id} />
           </div>
         </div>
 
@@ -56,7 +64,7 @@ export function RecommendationCard({ result }: { result: SchemeMatchResult }) {
             href={`/schemes/${scheme.id}`}
             className="text-xs font-semibold text-foreground underline-offset-4 hover:underline"
           >
-            View details
+            {t('common.viewDetails')}
           </Link>
           {scheme.officialUrl && (
             <a
@@ -65,7 +73,7 @@ export function RecommendationCard({ result }: { result: SchemeMatchResult }) {
               rel="noreferrer"
               className="text-xs font-semibold text-primary underline-offset-4 hover:underline"
             >
-              View official scheme →
+              {t('common.officialPortal')}
             </a>
           )}
         </div>

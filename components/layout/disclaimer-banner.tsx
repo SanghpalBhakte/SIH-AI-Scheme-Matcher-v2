@@ -1,5 +1,8 @@
+'use client'
+
 import { ShieldAlert } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { useLanguage } from '@/lib/i18n/language-context'
 
 /**
  * The always-visible product disclaimer (required by the product
@@ -9,13 +12,12 @@ import { cn } from '@/lib/utils'
  * whatever container styling fits the page.
  */
 export function DisclaimerBanner({ className }: { className?: string }) {
+  const { t } = useLanguage()
   return (
     <div className={cn('flex items-start gap-2 text-xs text-muted-foreground', className)}>
       <ShieldAlert className="mt-0.5 h-4 w-4 shrink-0 text-warning" aria-hidden />
       <p>
-        <strong className="text-foreground">AI-assisted recommendations, not an official decision.</strong>{' '}
-        This is a hackathon prototype (SIH26092). Always verify final eligibility, benefits, required documents,
-        and application steps on the scheme&apos;s official government source before applying.
+        <strong className="text-foreground">{t('disclaimer.title')}</strong> {t('disclaimer.body')}
       </p>
     </div>
   )

@@ -1,7 +1,10 @@
+'use client'
+
 import { Check, ChevronDown } from 'lucide-react'
 
 import { CriteriaList } from './criteria-list'
 import { summarizeMatch } from '@/lib/recommendations/explain'
+import { useLanguage } from '@/lib/i18n/language-context'
 import type { SchemeMatchResult } from '@/lib/matching/types'
 
 const TOP_MATCHED_LIMIT = 3
@@ -22,6 +25,7 @@ const TOP_MATCHED_LIMIT = 3
  *    by default would bury the one-line "why" in a wall of text)
  */
 export function MatchExplanation({ result }: { result: SchemeMatchResult }) {
+  const { t } = useLanguage()
   const { matchedCriteria, missingCriteria, failedCriteria } = result
   const topMatches = matchedCriteria.slice(0, TOP_MATCHED_LIMIT)
   const remainingMatches = matchedCriteria.slice(TOP_MATCHED_LIMIT)
@@ -29,7 +33,7 @@ export function MatchExplanation({ result }: { result: SchemeMatchResult }) {
   return (
     <div className="space-y-3 text-sm">
       <p className="rounded-md border-l-2 border-primary bg-secondary/50 p-2.5 text-xs text-foreground">
-        <span className="font-semibold">Why this matches you: </span>
+        <span className="font-semibold">{t('matchExplanation.why')} </span>
         {summarizeMatch(result)}
       </p>
 
@@ -37,7 +41,7 @@ export function MatchExplanation({ result }: { result: SchemeMatchResult }) {
         <div>
           <p className="flex items-center gap-1.5 text-xs font-semibold text-success">
             <Check className="h-3.5 w-3.5 shrink-0" aria-hidden />
-            Matched
+            {t('criteria.matched')}
           </p>
           <ul className="mt-1.5 space-y-1 pl-0.5 text-xs text-muted-foreground">
             {topMatches.map((c) => (
@@ -50,7 +54,7 @@ export function MatchExplanation({ result }: { result: SchemeMatchResult }) {
           {remainingMatches.length > 0 && (
             <details className="group mt-1.5">
               <summary className="flex w-fit cursor-pointer list-none items-center gap-1 text-xs font-medium text-foreground underline-offset-4 transition-colors hover:text-primary hover:underline">
-                +{remainingMatches.length} more matched criteria
+                {t('matchExplanation.moreMatched', { count: remainingMatches.length })}
                 <ChevronDown className="h-3 w-3 transition-transform duration-200 group-open:rotate-180" aria-hidden />
               </summary>
               <ul className="mt-1.5 space-y-1 pl-0.5 text-xs text-muted-foreground">
