@@ -2,11 +2,20 @@
 // here calls a model or a remote service — see lib/chat/engine.ts for
 // the deterministic query engine these types support.
 
+/** A clickable follow-up attached to a bot reply — an internal route or an official external link, never a fabricated one. */
+export interface ChatAction {
+  label: string
+  href: string
+  external?: boolean
+}
+
 export interface ChatMessage {
   id: string
   role: 'user' | 'bot'
   text: string
   timestamp: number
+  /** Bot messages only. Absent/empty means "text only," same as before. */
+  actions?: ChatAction[]
 }
 
 /** Every question category the deterministic engine can recognize. */

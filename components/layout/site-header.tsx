@@ -8,6 +8,7 @@ import { Landmark, Home, ClipboardList, LayoutGrid, ListChecks, Bookmark } from 
 import { Badge } from '@/components/ui/badge'
 import { ThemeToggle } from '@/components/theme/theme-toggle'
 import { LanguageToggle } from '@/components/i18n/language-toggle'
+import { LanguageNudge } from '@/components/i18n/language-nudge'
 import { cn } from '@/lib/utils'
 import { useAssessment } from '@/lib/assessment/assessment-context'
 import { useSavedSchemes } from '@/lib/schemes/saved-schemes-context'
@@ -58,7 +59,10 @@ export function SiteHeader() {
           className="flex shrink-0 items-center gap-2 text-sm font-semibold text-foreground transition-opacity hover:opacity-80"
         >
           <Landmark className="h-5 w-5 text-primary" aria-hidden />
-          <span className="font-display text-base">AI Scheme Matcher</span>
+          {/* Wordmark hides below sm — on a narrow phone the icon alone
+              plus 4 nav icons plus 3 action icons already crowds the
+              row; the icon alone still reads as "home/brand". */}
+          <span className="hidden font-display text-base sm:inline">AI Scheme Matcher</span>
         </Link>
 
         <nav className="flex min-w-0 items-center gap-0.5 text-sm sm:gap-1">
@@ -109,7 +113,10 @@ export function SiteHeader() {
               </span>
             )}
           </Link>
-          <LanguageToggle />
+          <div className="relative">
+            <LanguageToggle />
+            <LanguageNudge />
+          </div>
           <ThemeToggle />
         </div>
       </div>

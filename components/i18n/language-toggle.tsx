@@ -1,6 +1,6 @@
 'use client'
 
-import { Languages } from 'lucide-react'
+import { ChevronDown, Languages } from 'lucide-react'
 
 import { useLanguage } from '@/lib/i18n/language-context'
 import { LOCALES, type Locale } from '@/lib/i18n/translations'
@@ -27,6 +27,10 @@ export function LanguageToggle() {
     <div className="relative flex h-9 items-center gap-1.5 rounded-md px-2 text-muted-foreground transition-colors duration-150 hover:bg-secondary hover:text-foreground">
       <Languages className="h-4 w-4 shrink-0" aria-hidden />
       <span className="text-xs font-medium">{isHydrated ? current.shortLabel : LOCALES[0].shortLabel}</span>
+      {/* Visual-only affordance so this reads as "clickable" rather than
+          static text — the real interactive element is the <select>
+          below, this icon has no behavior of its own. */}
+      <ChevronDown className="h-3 w-3 shrink-0 opacity-60" aria-hidden />
       <select
         value={locale}
         onChange={(e) => setLocale(e.target.value as Locale)}

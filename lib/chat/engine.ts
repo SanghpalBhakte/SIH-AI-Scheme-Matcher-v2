@@ -19,7 +19,7 @@ import { summarizeMatch } from '@/lib/recommendations/explain'
 import { describeAudience } from '@/lib/schemes/describe-audience'
 import { GENERIC_CHECKLIST_STEPS } from '@/lib/schemes/checklist'
 import type { ChatAppContext } from './context-adapter'
-import type { ChatSession } from './types'
+import type { ChatAction, ChatSession } from './types'
 import { classifyIntent } from './intents'
 import { detectSchemeName, referencesActiveScheme } from './scheme-lookup'
 
@@ -27,9 +27,24 @@ import { detectSchemeName, referencesActiveScheme } from './scheme-lookup'
 export const FALLBACK_HELP =
   'I can help with questions about government schemes, your recommendations, eligibility, required documents, and application steps.'
 
+export interface ChatAnswer {
+  text: string
+  actions?: ChatAction[]
+  nextSession: ChatSession
+}
+
 function askWhichScheme(schemes: Scheme[]): string {
   const example = schemes[0]?.name ?? 'a scheme'
   return `I'm not sure which scheme you mean. Try naming one — for example "${example}" — or open a scheme's page first and then ask me about it.`
+}
+
+/** The two links every scheme-specific reply can offer: its detail page here, and its real official source (never fabricated — only when the dataset actually has one). */
+function schemeActions(scheme: Scheme, label = 'Open scheme page'): ChatAction[] {
+  const actions: ChatAction[] = [{ label, href: `/schemes/${scheme.id}` }]
+  if (scheme.officialUrl) {
+    actions.push({ label: 'Official portal', href: scheme.officialUrl, external: true })
+  }
+  return actions
 }
 
 /**
@@ -63,12 +78,7 @@ function resolveActiveScheme(
   return null
 }
 
-export function answerQuery(
-  rawInput: string,
-  context: ChatAppContext,
-  session: ChatSession,
-  schemes: Scheme[]
-): { text: string; nextSession: ChatSession } {
+export function answerQuery(rawInput: string, context: ChatAppContext, session: ChatSession, schemes: Scheme[]): ChatAnswer {
   const input = rawInput.trim()
   if (!input) {
     return { text: FALLBACK_HELP, nextSession: session }
@@ -94,6 +104,7 @@ export function answerQuery(
           text:
             "I don't have your profile yet, so I can't tell you which schemes you're eligible for. " +
             'Complete the assessment (category, gender, state, sector, stage, and first-time status) and I\'ll be able to check.',
+          actions: [{ label: 'Complete assessment', href: '/assessment' }],
           nextSession,
         }
       }
@@ -102,10 +113,20 @@ export function answerQuery(
         (r) => r.eligibilityStatus === 'Likely Eligible' || r.eligibilityStatus === 'Possibly Eligible'
       )
       if (strong.length === 0) {
+        // Honest, not empty-handed: the closest scheme(s) by score are
+        // still named, just clearly caveated as not a strong fit —
+        // never invented, straight from the same matchSchemes() output
+        // the Recommendations page uses.
+        const closest = results.slice(0, 2)
+        if (closest.length === 0) {
+          return { text: 'None of the schemes in this dataset could be scored against your profile.', nextSession }
+        }
+        const lines = closest.map((r) => `• ${r.scheme.name} — ${r.matchScore}% match (${r.eligibilityStatus})`)
         return {
           text:
             "Based on your profile, none of the schemes in this dataset are a strong match right now. " +
-            'You can still review the closest ones on the Recommendations page — a lower score is sometimes still worth checking directly.',
+            `The closest are:\n${lines.join('\n')}\n\nThey're worth a direct look even at a lower score — eligibility rules sometimes have exceptions this prototype doesn't model.`,
+          actions: closest.map((r) => ({ label: r.scheme.name, href: `/schemes/${r.scheme.id}` })),
           nextSession,
         }
       }
@@ -115,6 +136,7 @@ export function answerQuery(
         text:
           `Based on your profile, here's what looks like a good fit:\n${lines.join('\n')}\n\n` +
           `Open the Recommendations page for the full explanation, or ask me "why was ${top[0].scheme.name} recommended?"`,
+        actions: [{ label: 'View recommendations', href: '/recommendations' }],
         nextSession,
       }
     }
@@ -124,11 +146,16 @@ export function answerQuery(
       if (!context.completeProfile) {
         return {
           text: `I can explain why ${activeScheme.name} would or wouldn't match you once your profile is complete — finish the assessment first.`,
+          actions: [{ label: 'Complete assessment', href: '/assessment' }],
           nextSession,
         }
       }
       const result = evaluateScheme(context.completeProfile, activeScheme)
-      return { text: `${activeScheme.name}: ${summarizeMatch(result)}`, nextSession }
+      return {
+        text: `${activeScheme.name}: ${summarizeMatch(result)}`,
+        actions: schemeActions(activeScheme, 'View full explanation'),
+        nextSession,
+      }
     }
 
     case 'scheme_explanation': {
@@ -136,13 +163,18 @@ export function answerQuery(
       const ministry = activeScheme.ministry ? ` It's administered by ${activeScheme.ministry}.` : ''
       return {
         text: `${activeScheme.name}: ${activeScheme.summary}${ministry} Benefit: ${activeScheme.benefit}.`,
+        actions: schemeActions(activeScheme),
         nextSession,
       }
     }
 
     case 'scheme_benefits': {
       if (!activeScheme) return { text: askWhichScheme(schemes), nextSession }
-      return { text: `${activeScheme.name} offers: ${activeScheme.benefit}.`, nextSession }
+      return {
+        text: `${activeScheme.name} offers: ${activeScheme.benefit}.`,
+        actions: schemeActions(activeScheme),
+        nextSession,
+      }
     }
 
     case 'scheme_eligibility': {
@@ -152,6 +184,7 @@ export function answerQuery(
         text:
           `${activeScheme.name}'s own stated eligibility rules:\n${lines.join('\n')}\n\n` +
           'This is the scheme\'s general criteria, not a check against your specific profile — ask "why was this recommended?" for that.',
+        actions: schemeActions(activeScheme),
         nextSession,
       }
     }
@@ -160,13 +193,18 @@ export function answerQuery(
       if (!activeScheme) return { text: askWhichScheme(schemes), nextSession }
       if (activeScheme.requiredDocuments && activeScheme.requiredDocuments.length > 0) {
         const lines = activeScheme.requiredDocuments.map((d) => `• ${d}`)
-        return { text: `Documents ${activeScheme.name} asks for:\n${lines.join('\n')}`, nextSession }
+        return {
+          text: `Documents ${activeScheme.name} asks for:\n${lines.join('\n')}`,
+          actions: schemeActions(activeScheme),
+          nextSession,
+        }
       }
       return {
         text:
           `I don't have a confirmed document list for ${activeScheme.name} in the dataset` +
           `${activeScheme.officialUrl ? ` — check ${activeScheme.officialUrl} directly` : ''}. ` +
           'In general, government schemes ask for ID proof, address proof, a category/caste certificate (if relevant), and business details — but confirm the exact list on the official portal before applying.',
+        actions: schemeActions(activeScheme),
         nextSession,
       }
     }
@@ -175,13 +213,16 @@ export function answerQuery(
       if (!activeScheme) return { text: askWhichScheme(schemes), nextSession }
       if (activeScheme.applicationSteps && activeScheme.applicationSteps.length > 0) {
         const lines = activeScheme.applicationSteps.map((s, i) => `${i + 1}. ${s}`)
-        return { text: `How to apply for ${activeScheme.name}:\n${lines.join('\n')}`, nextSession }
+        return {
+          text: `How to apply for ${activeScheme.name}:\n${lines.join('\n')}`,
+          actions: schemeActions(activeScheme),
+          nextSession,
+        }
       }
       const generic = GENERIC_CHECKLIST_STEPS.map((s, i) => `${i + 1}. ${s.label}`)
       return {
-        text:
-          `I don't have ${activeScheme.name}'s exact application steps yet, but the general path is:\n${generic.join('\n')}` +
-          `${activeScheme.officialUrl ? `\n\nStart here: ${activeScheme.officialUrl}` : ''}`,
+        text: `I don't have ${activeScheme.name}'s exact application steps yet, but the general path is:\n${generic.join('\n')}`,
+        actions: schemeActions(activeScheme),
         nextSession,
       }
     }
@@ -190,14 +231,14 @@ export function answerQuery(
       if (!context.profileComplete) {
         return {
           text: 'Your best next step is to complete the assessment — it takes a few minutes and unlocks your personalised recommendations.',
+          actions: [{ label: 'Complete assessment', href: '/assessment' }],
           nextSession,
         }
       }
       if (activeScheme) {
         return {
-          text:
-            `For ${activeScheme.name}, work through the application checklist on this page — check eligibility, prepare documents, then head to the official portal` +
-            `${activeScheme.officialUrl ? ` (${activeScheme.officialUrl})` : ''}.`,
+          text: `For ${activeScheme.name}, work through the application checklist on this page — check eligibility, prepare documents, then head to the official portal.`,
+          actions: schemeActions(activeScheme, 'Open checklist'),
           nextSession,
         }
       }
@@ -205,6 +246,10 @@ export function answerQuery(
       if (results.length > 0) {
         return {
           text: `Your profile is complete — review your top match, ${results[0].scheme.name}, on the Recommendations page and open it for the full checklist.`,
+          actions: [
+            { label: 'View recommendations', href: '/recommendations' },
+            { label: results[0].scheme.name, href: `/schemes/${results[0].scheme.id}` },
+          ],
           nextSession,
         }
       }
@@ -217,11 +262,14 @@ export function answerQuery(
           'I can help you understand government schemes — ask me things like "what schemes am I eligible for", ' +
           '"why was this scheme recommended", "what documents do I need", or "how do I apply". ' +
           "I only use information already in this app, so I'll say when something isn't in the dataset.",
+        actions: [{ label: 'Browse all schemes', href: '/schemes' }],
         nextSession,
       }
 
     case 'unknown':
     default:
+      // Exact required fallback text, text-only — no action attached,
+      // so acceptance-criterion wording stays untouched.
       return { text: FALLBACK_HELP, nextSession }
   }
 }

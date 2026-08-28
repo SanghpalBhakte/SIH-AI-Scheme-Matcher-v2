@@ -28,6 +28,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { MatchMotif } from '@/components/landing/match-motif'
+import { LanguageChipStrip } from '@/components/i18n/language-chip-strip'
 import { schemes } from '@/data/schemes'
 import { useLanguage } from '@/lib/i18n/language-context'
 
@@ -128,6 +129,8 @@ export default function HomePage() {
                 {t('landing.browseAll')}
               </Link>
             </p>
+
+            <LanguageChipStrip />
           </div>
 
           <div className="hidden justify-self-center lg:block">

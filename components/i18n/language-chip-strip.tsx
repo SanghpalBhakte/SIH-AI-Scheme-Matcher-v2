@@ -1,0 +1,39 @@
+'use client'
+
+import { useLanguage } from '@/lib/i18n/language-context'
+import { LOCALES } from '@/lib/i18n/translations'
+import { cn } from '@/lib/utils'
+
+/**
+ * Landing-page discovery surface for the language switcher — a second,
+ * more visible way to find it beyond the header's compact icon+label
+ * control (see components/i18n/language-toggle.tsx). Tapping a chip
+ * switches immediately; the current language is highlighted the same
+ * way an active nav link is elsewhere in this app.
+ */
+export function LanguageChipStrip() {
+  const { locale, setLocale, isHydrated, t } = useLanguage()
+  const current = isHydrated ? locale : LOCALES[0].code
+
+  return (
+    <div className="flex flex-wrap items-center gap-1.5">
+      <span className="text-xs text-muted-foreground">{t('landing.readInLabel')}</span>
+      {LOCALES.map((l) => (
+        <button
+          key={l.code}
+          type="button"
+          onClick={() => setLocale(l.code)}
+          aria-pressed={current === l.code}
+          className={cn(
+            'rounded-full border px-2.5 py-1 text-xs font-medium transition-colors duration-150',
+            current === l.code
+              ? 'border-primary bg-primary text-primary-foreground'
+              : 'border-border bg-background text-muted-foreground hover:border-primary/40 hover:text-foreground'
+          )}
+        >
+          {l.nativeLabel}
+        </button>
+      ))}
+    </div>
+  )
+}
