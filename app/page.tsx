@@ -1,7 +1,28 @@
 'use client'
 
 import Link from 'next/link'
-import { ArrowRight, ClipboardList, ScanSearch, Sparkles, Landmark, ShieldCheck, ScrollText, Scale } from 'lucide-react'
+import {
+  ArrowRight,
+  ClipboardList,
+  ScanSearch,
+  Sparkles,
+  Landmark,
+  ShieldCheck,
+  ScrollText,
+  Scale,
+  Users,
+  HeartHandshake,
+  MapPin,
+  Lightbulb,
+  Palette,
+  Store,
+  Gauge,
+  BadgeCheck,
+  ListChecks,
+  Languages,
+  Bookmark,
+  LayoutGrid,
+} from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
@@ -16,11 +37,57 @@ const STEPS = [
   { icon: Sparkles, titleKey: 'landing.step3Title', descKey: 'landing.step3Desc' },
 ] as const
 
-const TRUST_SIGNALS = [
+// "Why it works" — the old 3-item trust row, upgraded into a proper
+// 4-card section (trust1-3 reused as-is, trust4 is new — see
+// translations.ts). Card, not a thin icon+text row, so it carries the
+// same visual weight as "How it works" and "Key features" below it.
+const WHY_CARDS = [
   { icon: Scale, titleKey: 'landing.trust1Title', descKey: 'landing.trust1Desc' },
   { icon: ShieldCheck, titleKey: 'landing.trust2Title', descKey: 'landing.trust2Desc' },
   { icon: ScrollText, titleKey: 'landing.trust3Title', descKey: 'landing.trust3Desc' },
+  { icon: Sparkles, titleKey: 'landing.trust4Title', descKey: 'landing.trust4Desc' },
 ] as const
+
+// Grounded in the app's real CATEGORY_OPTIONS/GENDER_OPTIONS values
+// (lib/matching/types.ts) and real feature set — not invented personas.
+const AUDIENCE = [
+  { icon: Users, key: 'landing.audience1' },
+  { icon: HeartHandshake, key: 'landing.audience2' },
+  { icon: MapPin, key: 'landing.audience3' },
+  { icon: Lightbulb, key: 'landing.audience4' },
+  { icon: Palette, key: 'landing.audience5' },
+  { icon: Store, key: 'landing.audience6' },
+] as const
+
+// Every card here maps to a real, shipped feature — nothing aspirational.
+const FEATURES = [
+  { icon: Gauge, titleKey: 'landing.feature1Title', descKey: 'landing.feature1Desc' },
+  { icon: BadgeCheck, titleKey: 'landing.feature2Title', descKey: 'landing.feature2Desc' },
+  { icon: ListChecks, titleKey: 'landing.feature3Title', descKey: 'landing.feature3Desc' },
+  { icon: Languages, titleKey: 'landing.feature4Title', descKey: 'landing.feature4Desc' },
+  { icon: Bookmark, titleKey: 'landing.feature5Title', descKey: 'landing.feature5Desc' },
+  { icon: LayoutGrid, titleKey: 'landing.feature6Title', descKey: 'landing.feature6Desc' },
+] as const
+
+/** Small reusable "eyebrow + centered title (+ optional subtitle)" header, used
+ *  by every section below the hero for a consistent, calm rhythm. */
+function SectionHeader({
+  eyebrow,
+  title,
+  subtitle,
+}: {
+  eyebrow: string
+  title: string
+  subtitle?: string
+}) {
+  return (
+    <div className="mx-auto mb-10 max-w-2xl text-center">
+      {eyebrow && <p className="text-xs font-semibold uppercase tracking-wider text-accent">{eyebrow}</p>}
+      <h2 className="font-display mt-2 text-2xl font-semibold text-foreground sm:text-3xl">{title}</h2>
+      {subtitle && <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{subtitle}</p>}
+    </div>
+  )
+}
 
 export default function HomePage() {
   const { t } = useLanguage()
@@ -69,39 +136,103 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="border-b border-border bg-secondary/40">
-        <div className="container grid gap-6 py-8 sm:grid-cols-3">
-          {TRUST_SIGNALS.map((signal) => (
-            <div key={signal.titleKey} className="flex items-start gap-3">
-              <signal.icon className="mt-0.5 h-5 w-5 shrink-0 text-primary" aria-hidden />
-              <div>
-                <p className="text-sm font-semibold text-foreground">
-                  {signal.titleKey === 'landing.trust2Title' ? t(signal.titleKey, { count: schemes.length }) : t(signal.titleKey)}
-                </p>
-                <p className="text-xs text-muted-foreground">{t(signal.descKey)}</p>
-              </div>
-            </div>
-          ))}
+      <section className="py-16 sm:py-20">
+        <div className="container">
+          <SectionHeader
+            eyebrow={t('landing.trustEyebrow')}
+            title={t('landing.trustSectionTitle')}
+          />
+          <div className="grid gap-5 sm:grid-cols-2">
+            {WHY_CARDS.map((card) => (
+              <Card key={card.titleKey} className="transition-all duration-200 hover:-translate-y-0.5 hover:shadow-elevated">
+                <CardHeader className="flex-row items-start gap-4 space-y-0">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-primary/10">
+                    <card.icon className="h-5 w-5 text-primary" aria-hidden />
+                  </div>
+                  <div className="space-y-1.5">
+                    <CardTitle className="text-base">
+                      {card.titleKey === 'landing.trust2Title' ? t(card.titleKey, { count: schemes.length }) : t(card.titleKey)}
+                    </CardTitle>
+                    <CardDescription>{t(card.descKey)}</CardDescription>
+                  </div>
+                </CardHeader>
+              </Card>
+            ))}
+          </div>
         </div>
       </section>
 
-      <section className="container py-14">
-        <h2 className="font-display mb-8 text-2xl font-semibold text-foreground">{t('landing.howItWorks')}</h2>
-        <div className="grid gap-5 sm:grid-cols-3">
-          {STEPS.map((step) => (
-            <Card
-              key={step.titleKey}
-              className="transition-all duration-200 hover:-translate-y-0.5 hover:shadow-elevated"
-            >
-              <CardHeader>
-                <div className="mb-2 flex h-10 w-10 items-center justify-center rounded-md bg-primary/10">
-                  <step.icon className="h-5 w-5 text-primary" aria-hidden />
-                </div>
-                <CardTitle className="text-base">{t(step.titleKey)}</CardTitle>
-                <CardDescription>{t(step.descKey)}</CardDescription>
-              </CardHeader>
-            </Card>
-          ))}
+      <section className="border-y border-border bg-secondary/30 py-16 sm:py-20">
+        <div className="container">
+          <SectionHeader eyebrow="" title={t('landing.howItWorks')} />
+          <div className="grid gap-5 sm:grid-cols-3">
+            {STEPS.map((step) => (
+              <Card
+                key={step.titleKey}
+                className="transition-all duration-200 hover:-translate-y-0.5 hover:shadow-elevated"
+              >
+                <CardHeader>
+                  <div className="mb-2 flex h-10 w-10 items-center justify-center rounded-md bg-primary/10">
+                    <step.icon className="h-5 w-5 text-primary" aria-hidden />
+                  </div>
+                  <CardTitle className="text-base">{t(step.titleKey)}</CardTitle>
+                  <CardDescription>{t(step.descKey)}</CardDescription>
+                </CardHeader>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="py-16 sm:py-20">
+        <div className="container">
+          <SectionHeader eyebrow={t('landing.audienceEyebrow')} title={t('landing.audienceTitle')} />
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
+            {AUDIENCE.map((item) => (
+              <div
+                key={item.key}
+                className="flex flex-col items-center gap-2 rounded-lg border border-border bg-card p-5 text-center shadow-soft transition-all duration-200 hover:-translate-y-0.5 hover:shadow-elevated"
+              >
+                <item.icon className="h-6 w-6 text-primary" aria-hidden />
+                <p className="text-sm font-medium text-foreground">{t(item.key)}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="border-y border-border bg-secondary/30 py-16 sm:py-20">
+        <div className="container">
+          <SectionHeader eyebrow={t('landing.featuresEyebrow')} title={t('landing.featuresTitle')} />
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {FEATURES.map((feature) => (
+              <Card
+                key={feature.titleKey}
+                className="transition-all duration-200 hover:-translate-y-0.5 hover:shadow-elevated"
+              >
+                <CardHeader>
+                  <div className="mb-2 flex h-10 w-10 items-center justify-center rounded-md bg-accent/10">
+                    <feature.icon className="h-5 w-5 text-accent" aria-hidden />
+                  </div>
+                  <CardTitle className="text-base">{t(feature.titleKey)}</CardTitle>
+                  <CardDescription>{t(feature.descKey)}</CardDescription>
+                </CardHeader>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-primary py-16 text-primary-foreground sm:py-20">
+        <div className="container flex flex-col items-center gap-4 text-center">
+          <h2 className="font-display text-2xl font-semibold sm:text-3xl">{t('landing.ctaBandTitle')}</h2>
+          <p className="max-w-xl text-sm text-primary-foreground/85 sm:text-base">{t('landing.ctaBandSubtitle')}</p>
+          <Button size="lg" variant="secondary" className="mt-2" asChild>
+            <Link href="/assessment">
+              {t('landing.ctaBandButton')}
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+          </Button>
         </div>
       </section>
     </main>

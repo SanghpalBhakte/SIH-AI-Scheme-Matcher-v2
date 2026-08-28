@@ -8,7 +8,9 @@
 // isn't translated, and why.
 
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from 'react'
-import { DEFAULT_LOCALE, translations, type Locale } from './translations'
+import { DEFAULT_LOCALE, LOCALES, translations, type Locale } from './translations'
+
+const VALID_LOCALES = new Set<string>(LOCALES.map((l) => l.code))
 
 const STORAGE_KEY = 'sih26092.locale'
 
@@ -34,8 +36,8 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     try {
       const stored = window.localStorage.getItem(STORAGE_KEY)
-      if (stored === 'en' || stored === 'hi') {
-        setLocaleState(stored)
+      if (stored && VALID_LOCALES.has(stored)) {
+        setLocaleState(stored as Locale)
       }
     } catch {
       // localStorage unavailable (private mode, etc.) — silently keep the default.
