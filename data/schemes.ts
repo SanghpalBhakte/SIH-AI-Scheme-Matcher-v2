@@ -53,7 +53,10 @@ export const schemes: Scheme[] = [
     benefit: 'Margin money subsidy of 15–35% on project cost (up to ₹50 lakh)',
     summary:
       'Credit-linked subsidy for setting up new micro-enterprises, generating self-employment for first-time entrepreneurs.',
-    officialUrl: 'https://www.kviconline.gov.in/pmegpeportal/',
+    // The bare /pmegpeportal/ directory doesn't reliably serve an
+    // index on this older JSP app — link straight to its home page
+    // instead. Verified 2026-08-28.
+    officialUrl: 'https://www.kviconline.gov.in/pmegpeportal/pmegphome/index.jsp',
   },
   {
     id: 'mudra-tarun',
@@ -135,7 +138,10 @@ export const schemes: Scheme[] = [
     maxIncomeLakh: null,
     benefit: 'Equity / venture capital funding',
     summary: 'IFCI-managed fund providing growth capital to SC entrepreneurs scaling an established business.',
-    officialUrl: 'https://www.ifciltd.com/?q=en/content/ifci-venture-capital-fund-ltd',
+    // The IFCI Ltd. content page previously linked here no longer
+    // resolves (DNS lookup fails). VCF-SC has its own dedicated,
+    // currently-live portal — verified 2026-08-28.
+    officialUrl: 'https://www.vcfsc.in/',
   },
   {
     id: 'nstfdc-term-loan',
@@ -151,7 +157,9 @@ export const schemes: Scheme[] = [
     maxIncomeLakh: 3,
     benefit: 'Concessional term loan up to ₹5 lakh (higher for larger units)',
     summary: 'Low-interest term loans for ST entrepreneurs below the income cut-off to start or grow a business.',
-    officialUrl: 'https://nstfdc.nic.in/',
+    // nstfdc.nic.in no longer resolves — NSTFDC has moved under the
+    // Ministry of Tribal Affairs' own domain. Verified 2026-08-28.
+    officialUrl: 'https://nstfdc.tribal.gov.in/',
   },
   {
     id: 'nskfdc',
@@ -275,5 +283,187 @@ export const schemes: Scheme[] = [
     summary:
       'Organises rural low-income women into Self-Help Groups and provides affordable credit plus livelihood training.',
     officialUrl: 'https://aajeevika.gov.in/',
+  },
+
+  // --- Added in this batch: broadens coverage past the original 13 ---
+  // (income guarantees, disability, backward-classes, and sector-specific
+  // schemes) — every entry below is a real, currently-operating Government
+  // of India programme with its own official domain, verified 2026-08-28.
+  {
+    id: 'pmmy-shishu',
+    name: 'Pradhan Mantri MUDRA Yojana (Shishu)',
+    isDemo: false,
+    ministry: 'Ministry of Finance (MUDRA)',
+    categories: ['Any'],
+    genders: ['Any'],
+    states: ['All'],
+    sectors: ['Any'],
+    stages: ['Idea'],
+    firstTimeOnly: false,
+    maxIncomeLakh: null,
+    benefit: 'Collateral-free loan up to ₹50,000',
+    summary: "The starter tranche of PMMY — small working-capital loans for a business that's just getting off the ground.",
+    officialUrl: 'https://www.mudra.org.in/',
+  },
+  {
+    id: 'pmmy-kishore',
+    name: 'Pradhan Mantri MUDRA Yojana (Kishore)',
+    isDemo: false,
+    ministry: 'Ministry of Finance (MUDRA)',
+    categories: ['Any'],
+    genders: ['Any'],
+    states: ['All'],
+    sectors: ['Any'],
+    stages: ['Early'],
+    firstTimeOnly: false,
+    maxIncomeLakh: null,
+    benefit: 'Collateral-free loan from ₹50,000 up to ₹5 lakh',
+    summary: 'The middle PMMY tranche, for a business past its first few months that needs more working capital than Shishu covers.',
+    officialUrl: 'https://www.mudra.org.in/',
+  },
+  {
+    id: 'cgtmse',
+    name: 'Credit Guarantee Fund Trust for Micro and Small Enterprises (CGTMSE)',
+    isDemo: false,
+    ministry: 'Ministry of Micro, Small and Medium Enterprises',
+    categories: ['Any'],
+    genders: ['Any'],
+    states: ['All'],
+    sectors: ['Any'],
+    stages: ['Early', 'Growth', 'Established'],
+    firstTimeOnly: false,
+    maxIncomeLakh: null,
+    benefit: 'Collateral-free credit guarantee cover up to ₹5 crore',
+    summary:
+      'Guarantees bank and NBFC loans to micro and small enterprises, so a lender can extend credit without collateral or a third-party guarantor.',
+    officialUrl: 'https://www.cgtmse.in/',
+  },
+  {
+    id: 'scst-hub',
+    name: 'National SC-ST Hub Scheme',
+    isDemo: false,
+    ministry: 'Ministry of Micro, Small and Medium Enterprises',
+    categories: ['SC', 'ST'],
+    genders: ['Any'],
+    states: ['All'],
+    sectors: ['Any'],
+    stages: ['Idea', 'Early', 'Growth'],
+    firstTimeOnly: false,
+    maxIncomeLakh: null,
+    benefit: 'Handholding support, capacity building, and facilitated access to credit and marketing',
+    summary:
+      'Dedicated centres that support SC/ST entrepreneurs with business handholding, skill development, and easier access to other MSME schemes and government marketplaces.',
+    officialUrl: 'https://www.scsthub.in/',
+  },
+  {
+    id: 'nbcfdc-loan',
+    name: 'NBCFDC Term Loan Scheme',
+    isDemo: false,
+    ministry: 'Ministry of Social Justice and Empowerment',
+    categories: ['OBC'],
+    genders: ['Any'],
+    states: ['All'],
+    sectors: ['Any'],
+    stages: ['Idea', 'Early', 'Growth'],
+    firstTimeOnly: false,
+    maxIncomeLakh: 3,
+    benefit: 'Concessional term loan, channelled through state agencies',
+    summary:
+      'Low-interest term loans for OBC entrepreneurs below the income cut-off, disbursed through state channelising agencies rather than directly.',
+    officialUrl: 'https://nbcfdc.gov.in/',
+  },
+  {
+    id: 'ndfdc-disability',
+    name: 'National Divyangjan Finance & Development Corporation (NDFDC) Loans',
+    isDemo: false,
+    ministry: 'Department of Empowerment of Persons with Disabilities',
+    categories: ['Any'],
+    genders: ['Any'],
+    states: ['All'],
+    sectors: ['Any'],
+    stages: ['Idea', 'Early', 'Growth'],
+    firstTimeOnly: false,
+    maxIncomeLakh: null,
+    // Category/gender/sector fields here reflect what the matching
+    // engine models today (see lib/matching/types.ts) — this
+    // corporation's actual eligibility criterion is disability status,
+    // which the app collects (field.disabilityStatus) but the engine
+    // doesn't yet score against, so it's left open to all categories
+    // rather than mis-encoded onto a field that doesn't fit.
+    benefit: 'Concessional-rate loans for self-employment ventures',
+    summary:
+      'Formerly the National Handicapped Finance & Development Corporation (NHFDC) — concessional loans and skill-training support for persons with disabilities starting or expanding a self-employment venture.',
+    officialUrl: 'https://depwd.gov.in/en/national-handicapped-finance-and-development-corporation/',
+  },
+  {
+    id: 'aspire',
+    name: 'ASPIRE Scheme',
+    isDemo: false,
+    ministry: 'Ministry of Micro, Small and Medium Enterprises',
+    categories: ['Any'],
+    genders: ['Any'],
+    states: ['All'],
+    sectors: ['Manufacturing', 'Agriculture', 'Food Processing'],
+    stages: ['Idea', 'Early'],
+    firstTimeOnly: false,
+    maxIncomeLakh: null,
+    benefit: 'Incubation support and seed funding through Livelihood Business Incubators',
+    summary:
+      'A Scheme for Promotion of Innovation, Rural Industries and Entrepreneurship — funds business incubators that support rural and agro-based enterprises from idea to launch.',
+    officialUrl: 'https://aspire.msme.gov.in/',
+  },
+  {
+    id: 'pmfme',
+    name: 'PM Formalisation of Micro Food Processing Enterprises (PM FME)',
+    isDemo: false,
+    ministry: 'Ministry of Food Processing Industries',
+    categories: ['Any'],
+    genders: ['Any'],
+    states: ['All'],
+    sectors: ['Food Processing'],
+    stages: ['Idea', 'Early', 'Growth'],
+    firstTimeOnly: false,
+    maxIncomeLakh: null,
+    benefit: 'Credit-linked subsidy of 35% of project cost, up to ₹10 lakh',
+    summary:
+      'Helps existing micro food-processing units (and new ones under the One District One Product approach) formalise, upgrade equipment, and access credit.',
+    officialUrl: 'https://pmfme.mofpi.gov.in/',
+  },
+  {
+    id: 'pmmsy',
+    name: 'Pradhan Mantri Matsya Sampada Yojana (PMMSY)',
+    isDemo: false,
+    ministry: 'Department of Fisheries',
+    categories: ['Any'],
+    genders: ['Any'],
+    states: ['All'],
+    // No dedicated "Fisheries" sector exists in this dataset's model
+    // (see SECTOR_OPTIONS in lib/matching/types.ts) — mapped to the
+    // closest existing option rather than inventing a new one.
+    sectors: ['Agriculture'],
+    stages: ['Idea', 'Early', 'Growth'],
+    firstTimeOnly: false,
+    maxIncomeLakh: null,
+    benefit: 'Capital subsidy on fisheries and aquaculture project cost',
+    summary:
+      'Supports fish farmers and fisheries-sector entrepreneurs with subsidised capital for ponds, hatcheries, cold chain, and other allied infrastructure.',
+    officialUrl: 'https://pmmsy.dof.gov.in/',
+  },
+  {
+    id: 'cgss-startups',
+    name: 'Credit Guarantee Scheme for Startups (CGSS)',
+    isDemo: false,
+    ministry: 'Department for Promotion of Industry and Internal Trade, Ministry of Commerce and Industry',
+    categories: ['Any'],
+    genders: ['Any'],
+    states: ['All'],
+    sectors: ['Technology', 'Services', 'Manufacturing'],
+    stages: ['Early', 'Growth'],
+    firstTimeOnly: false,
+    maxIncomeLakh: null,
+    benefit: 'Collateral-free credit guarantee cover up to ₹10 crore',
+    summary:
+      'Guarantees working-capital and term loans to DPIIT-recognised startups, so a lender can extend credit without collateral.',
+    officialUrl: 'https://www.startupindia.gov.in/content/sih/en/credit-guarantee-scheme-for-startups.html',
   },
 ]
