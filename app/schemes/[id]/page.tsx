@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { ArrowLeft, FileText, MapPin } from 'lucide-react'
+import { ArrowLeft, FileText, MapPin, Building2, Calculator } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
@@ -18,6 +18,8 @@ import { useLanguage } from '@/lib/i18n/language-context'
 import { evaluateScheme } from '@/lib/matching/engine'
 import { schemes } from '@/data/schemes'
 import { isProfileComplete } from '@/lib/matching/types'
+import { getInstitutionForScheme } from '@/lib/institutions/directory'
+import { isLoanBased } from '@/lib/finance/emi'
 
 // Continues the explanation started on /recommendations for a single
 // scheme. This route needs the in-progress assessment profile (React
@@ -54,6 +56,8 @@ export default function SchemeDetailsPage({ params }: { params: { id: string } }
   // means (the 6 hard-required fields; income stays optional).
   const profileComplete = isHydrated && isProfileComplete(profile)
   const result = profileComplete ? evaluateScheme(profile, scheme) : null
+  const institution = getInstitutionForScheme(scheme.id)
+  const loanBased = isLoanBased(scheme)
 
   return (
     <main className="container flex flex-col gap-6 py-12">
@@ -139,6 +143,28 @@ export default function SchemeDetailsPage({ params }: { params: { id: string } }
                   )}
                 </div>
               </div>
+              {institution && (
+                <div className="flex items-start gap-2">
+                  <Building2 className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden />
+                  <div>
+                    <p className="text-sm font-medium text-foreground">{t('schemeDetails.quickRefAdministeredBy')}</p>
+                    <Link href="/institutions" className="text-xs font-semibold text-primary underline-offset-4 hover:underline">
+                      {institution.name}
+                    </Link>
+                  </div>
+                </div>
+              )}
+              {loanBased && (
+                <div className="flex items-start gap-2">
+                  <Calculator className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden />
+                  <div>
+                    <p className="text-sm font-medium text-foreground">{t('schemeDetails.quickRefEmi')}</p>
+                    <Link href="/emi-calculator" className="text-xs font-semibold text-primary underline-offset-4 hover:underline">
+                      {t('nav.emiCalculator')}
+                    </Link>
+                  </div>
+                </div>
+              )}
             </div>
           </section>
 

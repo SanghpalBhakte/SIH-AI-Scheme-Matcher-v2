@@ -1,0 +1,101 @@
+'use client'
+
+import { useMemo, useState } from 'react'
+import Link from 'next/link'
+import { Building2, ExternalLink } from 'lucide-react'
+
+import { Input } from '@/components/ui/input'
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
+import { useLanguage } from '@/lib/i18n/language-context'
+import { getInstitutionDirectory } from '@/lib/institutions/directory'
+
+// A directory of who actually runs each scheme, browsable by
+// institution instead of by scheme. Deliberately NOT a bank/NBFC
+// branch locator: this app has no real branch-level dataset (location,
+// contact, live fund status) to plug in, and inventing one would
+// violate the same no-fabrication rule the rest of this codebase
+// follows for scheme data (see data/schemes.ts). Every entry here is
+// derived straight from data/schemes.ts's own ministry/officialUrl
+// fields (lib/institutions/directory.ts) — nothing is typed in fresh
+// for this page, so it can't drift out of sync with the scheme data.
+const INSTITUTIONS = getInstitutionDirectory()
+
+export default function InstitutionsPage() {
+  const { t } = useLanguage()
+  const [search, setSearch] = useState('')
+
+  const filtered = useMemo(() => {
+    const q = search.trim().toLowerCase()
+    if (q.length === 0) return INSTITUTIONS
+    return INSTITUTIONS.filter(
+      (inst) =>
+        inst.name.toLowerCase().includes(q) ||
+        inst.parentMinistry?.toLowerCase().includes(q) ||
+        inst.schemes.some((s) => s.name.toLowerCase().includes(q))
+    )
+  }, [search])
+
+  return (
+    <main className="container flex flex-col gap-6 py-12">
+      <div className="space-y-1">
+        <h1 className="font-display text-xl font-semibold text-foreground">{t('institutions.title')}</h1>
+        <p className="max-w-2xl text-sm text-muted-foreground">{t('institutions.subtitle')}</p>
+      </div>
+
+      <Input
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+        placeholder={t('institutions.searchPlaceholder')}
+        aria-label={t('institutions.searchPlaceholder')}
+        className="sm:max-w-sm"
+      />
+
+      <p className="text-xs text-muted-foreground">
+        {t('institutions.showingCount', { shown: filtered.length, total: INSTITUTIONS.length })}
+      </p>
+
+      {filtered.length === 0 ? (
+        <p className="rounded-md border border-dashed border-border p-6 text-center text-sm text-muted-foreground">
+          {t('common.noResults')}
+        </p>
+      ) : (
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {filtered.map((inst) => (
+            <Card key={inst.officialUrl} className="flex flex-col transition-all duration-200 hover:-translate-y-0.5 hover:shadow-elevated">
+              <CardHeader className="flex-row items-start gap-3 space-y-0">
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-primary/10">
+                  <Building2 className="h-4 w-4 text-primary" aria-hidden />
+                </div>
+                <div className="space-y-1">
+                  <CardTitle className="text-sm leading-snug">{inst.name}</CardTitle>
+                  {inst.parentMinistry && <CardDescription className="text-xs">{inst.parentMinistry}</CardDescription>}
+                </div>
+              </CardHeader>
+              <CardContent className="flex flex-1 flex-col gap-3">
+                <div className="flex flex-1 flex-wrap gap-1.5">
+                  {inst.schemes.map((s) => (
+                    <Link key={s.id} href={`/schemes/${s.id}`}>
+                      <Badge variant="secondary" className="cursor-pointer hover:bg-secondary/70">
+                        {s.name}
+                      </Badge>
+                    </Link>
+                  ))}
+                </div>
+                <a
+                  href={inst.officialUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="mt-auto flex w-fit items-center gap-1.5 text-xs font-semibold text-primary underline-offset-4 hover:underline"
+                >
+                  {t('common.officialPortal')}
+                  <ExternalLink className="h-3 w-3" aria-hidden />
+                </a>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      )}
+    </main>
+  )
+}

@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { Landmark } from 'lucide-react'
 
 import { DisclaimerBanner } from '@/components/layout/disclaimer-banner'
+import { InstallPrompt } from '@/components/pwa/install-prompt'
 import { useLanguage } from '@/lib/i18n/language-context'
 
 // Footer content inspired by the reference site's 3-column layout (brand
@@ -41,6 +42,12 @@ export function SiteFooter() {
               <Link href="/dashboard" className="text-muted-foreground transition-colors hover:text-foreground">
                 {t('nav.saved')}
               </Link>
+              <Link href="/institutions" className="text-muted-foreground transition-colors hover:text-foreground">
+                {t('nav.institutions')}
+              </Link>
+              <Link href="/emi-calculator" className="text-muted-foreground transition-colors hover:text-foreground">
+                {t('nav.emiCalculator')}
+              </Link>
             </nav>
           </div>
 
@@ -56,7 +63,10 @@ export function SiteFooter() {
 
         <DisclaimerBanner />
 
-        <p className="text-xs text-muted-foreground">{t('footer.copyright', { year: String(new Date().getFullYear()) })}</p>
+        <div className="flex flex-wrap items-center justify-between gap-3 text-xs text-muted-foreground">
+          <p>{t('footer.copyright', { year: String(new Date().getFullYear()) })}</p>
+          <InstallPrompt />
+        </div>
       </div>
     </footer>
   )

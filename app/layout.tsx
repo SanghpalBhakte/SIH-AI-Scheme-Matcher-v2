@@ -16,6 +16,7 @@ import './globals.css'
 import { SiteHeader } from '@/components/layout/site-header'
 import { SiteFooter } from '@/components/layout/site-footer'
 import { ChatWidget } from '@/components/chat/chat-widget'
+import { ServiceWorkerRegistration } from '@/components/pwa/service-worker-registration'
 import { AssessmentProvider } from '@/lib/assessment/assessment-context'
 import { ThemeProvider, THEME_INIT_SCRIPT } from '@/lib/theme/theme-context'
 import { LanguageProvider } from '@/lib/i18n/language-context'
@@ -25,6 +26,15 @@ export const metadata: Metadata = {
   title: 'SchemeSetu — SIH26092',
   description:
     'Prototype: AI-assisted matching of government schemes for marginalized entrepreneurs (SIH26092).',
+  manifest: '/manifest.json',
+  icons: {
+    icon: '/icon.svg',
+    apple: '/icon-192.png',
+  },
+}
+
+export const viewport = {
+  themeColor: '#1c3f73',
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -58,6 +68,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                     live profile state and persists across route changes without
                     affecting any page's own layout or scroll. */}
                 <ChatWidget />
+                <ServiceWorkerRegistration />
               </AssessmentProvider>
             </SavedSchemesProvider>
           </LanguageProvider>
