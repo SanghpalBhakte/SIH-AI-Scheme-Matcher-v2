@@ -285,7 +285,7 @@ export const schemes: Scheme[] = [
     officialUrl: 'https://aajeevika.gov.in/',
   },
 
-  // --- Added in this batch: broadens coverage past the original 13 ---
+  // --- Added in a later batch: broadens coverage past the original scheme set ---
   // (income guarantees, disability, backward-classes, and sector-specific
   // schemes) — every entry below is a real, currently-operating Government
   // of India programme with its own official domain, verified 2026-08-28.

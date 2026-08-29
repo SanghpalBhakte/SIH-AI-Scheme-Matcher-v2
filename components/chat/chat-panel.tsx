@@ -8,6 +8,7 @@ import { Input } from '@/components/ui/input'
 import { MessageBubble } from './message-bubble'
 import { TypingIndicator } from './typing-indicator'
 import { SuggestionChips } from './suggestion-chips'
+import { useLanguage } from '@/lib/i18n/language-context'
 import type { ChatMessage } from '@/lib/chat/types'
 
 interface ChatPanelProps {
@@ -19,6 +20,7 @@ interface ChatPanelProps {
 }
 
 export function ChatPanel({ messages, isTyping, suggestions, onSend, onClose }: ChatPanelProps) {
+  const { t } = useLanguage()
   const [draft, setDraft] = useState('')
   const scrollEndRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
@@ -55,7 +57,7 @@ export function ChatPanel({ messages, isTyping, suggestions, onSend, onClose }: 
             <Sparkles className="h-4 w-4" aria-hidden />
           </span>
           <div className="min-w-0">
-            <p className="text-sm font-semibold leading-tight text-foreground">AI Assistant</p>
+            <p className="text-sm font-semibold leading-tight text-foreground">{t('chat.assistantLabel')}</p>
             <p className="text-[11px] leading-tight text-muted-foreground">Answers from this app&apos;s own data</p>
           </div>
         </div>

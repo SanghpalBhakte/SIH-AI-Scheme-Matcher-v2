@@ -32,6 +32,7 @@ import { HeroBackdrop } from '@/components/landing/hero-backdrop'
 import { LanguageChipStrip } from '@/components/i18n/language-chip-strip'
 import { schemes } from '@/data/schemes'
 import { useLanguage } from '@/lib/i18n/language-context'
+import { LOCALES } from '@/lib/i18n/translations'
 
 const STEPS = [
   { icon: ClipboardList, titleKey: 'landing.step1Title', descKey: 'landing.step1Desc' },
@@ -90,6 +91,11 @@ function SectionHeader({
     </div>
   )
 }
+
+// Native-script names of every supported language, derived from LOCALES
+// (the same source the language chip strip below renders from) so this
+// list can never drift out of sync as languages are added or removed.
+const SUPPORTED_LANGUAGES = LOCALES.map((l) => l.nativeLabel).join(', ')
 
 export default function HomePage() {
   const { t } = useLanguage()
@@ -229,7 +235,9 @@ export default function HomePage() {
                     <feature.icon className="h-5 w-5 text-accent" aria-hidden />
                   </div>
                   <CardTitle className="text-base">{t(feature.titleKey)}</CardTitle>
-                  <CardDescription>{t(feature.descKey)}</CardDescription>
+                  <CardDescription>
+                    {t(feature.descKey, { count: LOCALES.length, languages: SUPPORTED_LANGUAGES })}
+                  </CardDescription>
                 </CardHeader>
               </Card>
             ))}

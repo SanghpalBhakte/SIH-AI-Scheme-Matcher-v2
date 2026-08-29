@@ -64,7 +64,7 @@ export default function SchemeDetailsPage({ params }: { params: { id: string } }
       <Button variant="outline" size="sm" className="w-fit" asChild>
         <Link href="/recommendations">
           <ArrowLeft className="h-4 w-4" />
-          Back to recommendations
+          {t('schemeDetails.backToRecommendations')}
         </Link>
       </Button>
 
@@ -88,7 +88,7 @@ export default function SchemeDetailsPage({ params }: { params: { id: string } }
 
           <div className="flex flex-wrap items-center gap-2">
             {result && <EligibilityStatusBadge status={result.eligibilityStatus} />}
-            {scheme.isDemo && <Badge variant="destructive">DEMO SCHEME — NOT AN OFFICIAL GOVERNMENT SCHEME</Badge>}
+            {scheme.isDemo && <Badge variant="destructive">{t('common.demoSchemeBadge')}</Badge>}
           </div>
 
           <div className="flex flex-wrap items-center gap-3">

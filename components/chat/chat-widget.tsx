@@ -10,15 +10,17 @@
 // remote service — see lib/chat/engine.ts's header comment.
 
 import { useChat } from '@/lib/chat/use-chat'
+import { useLanguage } from '@/lib/i18n/language-context'
 import { ChatLauncher } from './chat-launcher'
 import { ChatPanel } from './chat-panel'
 
 export function ChatWidget() {
   const { isOpen, open, close, messages, isTyping, send, suggestions } = useChat()
+  const { t } = useLanguage()
 
   return (
     <>
-      {!isOpen && <ChatLauncher onOpen={open} />}
+      {!isOpen && <ChatLauncher onOpen={open} ariaLabel={t('chat.openAriaLabel')} label={t('chat.assistantLabel')} />}
       {isOpen && (
         <ChatPanel messages={messages} isTyping={isTyping} suggestions={suggestions} onSend={send} onClose={close} />
       )}

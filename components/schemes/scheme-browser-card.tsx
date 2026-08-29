@@ -30,7 +30,7 @@ export function SchemeBrowserCard({ scheme }: { scheme: Scheme }) {
           <SaveSchemeButton schemeId={scheme.id} />
         </div>
         <div className="flex flex-wrap items-center gap-1.5">
-          {scheme.isDemo && <Badge variant="destructive">DEMO SCHEME — NOT AN OFFICIAL GOVERNMENT SCHEME</Badge>}
+          {scheme.isDemo && <Badge variant="destructive">{t('common.demoSchemeBadge')}</Badge>}
           {scheme.categories.slice(0, 3).map((c) => (
             <Badge key={c} variant="secondary">
               {c}

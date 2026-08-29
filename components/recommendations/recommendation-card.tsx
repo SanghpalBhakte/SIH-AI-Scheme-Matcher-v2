@@ -49,7 +49,7 @@ export function RecommendationCard({ result }: { result: SchemeMatchResult }) {
 
         <div className="flex flex-wrap items-center gap-2">
           <EligibilityStatusBadge status={eligibilityStatus} />
-          {scheme.isDemo && <Badge variant="destructive">DEMO SCHEME — NOT AN OFFICIAL GOVERNMENT SCHEME</Badge>}
+          {scheme.isDemo && <Badge variant="destructive">{t('common.demoSchemeBadge')}</Badge>}
         </div>
       </CardHeader>
 
