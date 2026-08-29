@@ -1,4 +1,6 @@
 import type { Metadata } from 'next'
+import { Analytics } from '@vercel/analytics/next'
+import { SpeedInsights } from '@vercel/speed-insights/next'
 
 // Self-hosted fonts (no external font-CDN request at runtime or build
 // time — @fontsource ships the actual font files in the package).
@@ -69,6 +71,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                     affecting any page's own layout or scroll. */}
                 <ChatWidget />
                 <ServiceWorkerRegistration />
+                {/* Vercel Speed Insights — reports real-user Core Web
+                    Vitals from production traffic. A no-op anywhere
+                    other than a Vercel deployment (no env vars to
+                    configure; it only activates once actually served
+                    from Vercel), so it's safe to mount unconditionally
+                    here rather than gating it behind NODE_ENV. */}
+                <SpeedInsights />
+                {/* Vercel Web Analytics — same deal: page-view/visitor
+                    counts from production traffic, only from Vercel's
+                    edge, no-op and no config anywhere else. */}
+                <Analytics />
               </AssessmentProvider>
             </SavedSchemesProvider>
           </LanguageProvider>
