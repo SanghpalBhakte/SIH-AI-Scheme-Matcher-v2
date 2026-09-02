@@ -6,7 +6,7 @@
 // page someone has already visited keeps working offline, and a page
 // that's never been visited falls back to /offline instead of a raw
 // browser error.
-const CACHE_VERSION = 'schemesetu-v1'
+const CACHE_VERSION = 'schemesetu-v2'
 const STATIC_CACHE = `${CACHE_VERSION}-static`
 const PAGES_CACHE = `${CACHE_VERSION}-pages`
 const OFFLINE_URL = '/offline'
@@ -52,6 +52,10 @@ self.addEventListener('fetch', (event) => {
         const cached = await cache.match(request)
         if (cached) return cached
         const response = await fetch(request)
+        // Clone BEFORE putting in cache — the original is returned to
+        // the browser; the clone is stored. Without this, the body is
+        // consumed by cache.put() and the browser receives an empty
+        // response ("Response body is already used").
         if (response.ok) cache.put(request, response.clone())
         return response
       })
@@ -64,7 +68,10 @@ self.addEventListener('fetch', (event) => {
       fetch(request)
         .then((response) => {
           if (response.ok) {
-            caches.open(PAGES_CACHE).then((cache) => cache.put(request, response.clone()))
+            // Same fix: clone before caching so the original response
+            // body is still available for the browser to render.
+            const toCache = response.clone()
+            caches.open(PAGES_CACHE).then((cache) => cache.put(request, toCache))
           }
           return response
         })
