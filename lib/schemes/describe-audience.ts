@@ -13,10 +13,12 @@ function isOpen(list: string[]): boolean {
 
 /** Short, plain-language sentences describing who this scheme is for. */
 export function describeAudience(scheme: Scheme): string[] {
-  return [
+  const lines = [
     isOpen(scheme.categories)
       ? 'Open to all social/economic categories'
-      : `Primarily for ${scheme.categories.join(', ')} entrepreneurs`,
+      : scheme.additionalEligibleGroups?.length
+        ? `Primarily for ${scheme.categories.join(', ')} entrepreneurs (also open to ${scheme.additionalEligibleGroups.join('/')} applicants)`
+        : `Primarily for ${scheme.categories.join(', ')} entrepreneurs`,
     isOpen(scheme.genders) ? 'Open to all genders' : `Focused on ${scheme.genders.join('/')} entrepreneurs`,
     isOpen(scheme.states) ? 'Available nationwide' : `Available in: ${scheme.states.join(', ')}`,
     isOpen(scheme.sectors)
@@ -30,4 +32,16 @@ export function describeAudience(scheme: Scheme): string[] {
       ? 'No annual income cap for this scheme'
       : `Annual income should not exceed ₹${scheme.maxIncomeLakh} lakh`,
   ]
+
+  // Purely informational — never affects eligibility (see
+  // Scheme.enhancedSupportFor's doc comment) — so this is additive only
+  // and never narrows what the lines above already say about who
+  // qualifies.
+  if (scheme.enhancedSupportFor?.length) {
+    lines.push(
+      ...scheme.enhancedSupportFor.map((e) => `Enhanced support for ${e.group}: ${e.detail}`)
+    )
+  }
+
+  return lines
 }

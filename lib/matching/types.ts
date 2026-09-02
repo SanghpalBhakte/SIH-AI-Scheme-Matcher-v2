@@ -7,6 +7,20 @@ export type Gender = 'Woman' | 'Man' | 'Transgender'
 export type BusinessStage = 'Idea' | 'Early' | 'Growth' | 'Established'
 export type IncomeRange = '' | 'below-1l' | '1-3l' | '3-5l' | '5-8l' | 'above-8l'
 
+/**
+ * Eligibility dimensions that some schemes' OWN official eligibility
+ * lists define ALONGSIDE caste category — e.g. Delhi's Composite Loan
+ * Scheme, whose eligible-groups list is "SC/ST/OBC/Minorities/Persons
+ * with Disabilities." These are deliberately a SEPARATE field from
+ * `Category` rather than new values added to it: a person's caste
+ * category (General/OBC/SC/ST) and their minority/disability status are
+ * independent, non-exclusive facts about them (e.g. a General-category
+ * applicant can also be a religious minority), so folding them into one
+ * mutually-exclusive enum would force a false either/or choice. See
+ * `Scheme.additionalEligibleGroups` and `EntrepreneurProfile.specialGroups`.
+ */
+export type SpecialGroup = 'Minority' | 'PwD'
+
 // --- Additional intake fields (collected, not yet consumed by the engine) ---
 // These back the fuller Basic Profile / Business Information / Financial
 // Information / Business Needs sections of the assessment. None of them
@@ -48,20 +62,41 @@ export interface EntrepreneurProfile {
   firstTimeEntrepreneur: boolean
   /** Optional. Empty string = "prefer not to say" / unknown. */
   annualIncomeRange: IncomeRange
+  /**
+   * Self-identified special-group memberships (see `SpecialGroup`),
+   * relevant only to schemes that define eligibility via
+   * `Scheme.additionalEligibleGroups` alongside `categories`. Optional
+   * and backward-compatible: omitted/undefined means "none indicated,"
+   * never a negative claim, and a scheme with no
+   * `additionalEligibleGroups` never reads this field at all — so every
+   * existing caller that doesn't set it (all 3 demo profiles, every
+   * existing test fixture) behaves exactly as before. Use
+   * `deriveSpecialGroups()` to build this from the assessment's
+   * `disabilityStatus`/`minorityStatus` answers rather than setting it
+   * by hand.
+   */
+  specialGroups?: SpecialGroup[]
 }
 
 /**
  * Fields collected by the fuller assessment form (Basic Profile /
- * Business Information / Financial Information / Business Needs) that
- * lib/matching/engine.ts does NOT currently read.
+ * Business Information / Financial Information / Business Needs).
  *
- * These are collected honestly for the record and for a future
- * scoring/guidance phase, but none of them influence matchScore or
- * eligibilityStatus today — wiring any of them into scoring without a
+ * Most of these are collected honestly for the record and for a future
+ * scoring/guidance phase, but do NOT influence matchScore or
+ * eligibilityStatus today — wiring one of them into scoring without a
  * reviewed weighting/criteria change would be fake eligibility logic
  * dressed up as a form field. Every field here is optional to advance
  * the wizard: `''` / `[]` / `null` all mean "not provided," which is a
  * legitimate, honest answer for a field the engine never required.
+ *
+ * EXCEPTION: `disabilityStatus` and `minorityStatus` ARE consumed by
+ * the engine, via `deriveSpecialGroups()` → `EntrepreneurProfile.
+ * specialGroups` — see that type's doc comment. They're still declared
+ * here (not on `EntrepreneurProfile` directly) because the Yes/No
+ * question the assessment asks and the boolean-ish flag the engine
+ * scores against are different shapes; `deriveSpecialGroups()` is the
+ * one place that maps between them.
  */
 export interface AdditionalProfileDetails {
   // Step 1 — Basic Profile (category/gender/state live on the engine
@@ -71,6 +106,8 @@ export interface AdditionalProfileDetails {
   district: string
   locationType: LocationType | ''
   disabilityStatus: YesNo | ''
+  /** Self-identified religious/linguistic minority status. See `deriveSpecialGroups()`. */
+  minorityStatus: YesNo | ''
   educationLevel: EducationLevel | ''
 
   // Step 2 — Business Information (sector/stage live on the engine
@@ -152,6 +189,26 @@ export function isProfileComplete(draft: DraftEntrepreneurProfile): draft is Com
 }
 
 /**
+ * Builds `EntrepreneurProfile.specialGroups` from the assessment's two
+ * Yes/No intake questions. `'Yes'` is the only value that adds a group;
+ * `''` (not answered) and `'No'` both mean "not indicated" — same
+ * honest-by-default rule as every other optional field in this file,
+ * never assumed. Callers spread this into the object passed to
+ * `matchSchemes`/`evaluateScheme` — see app/recommendations/page.tsx,
+ * app/dashboard/page.tsx, and lib/chat/context-adapter.ts for the 3
+ * call sites that do this today.
+ */
+export function deriveSpecialGroups(profile: {
+  disabilityStatus: YesNo | ''
+  minorityStatus: YesNo | ''
+}): SpecialGroup[] {
+  const groups: SpecialGroup[] = []
+  if (profile.minorityStatus === 'Yes') groups.push('Minority')
+  if (profile.disabilityStatus === 'Yes') groups.push('PwD')
+  return groups
+}
+
+/**
  * A government scheme in the dataset.
  *
  * IMPORTANT (product rule): every real scheme must carry a real,
@@ -169,12 +226,23 @@ export interface Scheme {
    * Administering ministry/department, when there's one clean, citable
    * answer. Display-only — never used by the matching engine. Left
    * undefined rather than guessed for schemes implemented by state
-   * governments or multiple agencies (e.g. Udyogini), so the UI can
-   * honestly show "if available" instead of a fabricated attribution.
+   * governments or multiple agencies, so the UI can honestly show "if
+   * available" instead of a fabricated attribution.
    */
   ministry?: string
   /** Category codes this scheme targets, or ['Any'] if unrestricted. */
   categories: string[]
+  /**
+   * Additional eligibility groups this scheme's OWN official material
+   * lists ALONGSIDE `categories` — e.g. Delhi's Composite Loan Scheme,
+   * whose eligibility list is "SC/ST/OBC/Minorities/Persons with
+   * Disabilities." An applicant matches the category criterion if they
+   * match `categories` OR any group here (see
+   * `EntrepreneurProfile.specialGroups`). Undefined/empty for every
+   * scheme that doesn't need this — the vast majority — with engine
+   * behavior for those schemes completely unchanged.
+   */
+  additionalEligibleGroups?: SpecialGroup[]
   /** Genders this scheme targets, or ['Any'] if unrestricted. */
   genders: string[]
   /** States this scheme is available in, or ['All'] if nationwide. */
@@ -188,6 +256,18 @@ export interface Scheme {
   maxIncomeLakh: number | null
   benefit: string
   summary: string
+  /**
+   * Optional, purely informational notes about ENHANCED support this
+   * scheme offers to specific groups WITHOUT restricting base
+   * eligibility to only those groups — e.g. a higher benefit tier for
+   * women/minority/PwD/SC/ST founders under a scheme that's otherwise
+   * open to everyone (`categories`/`genders` stay `['Any']`). NEVER
+   * read by the matching engine, by design: this can never cause a
+   * false hard-fail or misrepresent "extra support for X" as
+   * "exclusive to X." Surfaced only as display text (see
+   * `lib/schemes/describe-audience.ts`).
+   */
+  enhancedSupportFor?: { group: string; detail: string }[]
   /** Required unless isDemo is true. */
   officialUrl: string | null
   /**

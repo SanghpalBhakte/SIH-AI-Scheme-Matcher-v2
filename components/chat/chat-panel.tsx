@@ -36,6 +36,19 @@ export function ChatPanel({ messages, isTyping, suggestions, onSend, onClose }: 
     inputRef.current?.focus()
   }, [])
 
+  // The panel behaves modally on mobile (covers 85vh, sits above
+  // everything) even though it isn't marked aria-modal="true" (it
+  // doesn't block interaction with the header behind it on desktop) —
+  // Escape-to-close is the accessibility baseline either way, matching
+  // the same pattern LanguageToggle already uses for its popover.
+  useEffect(() => {
+    function handleKey(e: KeyboardEvent) {
+      if (e.key === 'Escape') onClose()
+    }
+    document.addEventListener('keydown', handleKey)
+    return () => document.removeEventListener('keydown', handleKey)
+  }, [onClose])
+
   function handleSubmit(e: FormEvent) {
     e.preventDefault()
     if (!draft.trim()) return
@@ -65,7 +78,7 @@ export function ChatPanel({ messages, isTyping, suggestions, onSend, onClose }: 
           type="button"
           variant="ghost"
           size="icon"
-          className="h-8 w-8 shrink-0"
+          className="h-11 w-11 shrink-0 sm:h-9 sm:w-9"
           onClick={onClose}
           aria-label="Close AI Assistant chat"
         >

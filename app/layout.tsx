@@ -27,7 +27,7 @@ import { SavedSchemesProvider } from '@/lib/schemes/saved-schemes-context'
 export const metadata: Metadata = {
   title: 'SchemeSetu — SIH26092',
   description:
-    'Prototype: AI-assisted matching of government schemes for marginalized entrepreneurs (SIH26092).',
+    'Prototype: Rule-based matching of government schemes for marginalized entrepreneurs (SIH26092).',
   manifest: '/manifest.json',
   icons: {
     icon: '/icon.svg',

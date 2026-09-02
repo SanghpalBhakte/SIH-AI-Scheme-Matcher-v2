@@ -35,6 +35,7 @@ const DEFAULT_DRAFT_PROFILE: DraftEntrepreneurProfile = {
   district: '',
   locationType: '',
   disabilityStatus: '',
+  minorityStatus: '',
   educationLevel: '',
 
   businessName: '',

@@ -2,9 +2,10 @@
 
 import { useMemo, useState } from 'react'
 import Link from 'next/link'
-import { Building2, ExternalLink } from 'lucide-react'
+import { Building2, ExternalLink, SearchX } from 'lucide-react'
 
 import { Input } from '@/components/ui/input'
+import { Button } from '@/components/ui/button'
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { useLanguage } from '@/lib/i18n/language-context'
@@ -56,9 +57,19 @@ export default function InstitutionsPage() {
       </p>
 
       {filtered.length === 0 ? (
-        <p className="rounded-md border border-dashed border-border p-6 text-center text-sm text-muted-foreground">
-          {t('common.noResults')}
-        </p>
+        <Card className="mx-auto w-full max-w-md text-center">
+          <CardHeader className="items-center">
+            <SearchX className="mb-2 h-8 w-8 text-muted-foreground" aria-hidden />
+            <CardTitle>{t('common.noResults')}</CardTitle>
+          </CardHeader>
+          {search !== '' && (
+            <CardContent>
+              <Button variant="outline" onClick={() => setSearch('')}>
+                {t('common.clearFilters')}
+              </Button>
+            </CardContent>
+          )}
+        </Card>
       ) : (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {filtered.map((inst) => (

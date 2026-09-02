@@ -33,7 +33,7 @@ export interface Institution {
 // `ministry` "(via X)" text or in its `name`, expanded here to their
 // full institution name for the directory).
 const NAME_OVERRIDES: Record<string, string> = {
-  udyogini: "Karnataka State Women's Development Corporation (KSWDC)",
+  'karnataka-udyogini': "Karnataka State Women's Development Corporation (KSWDC)",
   'nstfdc-term-loan': 'National Scheduled Tribes Finance & Development Corporation (NSTFDC)',
   nskfdc: 'National Safai Karamcharis Finance & Development Corporation (NSKFDC)',
   'mudra-tarun': 'Micro Units Development & Refinance Agency Ltd. (MUDRA)',

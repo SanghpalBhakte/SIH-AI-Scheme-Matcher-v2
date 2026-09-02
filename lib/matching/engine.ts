@@ -42,16 +42,42 @@ export function evaluateScheme(profile: EntrepreneurProfile, scheme: Scheme): Sc
   const results: { key: CriterionResult['key']; outcome: CriterionOutcome; label: string }[] = []
 
   // --- category ---
+  // A scheme's category criterion is satisfied by matching `categories`
+  // directly, OR by matching one of `additionalEligibleGroups` (special
+  // groups like Minority/PwD that some schemes' own eligibility lists
+  // include alongside caste category — see SpecialGroup's doc comment
+  // for why these are a separate field rather than folded into
+  // `categories`). This stays a single 'category' criterion (not two
+  // independent ones) deliberately: the real-world rule is "any ONE of
+  // these groups qualifies," an OR — modeling it as two separately
+  // hard-failing criteria would wrongly force "Low Match" for a
+  // General-category applicant who qualifies via a special group, since
+  // HARD_FAIL_KEYS treats every failed hard criterion as disqualifying
+  // on its own.
+  const matchedSpecialGroups = scheme.additionalEligibleGroups?.length
+    ? (profile.specialGroups ?? []).filter((g) => scheme.additionalEligibleGroups!.includes(g))
+    : []
+
   if (isOpen(scheme.categories)) {
     results.push(evaluateCriterion('category', 'matched', 'Open to all categories'))
   } else if (scheme.categories.includes(profile.category)) {
     results.push(evaluateCriterion('category', 'matched', `Specifically targets ${profile.category} entrepreneurs`))
+  } else if (matchedSpecialGroups.length > 0) {
+    results.push(
+      evaluateCriterion(
+        'category',
+        'matched',
+        `Also open to ${matchedSpecialGroups.join('/')} applicants, which matches your profile`
+      )
+    )
   } else {
+    const eligibleGroups = [...scheme.categories, ...(scheme.additionalEligibleGroups ?? [])]
     results.push(
       evaluateCriterion(
         'category',
         'failed',
-        `Restricted to ${scheme.categories.join('/')} entrepreneurs — you selected ${profile.category}`
+        `Restricted to ${eligibleGroups.join('/')} entrepreneurs — you selected ${profile.category}` +
+          (scheme.additionalEligibleGroups?.length ? " and didn't indicate any of the additional eligible groups" : '')
       )
     )
   }

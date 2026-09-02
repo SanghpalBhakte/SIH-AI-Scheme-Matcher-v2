@@ -92,22 +92,6 @@ export const schemes: Scheme[] = [
     officialUrl: 'https://sidbi.in/',
   },
   {
-    id: 'udyogini',
-    name: 'Udyogini Scheme',
-    isDemo: false,
-    categories: ['SC', 'ST', 'OBC', 'Woman'],
-    genders: ['Woman'],
-    states: ['All'],
-    sectors: ['Any'],
-    stages: ['Idea', 'Early'],
-    firstTimeOnly: false,
-    maxIncomeLakh: 1.5,
-    benefit: 'Subsidised loan up to ₹3 lakh',
-    summary:
-      'Low-income women, especially from SC/ST/OBC backgrounds, get subsidised loans to start small businesses.',
-    officialUrl: 'https://kswdc.karnataka.gov.in/21/udyogini/en',
-  },
-  {
     id: 'tread',
     name: 'TREAD Scheme for Women',
     isDemo: false,
@@ -384,12 +368,18 @@ export const schemes: Scheme[] = [
     stages: ['Idea', 'Early', 'Growth'],
     firstTimeOnly: false,
     maxIncomeLakh: null,
-    // Category/gender/sector fields here reflect what the matching
-    // engine models today (see lib/matching/types.ts) — this
-    // corporation's actual eligibility criterion is disability status,
-    // which the app collects (field.disabilityStatus) but the engine
-    // doesn't yet score against, so it's left open to all categories
-    // rather than mis-encoded onto a field that doesn't fit.
+    // NOT YET UPDATED (flagged in the 2026-09-02 audit): the engine can
+    // now score disability status via SpecialGroup='PwD' /
+    // additionalEligibleGroups (see lib/matching/types.ts), added for
+    // the Delhi Composite Loan Scheme. This corporation's own real
+    // eligibility criterion IS disability status — but this record was
+    // deliberately left at categories: ['Any'] rather than adding
+    // additionalEligibleGroups: ['PwD'] here, because doing so would
+    // need a fresh check of the official source to confirm disability
+    // status is a strict eligibility gate (not just the corporation's
+    // target audience) before encoding it as one. Left open to all
+    // categories, honestly, until that check is done — never
+    // mis-encoded onto a field that doesn't fit in the meantime.
     benefit: 'Concessional-rate loans for self-employment ventures',
     summary:
       'Formerly the National Handicapped Finance & Development Corporation (NHFDC) — concessional loans and skill-training support for persons with disabilities starting or expanding a self-employment venture.',
@@ -465,5 +455,426 @@ export const schemes: Scheme[] = [
     summary:
       'Guarantees working-capital and term loans to DPIIT-recognised startups, so a lender can extend credit without collateral.',
     officialUrl: 'https://www.startupindia.gov.in/content/sih/en/credit-guarantee-scheme-for-startups.html',
+  },
+
+  // --- State-specific schemes ---
+  // Every scheme above this point is nationwide ('states: [All]'), which
+  // meant the assessment's state field never actually filtered anything.
+  // These are real, currently-operating STATE government programmes —
+  // each verified against its own official state portal (or, where that
+  // portal blocked automated fetches, cross-checked across multiple
+  // independent secondary sources reporting the same figures) on
+  // 2026-09-02. Benefit figures are stated only where directly
+  // confirmed — see each entry's comment for what couldn't be verified.
+  {
+    id: 'bihar-mmuy',
+    name: 'Mukhyamantri Udyami Yojana (MMUY)',
+    isDemo: false,
+    ministry: 'Industries Department, Government of Bihar',
+    categories: ['SC', 'ST', 'OBC', 'General'],
+    genders: ['Any'],
+    states: ['Bihar'],
+    sectors: ['Manufacturing', 'Services'],
+    stages: ['Idea', 'Early'],
+    firstTimeOnly: true,
+    maxIncomeLakh: null,
+    // The official portal confirms six separate category-wise resolutions
+    // (SC/ST, OBC, Women, Youth, Minority, combined) but doesn't state the
+    // loan/subsidy split on its own pages. The ₹10 lakh split below is
+    // cross-verified as consistent and reliable across many independent
+    // scheme-tracking sources (re-checked 2026-09-02) — still not a direct
+    // primary-source figure, but confident enough to state plainly rather
+    // than hedge.
+    benefit: '₹10 lakh total — ₹5 lakh non-repayable subsidy + ₹5 lakh interest-free loan (84-month repayment)',
+    summary:
+      "Bihar's flagship self-employment scheme for first-time entrepreneurs, run as separate category-wise tracks for SC/ST, OBC, women, youth, and minority applicants.",
+    officialUrl: 'https://udyami.bihar.gov.in/mmuy',
+  },
+  {
+    id: 'wb-karma-sathi',
+    name: 'Karma Sathi Prakalpa',
+    isDemo: false,
+    ministry: 'Directorate of MSME & Textiles, Government of West Bengal',
+    categories: ['Any'],
+    genders: ['Any'],
+    states: ['West Bengal'],
+    sectors: ['Manufacturing', 'Services', 'Trading'],
+    stages: ['Idea', 'Early'],
+    firstTimeOnly: false,
+    maxIncomeLakh: null,
+    benefit: 'Interest-free loan up to ₹2 lakh',
+    summary:
+      'Self-employment loan scheme for West Bengal youth (18–45) with at least a Class VIII education, disbursed as a 0%-interest soft loan repayable over 5 years.',
+    officialUrl: 'https://karmasathi.wb.gov.in/scheme',
+  },
+  {
+    id: 'kerala-kudumbashree',
+    name: 'Kudumbashree Micro Enterprises',
+    isDemo: false,
+    ministry: 'Department of Local Self Government, Government of Kerala',
+    categories: ['Any'],
+    genders: ['Woman'],
+    states: ['Kerala'],
+    sectors: ['Any'],
+    stages: ['Idea', 'Early'],
+    firstTimeOnly: false,
+    maxIncomeLakh: null,
+    benefit: 'Interest subsidy, startup/revolving/innovation funds; e.g. PEARL sub-scheme covers up to 75% of project cost or ₹2 lakh, whichever is lower',
+    summary:
+      "Kerala's state poverty-eradication mission organises women into neighbourhood groups and funds micro-enterprises through interest subsidies and dedicated startup, revolving, technology, and innovation funds.",
+    officialUrl: 'https://www.kudumbashree.org/pages/653',
+  },
+  {
+    id: 'karnataka-udyogini',
+    name: 'Udyogini Scheme',
+    isDemo: false,
+    ministry: "Karnataka State Women's Development Corporation",
+    // CONSOLIDATED (2026-09-02 audit): this dataset used to also carry a
+    // second, older "udyogini" entry for the same real scheme (identical
+    // officialUrl below), which wrongly claimed `states: ['All']`
+    // (nationwide) — a Karnataka-only scheme was matching applicants
+    // everywhere in India. That entry is removed; this Karnataka-scoped
+    // one is canonical. Its `categories` also listed OBC in addition to
+    // General/SC/ST — not carried over here since this entry's own
+    // sourcing (the specific SC/ST vs. general subsidy split below)
+    // only confirms General/SC/ST, and OBC wasn't independently
+    // re-verified this pass — see the Perplexity handoff brief.
+    categories: ['General', 'SC', 'ST'],
+    genders: ['Woman'],
+    states: ['Karnataka'],
+    sectors: ['Any'],
+    stages: ['Idea', 'Early'],
+    firstTimeOnly: false,
+    // Consistently reported across multiple sources (the official portal
+    // itself blocked automated verification): general/other-category cap
+    // ~₹1.5 lakh/yr, SC/ST cap ~₹2 lakh/yr, uncapped for widows/disabled.
+    // Modelled here on the general-category cap since the engine only
+    // supports one number per scheme.
+    maxIncomeLakh: 1.5,
+    benefit: 'Collateral-free loan up to ₹3 lakh; subsidy 50% (max ₹1.5 lakh) for SC/ST, 30% (max ₹90,000) for general category',
+    summary:
+      'Subsidised, collateral-free loans for women aged 18–55 starting a small business across roughly 88 approved trades, with a higher subsidy tier for SC/ST applicants.',
+    officialUrl: 'https://kswdc.karnataka.gov.in/21/udyogini/en',
+  },
+  {
+    id: 'mp-udyam-kranti',
+    name: 'Mukhyamantri Udyam Kranti Yojana (MMUKY)',
+    isDemo: false,
+    ministry: 'MSME Department, Government of Madhya Pradesh',
+    categories: ['General', 'OBC'],
+    genders: ['Any'],
+    states: ['Madhya Pradesh'],
+    sectors: ['Manufacturing', 'Services'],
+    stages: ['Idea', 'Early'],
+    firstTimeOnly: false,
+    maxIncomeLakh: null,
+    benefit: 'Loan of ₹50,000 – ₹50 lakh (industry) or ₹50,000 – ₹25 lakh (service), with a 3% interest subsidy',
+    summary:
+      'Loan and interest-subsidy scheme for unemployed youth (18–45, minimum 8th-standard education) setting up a new industry or service business in Madhya Pradesh.',
+    officialUrl: 'https://dhar.nic.in/en/scheme/mukhaymantri-udhaym-kranti-yojana/',
+  },
+  {
+    id: 'tn-needs',
+    name: 'New Entrepreneur-cum-Enterprise Development Scheme (NEEDS)',
+    isDemo: false,
+    ministry: 'Tamil Nadu Industrial Investment Corporation (TIIC)',
+    categories: ['General', 'SC', 'ST', 'OBC'],
+    genders: ['Any'],
+    states: ['Tamil Nadu'],
+    sectors: ['Manufacturing', 'Services'],
+    stages: ['Early'],
+    firstTimeOnly: true,
+    maxIncomeLakh: null,
+    benefit: 'Project cost ₹10–500 lakh; promoter contribution 10% (general) or 5% (special category)',
+    summary:
+      'Loan scheme for first-generation Tamil Nadu entrepreneurs (HSC-pass, resident 3+ years) starting a new manufacturing or service enterprise, with lower promoter contribution and relaxed age limits for women, SC/ST, and other special categories.',
+    officialUrl: 'https://www.tiic.org/need-scheme/',
+  },
+  {
+    id: 'odisha-mission-shakti',
+    name: 'Mission Shakti',
+    isDemo: false,
+    ministry: 'Directorate of Mission Shakti, Department of Women & Child Development, Government of Odisha',
+    categories: ['Any'],
+    genders: ['Woman'],
+    states: ['Odisha'],
+    sectors: ['Any'],
+    stages: ['Idea', 'Early'],
+    firstTimeOnly: false,
+    maxIncomeLakh: null,
+    benefit: 'Effectively 0%-interest loans up to ₹3 lakh for Self-Help Groups on prompt repayment, plus skill training and market linkage',
+    summary:
+      "Odisha's flagship women's Self-Help Group mission (groups of 10–15, members aged 18–65) providing near-zero-interest micro-enterprise loans alongside skill training.",
+    officialUrl: 'https://missionshakti.odisha.gov.in/more/msd-FAQs',
+  },
+  {
+    id: 'up-vishwakarma-shram-samman',
+    name: 'Vishwakarma Shram Samman Yojana',
+    isDemo: false,
+    ministry: 'Directorate of Industries, Government of Uttar Pradesh (UP MSME)',
+    categories: ['Any'],
+    genders: ['Any'],
+    states: ['Uttar Pradesh'],
+    sectors: ['Handicrafts', 'Services'],
+    stages: ['Idea', 'Early'],
+    // Not confirmed as first-time-only on any official source below
+    // (unlike e.g. stand-up-india/pmegp/tn-needs, where the source
+    // explicitly states this) — left false rather than guessing a
+    // restriction that could wrongly exclude an eligible artisan.
+    firstTimeOnly: false,
+    maxIncomeLakh: null,
+    // Re-verified directly, 2026-09-02, against all 4 sources below.
+    //
+    // Training duration: 6 days is used as canonical. Two independent
+    // official sources specific to VSSY agree on this — the official
+    // notification PDF ("6 days of free training for skill enhancement")
+    // and the UP MSME FAQ page ("6-day training with free toolkits").
+    // NOTE (residual discrepancy, not silently dropped): the scheme-list
+    // page cited as officialUrl below still displays "Free skill
+    // development training of up to 10 days" directly under its own
+    // Vishwakarma Shram Samman Yojana heading, with no separate ODOP
+    // heading present on that page — so this page's own text does not,
+    // on direct re-fetch, cleanly attribute 10 days to ODOP the way a
+    // clean source-separation would. Separately, ODOP's own official PDF
+    // (GovernmentScheme638740903611201250.pdf) independently confirms
+    // ODOP's own training duration is 10 days, which is why 10 days is
+    // treated as ODOP's figure rather than VSSY's overall. 6 days is
+    // used here on the strength of the two VSSY-specific sources above;
+    // flagged rather than presented as fully closed.
+    //
+    // "VSSY 2.0" naming: NOT used as the canonical display name. The
+    // scheme-list page's own descriptive text does refer to an
+    // "expanded 2.0 version" of the scheme (not literally a page
+    // heading, but the closest match found on re-check) — noted here
+    // for reference only, since neither the notification PDF nor the
+    // FAQ uses "2.0" anywhere.
+    //
+    // Toolkit amount: "up to ₹15,000" is retained because the
+    // officialUrl page below explicitly states it ("Advanced Toolkit
+    // Support: Provide advanced toolkit support of up to ₹15,000 to
+    // eligible beneficiaries after completion of training") — confirmed
+    // on direct re-fetch, so this is not a guessed figure.
+    //
+    // Loan language: kept to exactly what's stated on official material
+    // reviewed — no amount, lender, interest rate, or repayment terms
+    // are stated anywhere across all 4 sources checked.
+    benefit:
+      '6 days of free skill-enhancement training + advanced, latest-technology toolkit support up to ₹15,000 after successful completion of training. Margin-money loan support may be available; official VSSY material reviewed does not state a scheme-specific loan amount, lender, interest rate, or repayment terms.',
+    summary:
+      'Skill training, toolkit support, and margin-money loan assistance for Uttar Pradesh artisans across 25 trades (16 traditional — carpenter, blacksmith, potter, tailor, etc. — plus 9 modern trades like mobile and solar-panel repair). Distinct from UP’s separate ODOP Training and Toolkit Scheme, which is not represented in this dataset.',
+    officialUrl: 'https://msme1connect.up.gov.in/Home/SchemesList/1',
+    sourceUrl: 'https://msme1connect.up.gov.in/GovernmentScheme/GovernmentScheme638927397130517915.pdf',
+    lastVerified: '2026-09-02',
+  },
+  // TODO(state-schemes): Maharashtra — HOLD, re-checked 2026-09-02.
+  // Annasaheb Patil Arthik Vikas Mahamandal (udyog.mahaswayam.gov.in) is
+  // confirmed official and currently live, and this pass additionally
+  // confirmed it runs two named sub-schemes ("Individual Interest
+  // Reimbursement" / IR-I and "Group Loan Interest Reimbursement" / IR-II)
+  // — but the portal's own homepage states the target group is
+  // specifically "the Maratha community," which does not map cleanly onto
+  // this dataset's Category type ('General'|'OBC'|'SC'|'ST'), and no
+  // official page fetched this session states an exact loan or interest-
+  // subsidy rupee figure (only third-party aggregator sites do, with
+  // inconsistent numbers ranging ₹10L–₹50L across sites — not used per
+  // the no-fabrication rule). Do not add until both (a) an exact benefit
+  // figure and (b) a defensible categories/eligibility mapping are
+  // confirmed directly from an official source.
+  //
+  // TODO(state-schemes): Punjab — HOLD, researched 2026-09-02. Punjab's
+  // current official Industrial & Business Development Policy 2022
+  // (punjabinfotech.in/assets/pdf/Industrial_Policy_2022.pdf) confirms an
+  // "Interest Subsidy" fiscal incentive for startups/MSMEs exists (Section
+  // 12.7, Form-IS) but the fetched excerpt did not state the exact
+  // percentage or annual cap. A separate official startupindia.gov.in
+  // state-policy summary states "8% p.a. for 5 years, capped at ₹5
+  // lakh/year" but attributes it to the superseded 2017-2022 policy, so it
+  // isn't safe to assume the same rate carried forward unchanged. Most
+  // direct Punjab government scheme pages (pbemployment.punjab.gov.in,
+  // ghargharrozgar.punjab.gov.in) were unreachable this session
+  // (ROBOTS_DISALLOWED/timeout). Do not add until the current rate/cap is
+  // confirmed directly from the 2022 policy document or its successor.
+  //
+  // TODO(state-schemes): Rajasthan — HOLD, researched 2026-09-02. No
+  // Rajasthan scheme was added. The state's own myscheme.gov.in listing
+  // ("Mukhyamantri Yuva Udyami Yojana") could not be fetched (JS-rendered
+  // SPA shell only), and a same/similar-sounding name ("Mukhya Mantri Yuva
+  // Udyami Yojana") was found to actually belong to Madhya Pradesh
+  // (merayuva.mp.gov.in), while "Mukhyamantri Yuva Udyami Vikas Yojana"
+  // appears to be a distinct Uttar Pradesh scheme — a real cross-state
+  // naming collision, similar to the Punjab/Pakistan-domain risk already
+  // flagged for Task 4. A Rajasthan-specific "Mukhyamantri Yuva Swarozgar
+  // Yojana" was found via Vikaspedia (Industries and Commerce Department,
+  // Rajasthan; "interest-free loan to youth") but without a specific loan
+  // amount or income cap. Do not add until the correct current
+  // Rajasthan-specific scheme name and a verified benefit figure are
+  // confirmed directly from an official rajasthan.gov.in source.
+  {
+    id: 'andhra-pradesh-innovation-startup-grant',
+    name: 'AP Innovation & Startup Policy 4.0 — Startup Grant',
+    isDemo: false,
+    ministry: 'Andhra Pradesh Innovation Society (APIS), Department of Information Technology, Electronics & Communication, Government of Andhra Pradesh',
+    categories: ['Any'],
+    genders: ['Any'],
+    states: ['Andhra Pradesh'],
+    // Sectors left open: the policy's grant/seed-funding chapters apply to
+    // startups generally, not one named sector — a deep-tech-specific
+    // higher-value grant also exists under the same policy but is not
+    // encoded here since it's a separate, larger benefit tier.
+    sectors: ['Any'],
+    stages: ['Idea', 'Early'],
+    firstTimeOnly: false,
+    maxIncomeLakh: null,
+    // The policy also offers a larger ₹20 lakh grant specifically for
+    // founders from Women/BC/SC/ST/Minority/Differently-Abled backgrounds.
+    // This is a higher BENEFIT AMOUNT for those founders, not a narrower
+    // ELIGIBILITY GATE — the base grant below stays open to everyone
+    // (categories/genders both ['Any']) — so it's represented via
+    // `enhancedSupportFor` (informational only, never read by the
+    // matching engine) rather than as a separate matching tier. "BC"
+    // (Backward Class) still has no exact match in this dataset's
+    // Category type, which is fine here since enhancedSupportFor is
+    // descriptive text, not a matching value.
+    enhancedSupportFor: [
+      {
+        group: 'Women / BC / SC / ST / Minority / Differently-Abled founders',
+        detail: 'Grant up to ₹20 lakh (vs. the base tier below) for a startup with a founder from these backgrounds.',
+      },
+    ],
+    benefit:
+      'Upfront grant of up to ₹2 lakh, plus additional grant support up to ₹15 lakh total until product viability is reached, for early-stage startups (a separate, larger ₹20 lakh grant tier exists for underrepresented founders — see enhancedSupportFor)',
+    summary:
+      "Seed-stage grant support under Andhra Pradesh's Innovation & Startup Policy 4.0 (2024–2029) for startups and students with innovative ideas, administered by the AP Innovation Society.",
+    officialUrl: 'https://apit.ap.gov.in/assets/files/2025ITC_36424_MS9_E.pdf',
+    sourceUrl: 'https://www.startupindia.gov.in/content/sih/en/state-startup-policies/Andhra-Pradesh-state-policy.html',
+    lastVerified: '2026-09-02',
+  },
+  {
+    id: 'delhi-composite-loan-scheme',
+    name: 'Composite Loan Scheme (CLS)',
+    isDemo: false,
+    ministry: 'Delhi SC/ST/OBC/Minorities/Handicapped Finance and Development Corporation (DSFDC), Social Welfare Department, Government of NCT of Delhi',
+    // Official source lists eligible groups as Scheduled Castes, Scheduled
+    // Tribes, Other Backward Classes, Minorities, and Persons with
+    // Disabilities. `categories` covers the three caste-based groups;
+    // `additionalEligibleGroups` (added 2026-09-02, see SpecialGroup in
+    // lib/matching/types.ts) now covers Minority and PwD — a Minority or
+    // PwD applicant gets a real category match here even though they
+    // aren't SC/ST/OBC, closing the schema gap this comment used to flag.
+    categories: ['SC', 'ST', 'OBC'],
+    additionalEligibleGroups: ['Minority', 'PwD'],
+    genders: ['Any'],
+    states: ['Delhi'],
+    sectors: ['Any'],
+    stages: ['Idea', 'Early'],
+    firstTimeOnly: false,
+    // Official (secondary-corroborated) figure: annual family income from
+    // all sources must not exceed ₹1,20,000 — i.e. 1.2 lakh.
+    maxIncomeLakh: 1.2,
+    // The per-category amount split found (via a secondary source
+    // corroborating DSFDC's own published eligibility criteria) only
+    // distinguishes "Scheduled Caste: up to ₹3,00,000" vs. "OBC/Minority/
+    // PwD: up to ₹1,00,000" — it does not separately state an ST figure,
+    // even though ST is listed among eligible groups. Stated as a range
+    // here rather than guessing which tier ST falls under.
+    benefit:
+      'Composite loan of up to ₹3,00,000 (Scheduled Caste applicants) or up to ₹1,00,000 (OBC/Minority/PwD applicants — Scheduled Tribe tier not separately stated in the sources checked), subject to an annual family income cap of ₹1,20,000',
+    summary:
+      'Composite loan assistance for small business/self-employment for SC/ST/OBC/Minority/PwD applicants below a low income threshold, administered by DSFDC under the Social Welfare Department, Government of NCT of Delhi.',
+    officialUrl: 'https://dsfdc.delhi.gov.in/sites/default/files/cls_schem_details.pdf',
+    sourceUrl: 'https://www.publicservicesmap.in/schemes/composite-loan-scheme--cls',
+    lastVerified: '2026-09-02',
+  },
+  {
+    id: 'gujarat-scheme-for-assistance-startups',
+    name: 'Scheme for Assistance for Startups / Innovation',
+    isDemo: false,
+    ministry: 'Gujarat Startup Cell / Industries Commissionerate, Government of Gujarat',
+    // Sectors deliberately left open: the official scheme page domain
+    // (startup.gujarat.gov.in) could not be fetched directly this
+    // session (blocked/timed out both times it was tried); the figures
+    // below are cross-verified via GUSEC (Gujarat University Startup and
+    // Entrepreneurship Council, a state-recognised nodal institute for
+    // this scheme), which frames some "priority sectors" — but that
+    // reads as GUSEC's own incubation focus, not a confirmed hard
+    // restriction on this specific scheme, so it isn't encoded here.
+    categories: ['Any'],
+    // Not gender-restricted — women entrepreneurs get a higher monthly
+    // sustenance amount under the same scheme (see benefit text / the
+    // structured enhancedSupportFor entry below), not exclusive access.
+    genders: ['Any'],
+    states: ['Gujarat'],
+    sectors: ['Any'],
+    stages: ['Idea', 'Early'],
+    firstTimeOnly: false,
+    maxIncomeLakh: null,
+    enhancedSupportFor: [
+      {
+        group: 'Women entrepreneurs',
+        detail: 'Monthly sustenance allowance of ₹25,000 (vs. ₹20,000 base) for up to 1 year.',
+      },
+    ],
+    benefit:
+      'Seed support up to ₹30 lakh + monthly sustenance allowance of ₹20,000 (₹25,000/month for women entrepreneurs) for up to 1 year',
+    summary:
+      'Seed funding and monthly sustenance support for early-stage Gujarat startups incubated or endorsed through an approved nodal institute (e.g. GUSEC), with a higher sustenance amount for women entrepreneurs.',
+    officialUrl: 'https://startup.gujarat.gov.in/scheme-for-assistance/scheme-one',
+    lastVerified: '2026-09-02',
+  },
+  {
+    id: 'maharashtra-cmegp',
+    name: "Chief Minister's Employment Generation Programme (CMEGP)",
+    isDemo: false,
+    ministry:
+      'Directorate of Industries, Government of Maharashtra (implemented via the Maharashtra State Khadi & Village Industries Board in rural areas and District Industries Centres elsewhere)',
+    // Open to all categories — General applicants are eligible too, just
+    // at a lower margin-money percentage than the "Special" category
+    // tier (see enhancedSupportFor below). Not a caste/gender-restricted
+    // scheme, so categories/genders stay ['Any'] rather than narrowed to
+    // the higher-tier groups.
+    categories: ['Any'],
+    genders: ['Any'],
+    states: ['Maharashtra'],
+    // Sectors deliberately narrower than PMEGP's (no Trading): the
+    // official source's own loan-limit breakdown is stated only for
+    // "manufacturing" and "services."
+    sectors: ['Manufacturing', 'Services'],
+    stages: ['Idea', 'Early'],
+    // Official source: "The applicant should not have availed the
+    // subsidy of any Central or State Government scheme" — the closest
+    // stated equivalent to a first-time-entrepreneur requirement (same
+    // interpretation already used for the national PMEGP entry, which
+    // CMEGP is Maharashtra's own state-level parallel to).
+    firstTimeOnly: true,
+    // Not stated on the source checked — left null rather than guessed.
+    maxIncomeLakh: null,
+    // Higher benefit tier for certain groups, NOT a narrower eligibility
+    // gate — General applicants remain eligible (at the lower tier), so
+    // this is informational only via enhancedSupportFor rather than a
+    // categories/genders restriction.
+    enhancedSupportFor: [
+      {
+        group: 'SC / ST / OBC / Women / Ex-Servicemen / PwD / North-Eastern Region / Hill & Border applicants',
+        detail:
+          'Higher margin-money subsidy — 25% (urban) / 35% (rural), vs. 15% (urban) / 25% (rural) for General category — and a lower required own-contribution (5% vs. 10%).',
+      },
+    ],
+    // Age (18–45) and education (7th pass for projects above ₹10 lakh,
+    // 10th pass above ₹25 lakh) requirements are stated on the official
+    // source but aren't matched by this tool, which doesn't collect age
+    // or education — same handling as every other scheme in this dataset
+    // with an age/education requirement.
+    //
+    // Application portal: the official source below references
+    // "www.cmegp.gov.in" as the application procedure; a live
+    // maha-cmegp.gov.in (.gov.in) domain was found via search but could
+    // not be independently fetched this session (blocked/timed out), so
+    // it's noted here rather than set as a separate, unverified field.
+    benefit:
+      'Bank loan of up to ₹50 lakh (manufacturing) or ₹10 lakh (services), with a margin-money subsidy of 15% (urban) / 25% (rural) for General category applicants — see enhancedSupportFor for the higher tier available to other groups',
+    summary:
+      "Maharashtra's own state-level equivalent of PMEGP: credit-linked margin-money subsidy for setting up new micro and small manufacturing/services enterprises, for applicants aged 18–45 who haven't already availed a subsidy under another central or state scheme (one beneficiary per family).",
+    officialUrl: 'https://mskvib.org/en/chief-ministers-employment-generation-programme-cmegp/',
+    lastVerified: '2026-09-02',
   },
 ]

@@ -10,6 +10,7 @@ import type { Scheme } from '../lib/matching/types'
 import { schemes } from '../data/schemes'
 import { demoProfiles } from '../data/demoProfiles'
 import { TOTAL_WEIGHT } from '../lib/matching/weights'
+import { describeAudience } from '../lib/schemes/describe-audience'
 
 let failures = 0
 
@@ -102,6 +103,346 @@ assert(
   syntheticResult.eligibilityStatus === 'Insufficient Information',
   '"Insufficient Information" is produced when income is unknown against an otherwise-open, income-capped scheme'
 )
+
+// Direct check: the Gujarat "Scheme for Assistance for Startups /
+// Innovation" scheme is state-scoped correctly — a Gujarat early-stage
+// applicant should see it as a real state match, while an applicant
+// from any other state should get a hard state-fail (Low Match), never
+// a silent drop. Uses the real dataset entry, not a synthetic fixture,
+// since this is checking a specific scheme's actual state list.
+console.log('\n=== Direct check: Gujarat scheme is state-scoped correctly ===')
+const gujaratScheme = schemes.find((s) => s.id === 'gujarat-scheme-for-assistance-startups')
+if (!gujaratScheme) {
+  failures++
+  console.error('  ✗ gujarat-scheme-for-assistance-startups exists in the dataset')
+} else {
+  console.log('  ✓ gujarat-scheme-for-assistance-startups exists in the dataset')
+
+  const gujaratApplicant = evaluateScheme(
+    { category: 'General', gender: 'Woman', state: 'Gujarat', sector: 'Technology', stage: 'Early', firstTimeEntrepreneur: true, annualIncomeRange: '' },
+    gujaratScheme
+  )
+  assert(
+    gujaratApplicant.matchedCriteria.some((c) => c.key === 'state'),
+    'a Gujarat early-stage applicant gets a real state match on the Gujarat scheme'
+  )
+  assert(
+    gujaratApplicant.eligibilityStatus !== 'Low Match',
+    'a Gujarat early-stage applicant is not hard-failed on the Gujarat scheme'
+  )
+
+  const otherStateApplicant = evaluateScheme(
+    { category: 'General', gender: 'Woman', state: 'Kerala', sector: 'Technology', stage: 'Early', firstTimeEntrepreneur: true, annualIncomeRange: '' },
+    gujaratScheme
+  )
+  assert(
+    otherStateApplicant.failedCriteria.some((c) => c.key === 'state'),
+    'a non-Gujarat applicant gets a hard state-fail on the Gujarat scheme (never silently matched)'
+  )
+  assert(
+    otherStateApplicant.eligibilityStatus === 'Low Match',
+    'a non-Gujarat applicant is correctly labelled "Low Match" on the Gujarat scheme, not silently dropped'
+  )
+}
+
+// Direct check: the Delhi "Composite Loan Scheme" is income-capped and
+// category-scoped correctly — a low-income SC applicant from Delhi should
+// see a real category+income match, while a General-category applicant
+// (not in the scheme's SC/ST/OBC list) gets a hard category-fail, and a
+// high-income SC applicant from Delhi gets a hard income-fail. Uses the
+// real dataset entry, since this checks that specific scheme's actual
+// category list and income cap.
+console.log('\n=== Direct check: Delhi Composite Loan Scheme is category/income-scoped correctly ===')
+const delhiScheme = schemes.find((s) => s.id === 'delhi-composite-loan-scheme')
+if (!delhiScheme) {
+  failures++
+  console.error('  ✗ delhi-composite-loan-scheme exists in the dataset')
+} else {
+  console.log('  ✓ delhi-composite-loan-scheme exists in the dataset')
+
+  const eligibleApplicant = evaluateScheme(
+    { category: 'SC', gender: 'Woman', state: 'Delhi', sector: 'Services', stage: 'Early', firstTimeEntrepreneur: true, annualIncomeRange: 'below-1l' },
+    delhiScheme
+  )
+  assert(
+    eligibleApplicant.matchedCriteria.some((c) => c.key === 'category') &&
+      eligibleApplicant.matchedCriteria.some((c) => c.key === 'income'),
+    'a low-income SC applicant from Delhi gets a real category+income match on the Composite Loan Scheme'
+  )
+
+  const generalCategoryApplicant = evaluateScheme(
+    { category: 'General', gender: 'Man', state: 'Delhi', sector: 'Services', stage: 'Early', firstTimeEntrepreneur: true, annualIncomeRange: 'below-1l' },
+    delhiScheme
+  )
+  assert(
+    generalCategoryApplicant.failedCriteria.some((c) => c.key === 'category') &&
+      generalCategoryApplicant.eligibilityStatus === 'Low Match',
+    'a General-category applicant gets a hard category-fail ("Low Match") on the Composite Loan Scheme, not a silent drop'
+  )
+
+  // A General-category applicant who indicates Minority status should
+  // still pass the category criterion — Delhi's scheme accepts
+  // Minority applicants via additionalEligibleGroups even though
+  // "Minority" isn't a value of the Category type. This is the schema
+  // gap this pass closes: before, this exact applicant would have been
+  // wrongly hard-failed.
+  const minorityApplicant = evaluateScheme(
+    {
+      category: 'General',
+      gender: 'Woman',
+      state: 'Delhi',
+      sector: 'Services',
+      stage: 'Early',
+      firstTimeEntrepreneur: true,
+      annualIncomeRange: 'below-1l',
+      specialGroups: ['Minority'],
+    },
+    delhiScheme
+  )
+  assert(
+    minorityApplicant.matchedCriteria.some((c) => c.key === 'category') &&
+      minorityApplicant.eligibilityStatus !== 'Low Match',
+    'a General-category applicant who indicates Minority status gets a real category match on the Composite Loan Scheme (not hard-failed)'
+  )
+
+  // Same check for PwD status — a General-category, non-minority
+  // applicant who indicates a disability should also pass via
+  // additionalEligibleGroups.
+  const pwdApplicant = evaluateScheme(
+    {
+      category: 'General',
+      gender: 'Man',
+      state: 'Delhi',
+      sector: 'Services',
+      stage: 'Early',
+      firstTimeEntrepreneur: true,
+      annualIncomeRange: 'below-1l',
+      specialGroups: ['PwD'],
+    },
+    delhiScheme
+  )
+  assert(
+    pwdApplicant.matchedCriteria.some((c) => c.key === 'category') &&
+      pwdApplicant.eligibilityStatus !== 'Low Match',
+    'a General-category applicant who indicates PwD status gets a real category match on the Composite Loan Scheme (not hard-failed)'
+  )
+
+  // A General-category applicant who claims NEITHER Minority nor PwD
+  // status must still hard-fail — additionalEligibleGroups only helps
+  // applicants who actually indicate one of those groups, never
+  // everyone by default. Guards against the widened category check
+  // accidentally becoming an open door.
+  const unclaimedApplicant = evaluateScheme(
+    {
+      category: 'General',
+      gender: 'Man',
+      state: 'Delhi',
+      sector: 'Services',
+      stage: 'Early',
+      firstTimeEntrepreneur: true,
+      annualIncomeRange: 'below-1l',
+      specialGroups: [],
+    },
+    delhiScheme
+  )
+  assert(
+    unclaimedApplicant.failedCriteria.some((c) => c.key === 'category') &&
+      unclaimedApplicant.eligibilityStatus === 'Low Match',
+    'a General-category applicant with specialGroups explicitly empty still gets a hard category-fail (no free pass)'
+  )
+
+  // Regression guard (2026-09-02 audit): app/schemes/[id]/page.tsx was
+  // found calling evaluateScheme(profile, scheme) WITHOUT spreading
+  // specialGroups: deriveSpecialGroups(profile) — unlike dashboard and
+  // recommendations, which both do. A Minority/PwD applicant therefore
+  // saw a real match on /recommendations but "Low Match" on the
+  // scheme's own detail page for the exact same profile. This asserts
+  // the failure mode directly: a profile with specialGroups simply
+  // omitted (exactly what `profile` looks like straight from
+  // useAssessment(), before deriveSpecialGroups() is applied) MUST
+  // still hard-fail here — proving that spreading deriveSpecialGroups()
+  // in is not optional at any of the 4 call sites, and giving future
+  // changes something concrete to break if a 5th call site ever misses
+  // it again.
+  const specialGroupsOmittedApplicant = evaluateScheme(
+    { category: 'General', gender: 'Woman', state: 'Delhi', sector: 'Services', stage: 'Early', firstTimeEntrepreneur: true, annualIncomeRange: 'below-1l' },
+    delhiScheme
+  )
+  assert(
+    specialGroupsOmittedApplicant.failedCriteria.some((c) => c.key === 'category') &&
+      specialGroupsOmittedApplicant.eligibilityStatus === 'Low Match',
+    'a Minority/PwD-eligible profile with specialGroups left unset (the exact shape of a raw, un-derived assessment profile) hard-fails — documents why every evaluateScheme() call site must spread deriveSpecialGroups(profile)'
+  )
+}
+
+// Direct check: enhancedSupportFor (Gujarat, AP) is purely informational
+// — it must never cause a general applicant to be hard-blocked, and the
+// UI-facing "who's this for" text must surface it without narrowing
+// eligibility. This is the "extra support for women, not exclusive to
+// women" requirement.
+console.log('\n=== Direct check: enhancedSupportFor never blocks a general applicant ===')
+const gujaratSchemeForEnhanced = schemes.find((s) => s.id === 'gujarat-scheme-for-assistance-startups')
+const apScheme = schemes.find((s) => s.id === 'andhra-pradesh-innovation-startup-grant')
+if (!gujaratSchemeForEnhanced || !apScheme) {
+  failures++
+  console.error('  ✗ both gujarat-scheme-for-assistance-startups and andhra-pradesh-innovation-startup-grant exist in the dataset')
+} else {
+  assert(
+    (gujaratSchemeForEnhanced.enhancedSupportFor?.length ?? 0) > 0 && (apScheme.enhancedSupportFor?.length ?? 0) > 0,
+    'both schemes carry a structured enhancedSupportFor entry describing their higher-tier support'
+  )
+
+  const generalManApplicant = evaluateScheme(
+    { category: 'General', gender: 'Man', state: 'Gujarat', sector: 'Technology', stage: 'Early', firstTimeEntrepreneur: true, annualIncomeRange: '' },
+    gujaratSchemeForEnhanced
+  )
+  assert(
+    generalManApplicant.matchedCriteria.some((c) => c.key === 'gender') && generalManApplicant.eligibilityStatus !== 'Low Match',
+    'a General-category Man still gets a real gender match on the Gujarat scheme — the women-only enhancedSupportFor tier does not narrow base eligibility'
+  )
+
+  const generalManApplicantAP = evaluateScheme(
+    { category: 'General', gender: 'Man', state: 'Andhra Pradesh', sector: 'Technology', stage: 'Early', firstTimeEntrepreneur: true, annualIncomeRange: '' },
+    apScheme
+  )
+  assert(
+    generalManApplicantAP.eligibilityStatus !== 'Low Match',
+    'a General-category Man still matches the AP Startup Grant — the underrepresented-founder enhancedSupportFor tier does not narrow base eligibility'
+  )
+
+  const audienceLines = describeAudience(gujaratSchemeForEnhanced)
+  assert(
+    audienceLines.some((l) => l.includes('Enhanced support') && l.includes('Women')),
+    'describeAudience() surfaces the enhanced-support note for the Gujarat scheme without changing the eligibility lines above it'
+  )
+}
+
+// Direct check: Maharashtra CMEGP is state-scoped and first-time-scoped
+// correctly. Uses the real dataset entry, since this checks that
+// specific scheme's actual state list and firstTimeOnly setting.
+console.log('\n=== Direct check: Maharashtra CMEGP is state/first-time-scoped correctly ===')
+const cmegpScheme = schemes.find((s) => s.id === 'maharashtra-cmegp')
+if (!cmegpScheme) {
+  failures++
+  console.error('  ✗ maharashtra-cmegp exists in the dataset')
+} else {
+  console.log('  ✓ maharashtra-cmegp exists in the dataset')
+
+  // An eligible Maharashtra applicant (any category — CMEGP is open,
+  // not category-restricted) gets a real match, not hard-failed.
+  const eligibleMaharashtraApplicant = evaluateScheme(
+    { category: 'General', gender: 'Man', state: 'Maharashtra', sector: 'Manufacturing', stage: 'Idea', firstTimeEntrepreneur: true, annualIncomeRange: '' },
+    cmegpScheme
+  )
+  assert(
+    eligibleMaharashtraApplicant.matchedCriteria.some((c) => c.key === 'state') &&
+      eligibleMaharashtraApplicant.eligibilityStatus !== 'Low Match',
+    'a first-time Maharashtra applicant gets a real state match on CMEGP and is not hard-failed'
+  )
+
+  // A second eligible Maharashtra applicant from the enhanced-support
+  // tier (SC, woman) also gets a real match — confirms enhancedSupportFor
+  // groups remain fully eligible, not just tolerated.
+  const enhancedTierApplicant = evaluateScheme(
+    { category: 'SC', gender: 'Woman', state: 'Maharashtra', sector: 'Services', stage: 'Early', firstTimeEntrepreneur: true, annualIncomeRange: '' },
+    cmegpScheme
+  )
+  assert(
+    enhancedTierApplicant.matchedCriteria.some((c) => c.key === 'category') &&
+      enhancedTierApplicant.eligibilityStatus !== 'Low Match',
+    'an SC woman applicant from Maharashtra (the enhanced-support tier) also gets a real category match on CMEGP'
+  )
+
+  // A non-Maharashtra applicant must hard-fail state, never silently
+  // matched or dropped.
+  const nonMaharashtraApplicant = evaluateScheme(
+    { category: 'General', gender: 'Man', state: 'Kerala', sector: 'Manufacturing', stage: 'Idea', firstTimeEntrepreneur: true, annualIncomeRange: '' },
+    cmegpScheme
+  )
+  assert(
+    nonMaharashtraApplicant.failedCriteria.some((c) => c.key === 'state') &&
+      nonMaharashtraApplicant.eligibilityStatus === 'Low Match',
+    'a non-Maharashtra applicant gets a hard state-fail on CMEGP, correctly labelled "Low Match"'
+  )
+
+  // A Maharashtra applicant who is NOT first-time (evidenced restriction:
+  // "should not have availed subsidy of any Central or State Government
+  // scheme") must hard-fail firstTime — the engine must not fabricate
+  // eligibility for a profile condition the official source doesn't
+  // support.
+  const repeatApplicant = evaluateScheme(
+    { category: 'General', gender: 'Man', state: 'Maharashtra', sector: 'Manufacturing', stage: 'Idea', firstTimeEntrepreneur: false, annualIncomeRange: '' },
+    cmegpScheme
+  )
+  assert(
+    repeatApplicant.failedCriteria.some((c) => c.key === 'firstTime') && repeatApplicant.eligibilityStatus === 'Low Match',
+    'a non-first-time Maharashtra applicant gets a hard firstTime-fail on CMEGP, not fabricated eligibility'
+  )
+
+  // Sector is SOFT for this scheme (only state/firstTime/category/gender/
+  // income are hard-fail keys) — a Maharashtra applicant in an
+  // unsupported sector (e.g. Agriculture, not Manufacturing/Services)
+  // should see a failed sector criterion WITHOUT being hard-blocked to
+  // "Low Match" on that basis alone, and without any income-related
+  // claim being fabricated (CMEGP states no income cap).
+  const unsupportedSectorApplicant = evaluateScheme(
+    { category: 'General', gender: 'Man', state: 'Maharashtra', sector: 'Agriculture', stage: 'Idea', firstTimeEntrepreneur: true, annualIncomeRange: '' },
+    cmegpScheme
+  )
+  assert(
+    unsupportedSectorApplicant.failedCriteria.some((c) => c.key === 'sector') &&
+      !unsupportedSectorApplicant.failedCriteria.some((c) => c.key === 'income') &&
+      unsupportedSectorApplicant.matchedCriteria.some((c) => c.key === 'income'),
+    "an unsupported-sector Maharashtra applicant gets an honest sector fail (soft, doesn't force Low Match) with no fabricated income restriction"
+  )
+}
+
+console.log('\n=== Direct check: no duplicate scheme records (2026-09-02 audit) ===')
+{
+  // General safeguard, not just Udyogini-specific: two dataset entries
+  // with the IDENTICAL name (not just a shared officialUrl — several
+  // legitimately distinct schemes, like the 3 MUDRA loan tranches,
+  // correctly share one portal URL) mean the same real-world scheme was
+  // entered twice — exactly the bug found this audit (two "Udyogini
+  // Scheme" entries, one wrongly marked nationwide). Catch any
+  // recurrence automatically.
+  const nameCounts = new Map<string, string[]>()
+  for (const s of schemes) {
+    nameCounts.set(s.name, [...(nameCounts.get(s.name) ?? []), s.id])
+  }
+  const duplicateNames = [...nameCounts.entries()].filter(([, ids]) => ids.length > 1)
+  assert(duplicateNames.length === 0, `no two schemes share an identical name (found: ${JSON.stringify(duplicateNames)})`)
+
+  assert(schemes.length === 34, `dataset has exactly 34 schemes after the Udyogini consolidation (got ${schemes.length})`)
+  assert(schemes.find((s) => s.id === 'udyogini') === undefined, 'the old nationwide-mismarked "udyogini" id no longer exists')
+
+  const karnatakaUdyogini = schemes.find((s) => s.id === 'karnataka-udyogini')
+  assert(!!karnatakaUdyogini, 'karnataka-udyogini exists as the single canonical Udyogini entry')
+  assert(
+    JSON.stringify(karnatakaUdyogini?.states) === JSON.stringify(['Karnataka']),
+    'karnataka-udyogini is correctly state-scoped to Karnataka only (not nationwide)'
+  )
+
+  if (karnatakaUdyogini) {
+    const karnatakaApplicant = evaluateScheme(
+      { category: 'General', gender: 'Woman', state: 'Karnataka', sector: 'Trading', stage: 'Idea', firstTimeEntrepreneur: false, annualIncomeRange: 'below-1l' },
+      karnatakaUdyogini
+    )
+    assert(
+      karnatakaApplicant.matchedCriteria.some((c) => c.key === 'state' && c.label === 'Available in Karnataka'),
+      'a Karnataka woman applicant gets a real, honestly-labelled state match on karnataka-udyogini (not "available nationwide")'
+    )
+
+    const nonKarnatakaApplicant = evaluateScheme(
+      { category: 'General', gender: 'Woman', state: 'Bihar', sector: 'Trading', stage: 'Idea', firstTimeEntrepreneur: false, annualIncomeRange: 'below-1l' },
+      karnatakaUdyogini
+    )
+    assert(
+      nonKarnatakaApplicant.failedCriteria.some((c) => c.key === 'state') && nonKarnatakaApplicant.eligibilityStatus === 'Low Match',
+      'a non-Karnataka applicant correctly hard-fails state on karnataka-udyogini — proves the false nationwide match is gone'
+    )
+  }
+}
 
 console.log(failures === 0 ? '\nAll checks passed.' : `\n${failures} check(s) FAILED.`)
 process.exit(failures === 0 ? 0 : 1)

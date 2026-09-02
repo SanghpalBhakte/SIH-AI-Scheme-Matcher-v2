@@ -78,6 +78,14 @@ export default function AssessmentPage() {
     return () => window.removeEventListener('beforeunload', handleBeforeUnload)
   }, [isDirty])
 
+  // Land at the top of the new step's content on every Next/Back, not
+  // wherever the previous (longer) step happened to be scrolled to —
+  // otherwise a step reached after scrolling past 8+ fields can render
+  // mid-form with no visible heading.
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }, [stepIndex])
+
   const canAdvance = (() => {
     switch (step.id) {
       case 'basic':
@@ -152,7 +160,7 @@ export default function AssessmentPage() {
           )}
         </div>
 
-        <Card className="animate-fade-in-up">
+        <Card key={step.id} className="animate-fade-in-up">
           <CardHeader>
             <p className="text-xs font-medium uppercase tracking-wide text-accent">{t('assessment.stepLabel', { n: stepIndex + 1 })}</p>
             <CardTitle className="font-display text-xl">{t(`assessment.step.${step.id}.title`)}</CardTitle>
@@ -270,6 +278,21 @@ export default function AssessmentPage() {
                         label={opt}
                         checked={profile.disabilityStatus === opt}
                         onChange={() => updateProfile({ disabilityStatus: opt })}
+                      />
+                    ))}
+                  </RadioGroup>
+                </div>
+                <div className="space-y-1.5">
+                  <Label>{t('field.minorityStatus')}</Label>
+                  <RadioGroup>
+                    {YES_NO_OPTIONS.map((opt) => (
+                      <RadioOption
+                        key={opt}
+                        id={`minorityStatus-${opt}`}
+                        name="minorityStatus"
+                        label={opt}
+                        checked={profile.minorityStatus === opt}
+                        onChange={() => updateProfile({ minorityStatus: opt })}
                       />
                     ))}
                   </RadioGroup>
@@ -527,7 +550,7 @@ export default function AssessmentPage() {
                 <Label>{t('field.businessNeedsLabel')}</Label>
                 <div className="grid gap-2.5 sm:grid-cols-2">
                   {BUSINESS_NEED_OPTIONS.map((need) => (
-                    <label key={need} className="flex items-center gap-2 text-sm text-foreground">
+                    <label key={need} className="flex min-h-11 items-center gap-2 py-2 text-sm text-foreground">
                       <Checkbox checked={profile.businessNeeds.includes(need)} onChange={() => toggleNeed(need)} />
                       {need}
                     </label>

@@ -22,6 +22,11 @@ import {
   Languages,
   Bookmark,
   LayoutGrid,
+  Target,
+  Compass,
+  Briefcase,
+  WifiOff,
+  Globe2,
 } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
@@ -70,6 +75,19 @@ const FEATURES = [
   { icon: Languages, titleKey: 'landing.feature4Title', descKey: 'landing.feature4Desc' },
   { icon: Bookmark, titleKey: 'landing.feature5Title', descKey: 'landing.feature5Desc' },
   { icon: LayoutGrid, titleKey: 'landing.feature6Title', descKey: 'landing.feature6Desc' },
+] as const
+
+// "Why SchemeSetu" — direct, honest differentiation against the
+// government's own scheme-directory portal (myScheme), for the
+// question a judge or a skeptical user will ask sooner or later.
+// Every point here maps to a real, shipped capability — see
+// SIH_TECH_STACK_QA.md for the fuller reasoning behind each.
+const WHY_DIFF = [
+  { icon: Target, titleKey: 'landing.why1Title', descKey: 'landing.why1Desc' },
+  { icon: Compass, titleKey: 'landing.why2Title', descKey: 'landing.why2Desc' },
+  { icon: Briefcase, titleKey: 'landing.why3Title', descKey: 'landing.why3Desc' },
+  { icon: WifiOff, titleKey: 'landing.why4Title', descKey: 'landing.why4Desc' },
+  { icon: Globe2, titleKey: 'landing.why5Title', descKey: 'landing.why5Desc' },
 ] as const
 
 /** Small reusable "eyebrow + centered title (+ optional subtitle)" header, used
@@ -242,6 +260,35 @@ export default function HomePage() {
               </Card>
             ))}
           </div>
+        </div>
+      </section>
+
+      <section className="py-16 sm:py-20">
+        <div className="container">
+          <SectionHeader
+            eyebrow={t('landing.whyEyebrow')}
+            title={t('landing.whyTitle')}
+            subtitle={t('landing.whySubtitle')}
+          />
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {WHY_DIFF.map((item) => (
+              <Card
+                key={item.titleKey}
+                className="transition-all duration-200 hover:-translate-y-0.5 hover:shadow-elevated"
+              >
+                <CardHeader>
+                  <div className="mb-2 flex h-10 w-10 items-center justify-center rounded-md bg-accent/10">
+                    <item.icon className="h-5 w-5 text-accent" aria-hidden />
+                  </div>
+                  <CardTitle className="text-base">{t(item.titleKey)}</CardTitle>
+                  <CardDescription>{t(item.descKey)}</CardDescription>
+                </CardHeader>
+              </Card>
+            ))}
+          </div>
+          <p className="mx-auto mt-8 max-w-2xl text-center text-xs leading-relaxed text-muted-foreground">
+            {t('landing.whyHonestNote')}
+          </p>
         </div>
       </section>
 

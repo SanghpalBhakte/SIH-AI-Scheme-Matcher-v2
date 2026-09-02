@@ -84,7 +84,7 @@ export function SiteHeader() {
                 onClick={(e) => guardNavigation(e, link.href)}
                 aria-label={label}
                 className={cn(
-                  'flex items-center gap-1.5 rounded-md border-b-2 px-2 py-1.5 transition-colors duration-150 sm:px-3',
+                  'flex min-h-11 items-center gap-1.5 rounded-md border-b-2 px-2.5 py-2 transition-colors duration-150 sm:min-h-0 sm:px-3 sm:py-1.5',
                   isActive
                     ? 'border-primary font-medium text-foreground'
                     : 'border-transparent text-muted-foreground hover:border-border hover:text-foreground'
@@ -106,7 +106,7 @@ export function SiteHeader() {
             onClick={(e) => guardNavigation(e, '/dashboard')}
             aria-label={t('nav.savedSchemesLink')}
             className={cn(
-              'relative flex h-9 w-9 shrink-0 items-center justify-center rounded-md text-muted-foreground transition-colors duration-150 hover:bg-secondary hover:text-foreground',
+              'relative flex h-11 w-11 shrink-0 items-center justify-center rounded-md text-muted-foreground transition-colors duration-150 hover:bg-secondary hover:text-foreground sm:h-9 sm:w-9',
               pathname === '/dashboard' && 'text-primary'
             )}
           >

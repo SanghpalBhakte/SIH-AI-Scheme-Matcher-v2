@@ -25,7 +25,11 @@ const STORAGE_KEY = 'sih26092.assessment'
 // mismatch causes loadPersistedAssessment to discard the stored draft
 // outright rather than attempt a blind migration — safer for a
 // prototype than guessing how to upgrade old data.
-const STORAGE_VERSION = 1
+//
+// v2 (2026-09-02): added `minorityStatus` (Yes/No, mirrors
+// `disabilityStatus`) for the new eligibility-schema special-groups
+// support — see lib/matching/types.ts's SpecialGroup/deriveSpecialGroups.
+const STORAGE_VERSION = 2
 
 export interface PersistedAssessmentState {
   profile: DraftEntrepreneurProfile
@@ -48,6 +52,7 @@ const STRING_FIELDS: (keyof DraftEntrepreneurProfile)[] = [
   'district',
   'locationType',
   'disabilityStatus',
+  'minorityStatus',
   'educationLevel',
   'businessName',
   'businessType',

@@ -1,7 +1,7 @@
 {
   "name": "SchemeSetu — SIH26092",
   "short_name": "SchemeSetu",
-  "description": "Prototype: AI-assisted matching of government schemes for marginalized entrepreneurs.",
+  "description": "Prototype: Rule-based matching of government schemes for marginalized entrepreneurs.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",

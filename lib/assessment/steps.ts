@@ -33,6 +33,7 @@ export const ASSESSMENT_STEPS: AssessmentStep[] = [
       'locationType',
       'category',
       'disabilityStatus',
+      'minorityStatus',
       'educationLevel',
     ],
   },

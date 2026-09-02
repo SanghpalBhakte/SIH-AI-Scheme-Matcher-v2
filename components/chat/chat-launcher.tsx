@@ -1,17 +1,24 @@
+import { forwardRef } from 'react'
 import { MessageCircle } from 'lucide-react'
 
-/** Collapsed floating launcher button — hidden while the panel is open (see ChatWidget). */
-export function ChatLauncher({
-  onOpen,
-  ariaLabel,
-  label,
-}: {
+interface ChatLauncherProps {
   onOpen: () => void
   ariaLabel: string
   label: string
-}) {
+}
+
+/**
+ * Collapsed floating launcher button — hidden while the panel is open
+ * (see ChatWidget). Forwards its ref so ChatWidget can return keyboard
+ * focus here once the panel closes (see ChatPanel's Escape handling).
+ */
+export const ChatLauncher = forwardRef<HTMLButtonElement, ChatLauncherProps>(function ChatLauncher(
+  { onOpen, ariaLabel, label },
+  ref
+) {
   return (
     <button
+      ref={ref}
       type="button"
       onClick={onOpen}
       aria-label={ariaLabel}
@@ -21,4 +28,4 @@ export function ChatLauncher({
       <span className="text-sm font-semibold">{label}</span>
     </button>
   )
-}
+})

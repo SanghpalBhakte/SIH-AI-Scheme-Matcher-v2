@@ -2,9 +2,12 @@
 
 import { useMemo, useState } from 'react'
 
+import { SearchX } from 'lucide-react'
+
 import { Input } from '@/components/ui/input'
 import { Select } from '@/components/ui/select'
 import { Button } from '@/components/ui/button'
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 import { DisclaimerBanner } from '@/components/layout/disclaimer-banner'
 import { SchemeBrowserCard } from '@/components/schemes/scheme-browser-card'
 import { useLanguage } from '@/lib/i18n/language-context'
@@ -89,9 +92,19 @@ export default function SchemesBrowserPage() {
       <p className="text-xs text-muted-foreground">{t('browser.showingCount', { shown: filtered.length, total: schemes.length })}</p>
 
       {filtered.length === 0 ? (
-        <p className="rounded-md border border-dashed border-border p-6 text-center text-sm text-muted-foreground">
-          {t('common.noResults')}
-        </p>
+        <Card className="mx-auto w-full max-w-md text-center">
+          <CardHeader className="items-center">
+            <SearchX className="mb-2 h-8 w-8 text-muted-foreground" aria-hidden />
+            <CardTitle>{t('common.noResults')}</CardTitle>
+          </CardHeader>
+          {hasActiveFilters && (
+            <CardContent>
+              <Button variant="outline" onClick={clearFilters}>
+                {t('common.clearFilters')}
+              </Button>
+            </CardContent>
+          )}
+        </Card>
       ) : (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {filtered.map((scheme) => (

@@ -45,6 +45,7 @@ function draftFrom(profile: (typeof demoProfiles)[number]['profile']): DraftEntr
     district: '',
     locationType: '',
     disabilityStatus: '',
+    minorityStatus: '',
     educationLevel: '',
     businessName: '',
     businessType: '',
@@ -85,6 +86,31 @@ const standUp = schemes.find((s) => s.id === 'stand-up-india')!
 assert(detectSchemeName('tell me about pmegp', schemes)?.id === 'pmegp', 'finds PMEGP by id token')
 assert(detectSchemeName('what about stand-up india scheme', schemes)?.id === 'stand-up-india', 'finds Stand-Up India by name tokens')
 assert(detectSchemeName('asdkjqwlekj random gibberish', schemes) === null, 'returns null for unrelated text')
+
+// 2026-09-02 audit: after consolidating the duplicate Udyogini records,
+// "udyogini" should resolve to the single surviving, correctly
+// Karnataka-scoped entry rather than a removed or ambiguous one.
+assert(
+  detectSchemeName('what is the udyogini scheme eligibility', schemes)?.id === 'karnataka-udyogini',
+  'finds the consolidated Karnataka Udyogini scheme by name'
+)
+
+// 2026-09-02 audit: a fully generic multi-scheme word ("startup")
+// should no longer confidently resolve to one specific, state-
+// restricted scheme out of several that share the word — the chat
+// layer should ask a clarifying question instead of guessing.
+assert(
+  detectSchemeName('tell me about the startup scheme', schemes) === null,
+  'a generic "startup scheme" query does not confidently resolve to one specific scheme'
+)
+assert(
+  detectSchemeName('tell me about the startups scheme', schemes) === null,
+  'a generic "startups scheme" query does not confidently resolve to one specific scheme either'
+)
+{
+  const answer = answerQuery('tell me about the startup scheme', NO_PROFILE_CONTEXT, EMPTY_SESSION, schemes)
+  assert(/not sure which scheme/i.test(answer.text), 'the chat layer asks a clarifying question for the ambiguous "startup scheme" query, rather than picking one')
+}
 
 console.log('\n=== answerQuery: no profile ===')
 {

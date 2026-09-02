@@ -15,7 +15,7 @@ import { useAssessment } from '@/lib/assessment/assessment-context'
 import { useLanguage } from '@/lib/i18n/language-context'
 import { matchSchemes } from '@/lib/matching/engine'
 import { schemes } from '@/data/schemes'
-import { isProfileComplete } from '@/lib/matching/types'
+import { deriveSpecialGroups, isProfileComplete } from '@/lib/matching/types'
 
 const RESULTS_SHOWN = 3
 
@@ -70,7 +70,7 @@ export default function RecommendationsPage() {
   }
 
   // `profile` is now narrowed to a complete profile (engine fields set).
-  const allResults = matchSchemes(profile, schemes)
+  const allResults = matchSchemes({ ...profile, specialGroups: deriveSpecialGroups(profile) }, schemes)
   const results = allResults.slice(0, RESULTS_SHOWN)
   const hasStrongMatch = results.some(
     (r) => r.eligibilityStatus === 'Likely Eligible' || r.eligibilityStatus === 'Possibly Eligible'
