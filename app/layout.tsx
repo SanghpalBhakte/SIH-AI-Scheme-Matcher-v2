@@ -39,6 +39,16 @@ export const viewport = {
   themeColor: '#1c3f73',
 }
 
+// Only mount Vercel observability components when actually running on
+// Vercel infrastructure. Both packages are no-ops in other environments
+// by design, but @vercel/speed-insights can throw
+// "Cannot read properties of undefined (reading 'startTime')" in
+// non-Vercel runtimes (e.g. local dev, Netlify, raw Node) because the
+// PerformanceEntry objects it expects may not be present. Gating on
+// VERCEL prevents that crash without removing the components from
+// production builds.
+const isVercel = process.env.VERCEL === '1'
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     // suppressHydrationWarning is required here because the inline
@@ -71,17 +81,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                     affecting any page's own layout or scroll. */}
                 <ChatWidget />
                 <ServiceWorkerRegistration />
-                {/* Vercel Speed Insights — reports real-user Core Web
-                    Vitals from production traffic. A no-op anywhere
-                    other than a Vercel deployment (no env vars to
-                    configure; it only activates once actually served
-                    from Vercel), so it's safe to mount unconditionally
-                    here rather than gating it behind NODE_ENV. */}
-                <SpeedInsights />
-                {/* Vercel Web Analytics — same deal: page-view/visitor
-                    counts from production traffic, only from Vercel's
-                    edge, no-op and no config anywhere else. */}
-                <Analytics />
+                {/* Vercel Speed Insights — reports real-user Core Web Vitals.
+                    Gated on VERCEL env var to prevent the
+                    "startTime of undefined" PerformanceEntry crash that
+                    occurs when the package runs outside Vercel infrastructure. */}
+                {isVercel && <SpeedInsights />}
+                {/* Vercel Web Analytics — same gate: only activates on
+                    Vercel edge; no-op and no config anywhere else. */}
+                {isVercel && <Analytics />}
               </AssessmentProvider>
             </SavedSchemesProvider>
           </LanguageProvider>
