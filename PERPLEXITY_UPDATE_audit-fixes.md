@@ -1,0 +1,26 @@
+# Handoff to Perplexity: post-implementation audit fixes (Sept 2, 2026)
+
+## Quick recap
+
+SchemeSetu (SIH26092) — Next.js/TypeScript app matching Indian entrepreneurs to real government schemes via a deterministic rule engine (no ML/LLM in the matching path). No-fabrication rule: every scheme needs a real, sourced official URL and no invented figures.
+
+This was a QA/audit-and-fix pass, not new scheme research: a full audit found and fixed 5 approved implementation/data-integrity issues. No scheme facts were newly researched — one removed duplicate record and one code comment are the only dataset-level changes. Dataset is now 34 schemes (was 35 briefly, after a false-duplicate consolidation described below).
+
+## What changed in this task
+
+1. **Fixed a real matching bug**: the scheme detail page (`/schemes/[id]`) was scoring profiles without deriving `specialGroups` from `disabilityStatus`/`minorityStatus` — unlike every other page — so a Minority/PwD applicant saw a wrong "Low Match" on Delhi's Composite Loan Scheme's own detail page while correctly matching everywhere else. Fixed to match the other 3 call sites, plus a regression test added.
+2. **Removed a duplicate scheme record**: the dataset had two "Udyogini Scheme" entries for the same real scheme (identical official URL) — one correctly Karnataka-scoped, one incorrectly marked `states: ['All']` (nationwide), which was producing false nationwide matches for a state-only scheme. The nationwide one is removed; the Karnataka-scoped one is now canonical. Its `categories` field was `['General', 'SC', 'ST']` and stays that way — the removed duplicate additionally listed `OBC`, but that wasn't independently re-verified this pass, so it was **not** carried over (see ask below).
+3. **Corrected inaccurate "AI-assisted" product copy**: `disclaimer.title`, `methodology.title`, `footer.blurb`, and `footer.importantNote1` (in English + all 11 translated locales), plus `public/manifest.json`'s description and `app/layout.tsx`'s page metadata description, all called the matching mechanism "AI-assisted." The engine is 100% deterministic rule-based logic with no ML/LLM — this directly contradicted the app's own architecture and its own landing-page claim ("Rule-based, not a black box"). All 8 locations now say "rule-based" instead, using each language's own existing term for it (reused from the same file, not newly composed).
+4. **Updated one stale code comment** (no logic change): the NDFDC disability-loan scheme's comment used to say the engine "doesn't yet score against" disability status — no longer true since an earlier pass added that capability for Delhi's scheme. Comment corrected to explain NDFDC just hasn't been individually re-evaluated for it yet (see ask below) — `categories`/`additionalEligibleGroups` on that record were explicitly left unchanged per this task's scope.
+5. **Hardened the chat assistant's scheme-name detection**: a generic query like "tell me about the startup scheme" was confidently resolving to one specific state-restricted scheme (Andhra Pradesh's startup grant) even though 4+ schemes share the word "startup." Fixed via (a) de-duplicating repeated-word scoring, (b) treating an exact score-tie between schemes as ambiguous → asks a clarifying question instead of guessing, and (c) — after testing showed (a)+(b) alone weren't sufficient for this specific case — adding "startup"/"startups" to the existing stopword list, narrowly scoped to the two words actually shown to cause the problem.
+
+Full verification suite passed clean: `tsc --noEmit`, `eslint --max-warnings 0`, `verify:engine` (34 schemes, all new regression assertions green), `verify:chat-engine`, `next build`. Live-checked the manifest, the removed scheme's "not found" page, and the dynamic "34 schemes" copy before delivery.
+
+## Two things worth a second opinion
+
+1. **Karnataka Udyogini and OBC eligibility**: the now-removed duplicate record claimed OBC applicants were eligible for Karnataka's Udyogini Scheme (alongside SC/ST/General); the canonical, more carefully-sourced record (with a specific ministry citation and SC/ST-vs-general subsidy split) only ever stated General/SC/ST. **Ask**: can you confirm from KSWDC's own official material (kswdc.karnataka.gov.in) whether OBC applicants are in fact eligible for this scheme? If so, `additionalEligibleGroups` or `categories` on `karnataka-udyogini` in `data/schemes.ts` should be updated to include it.
+2. **NDFDC and disability status as a hard eligibility gate**: the National Divyangjan Finance & Development Corporation's loan scheme is run by the Department of Empowerment of Persons with Disabilities, but the dataset record is currently open to all categories (no PwD gating) because this wasn't independently re-verified this pass. **Ask**: does NDFDC's official material (depwd.gov.in) state disability status as a strict eligibility requirement (not just its target audience)? If confirmed, the record should be updated to use `additionalEligibleGroups: ['PwD']` (the same mechanism already used for Delhi's scheme) rather than staying open to everyone.
+
+## No action needed elsewhere
+
+Everything else from this pass — the detail-page fix, the duplicate-record removal, the copy corrections, the chat hardening, and their tests — is implemented, verified, and shipped as described above.
