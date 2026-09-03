@@ -74,6 +74,11 @@ export const schemes: Scheme[] = [
     summary:
       'Provides loans to existing micro and small enterprises looking to expand operations, no collateral required.',
     officialUrl: 'https://www.mudra.org.in/',
+    // requiredDocuments / applicationSteps intentionally left undefined:
+    // re-checked mudra.org.in on 2026-09-03 — the site describes the
+    // scheme (Shishu/Kishore/Tarun tiers) and points applicants to the
+    // separate udyamimitra.in portal to apply, but does not itself state
+    // a document list or a step-by-step application process to cite.
   },
   {
     id: 'mahila-udyam-nidhi',
@@ -144,6 +149,12 @@ export const schemes: Scheme[] = [
     // nstfdc.nic.in no longer resolves — NSTFDC has moved under the
     // Ministry of Tribal Affairs' own domain. Verified 2026-08-28.
     officialUrl: 'https://nstfdc.tribal.gov.in/',
+    // requiredDocuments / applicationSteps intentionally left undefined:
+    // re-checked nstfdc.tribal.gov.in on 2026-09-03, including its own
+    // "How to Apply" and Term Loan pages — all three only direct
+    // applicants to approach their District / State Channelising Agency
+    // office for guidance and to file loan applications there; none
+    // states a document list or a step-by-step process to cite.
   },
   {
     id: 'nskfdc',
@@ -489,6 +500,10 @@ export const schemes: Scheme[] = [
     summary:
       "Bihar's flagship self-employment scheme for first-time entrepreneurs, run as separate category-wise tracks for SC/ST, OBC, women, youth, and minority applicants.",
     officialUrl: 'https://udyami.bihar.gov.in/mmuy',
+    // See Task 3 (2026-09-03): mirrors the comment above — flagged as a
+    // data-confidence caveat, not just an internal note.
+    dataConfidenceNote:
+      'The ₹5L + ₹5L loan/subsidy split is corroborated across multiple independent scheme-tracking sources, not stated directly on the official Bihar portal itself.',
   },
   {
     id: 'wb-karma-sathi',
@@ -555,6 +570,10 @@ export const schemes: Scheme[] = [
     summary:
       'Subsidised, collateral-free loans for women aged 18–55 starting a small business across roughly 88 approved trades, with a higher subsidy tier for SC/ST applicants.',
     officialUrl: 'https://kswdc.karnataka.gov.in/21/udyogini/en',
+    // See Task 3 (2026-09-03): mirrors the comment above — flagged as a
+    // data-confidence caveat, not just an internal note.
+    dataConfidenceNote:
+      "The official KSWDC portal blocked automated verification; the income caps above are corroborated across multiple secondary sources instead, and OBC eligibility hasn't been independently confirmed.",
   },
   {
     id: 'mp-udyam-kranti',
@@ -746,8 +765,16 @@ export const schemes: Scheme[] = [
     summary:
       "Seed-stage grant support under Andhra Pradesh's Innovation & Startup Policy 4.0 (2024–2029) for startups and students with innovative ideas, administered by the AP Innovation Society.",
     officialUrl: 'https://apit.ap.gov.in/assets/files/2025ITC_36424_MS9_E.pdf',
+    // requiredDocuments / applicationSteps intentionally left undefined:
+    // re-checked the policy PDF on 2026-09-03 — it requires a project
+    // proposal (company/founder background, innovation, investment,
+    // timeline) for grant approval, and lists specific supporting
+    // documents for OTHER incentive lines (e.g. patent reimbursement,
+    // event participation), but has no consolidated document/step list
+    // for the seed-stage grant this record describes, and defers actual
+    // filing to the separate "AP Startup One Portal."
     sourceUrl: 'https://www.startupindia.gov.in/content/sih/en/state-startup-policies/Andhra-Pradesh-state-policy.html',
-    lastVerified: '2026-09-02',
+    lastVerified: '2026-09-03',
   },
   {
     id: 'delhi-composite-loan-scheme',
@@ -779,11 +806,28 @@ export const schemes: Scheme[] = [
     // here rather than guessing which tier ST falls under.
     benefit:
       'Composite loan of up to ₹3,00,000 (Scheduled Caste applicants) or up to ₹1,00,000 (OBC/Minority/PwD applicants — Scheduled Tribe tier not separately stated in the sources checked), subject to an annual family income cap of ₹1,20,000',
+    // See Task 3 (2026-09-03): mirrors the comments above — flagged as a
+    // data-confidence caveat, not just an internal note.
+    dataConfidenceNote:
+      "The Scheduled Tribe benefit tier isn't separately stated in the sources checked, and the full required-document list is only hedged, not confirmed — verify directly with DSFDC.",
     summary:
       'Composite loan assistance for small business/self-employment for SC/ST/OBC/Minority/PwD applicants below a low income threshold, administered by DSFDC under the Social Welfare Department, Government of NCT of Delhi.',
     officialUrl: 'https://dsfdc.delhi.gov.in/sites/default/files/cls_schem_details.pdf',
+    // requiredDocuments intentionally left undefined: the sourceUrl below
+    // only hedges on documents ("Applicants may need Aadhaar card, income
+    // certificate... or occupation-related documents") and explicitly
+    // defers the complete list to the official guidelines PDF — the PDF
+    // itself could not be fetched this session (robots.txt error on
+    // dsfdc.delhi.gov.in, tried twice), so no source explicitly states a
+    // definitive document list.
+    applicationSteps: [
+      'Print the prescribed application form (available from DSFDC).',
+      'Fill in all mandatory fields, paste a passport-sized photograph, and attach copies of all mandatory documents (self-attested where required).',
+      'Submit the completed, signed application form with documents to the Branch In-Charge / Section In-Charge of DSFDC.',
+      'Request a receipt or acknowledgement of your submission.',
+    ],
     sourceUrl: 'https://www.publicservicesmap.in/schemes/composite-loan-scheme--cls',
-    lastVerified: '2026-09-02',
+    lastVerified: '2026-09-03',
   },
   {
     id: 'gujarat-scheme-for-assistance-startups',
@@ -818,6 +862,15 @@ export const schemes: Scheme[] = [
       'Seed support up to ₹30 lakh + monthly sustenance allowance of ₹20,000 (₹25,000/month for women entrepreneurs) for up to 1 year',
     summary:
       'Seed funding and monthly sustenance support for early-stage Gujarat startups incubated or endorsed through an approved nodal institute (e.g. GUSEC), with a higher sustenance amount for women entrepreneurs.',
+    // See Task 3 (2026-09-03): mirrors the comment above — flagged as a
+    // data-confidence caveat, not just an internal note.
+    dataConfidenceNote:
+      "The official Gujarat scheme page couldn't be reached this pass — these figures are corroborated via a secondary source (GUSEC) instead of the primary portal.",
+    // requiredDocuments / applicationSteps intentionally left undefined:
+    // startup.gujarat.gov.in remains unreachable this session (robots.txt
+    // fetch failure), a third consecutive failed attempt across this and
+    // an earlier session pass — same known issue already noted above for
+    // this scheme's sector data. Left unset rather than guessed.
     officialUrl: 'https://startup.gujarat.gov.in/scheme-for-assistance/scheme-one',
     lastVerified: '2026-09-02',
   },
@@ -875,6 +928,11 @@ export const schemes: Scheme[] = [
     summary:
       "Maharashtra's own state-level equivalent of PMEGP: credit-linked margin-money subsidy for setting up new micro and small manufacturing/services enterprises, for applicants aged 18–45 who haven't already availed a subsidy under another central or state scheme (one beneficiary per family).",
     officialUrl: 'https://mskvib.org/en/chief-ministers-employment-generation-programme-cmegp/',
-    lastVerified: '2026-09-02',
+    // requiredDocuments / applicationSteps intentionally left undefined:
+    // re-checked mskvib.org on 2026-09-03 — its only procedural line is
+    // "Application Through Online Mechanism CMEGP. www.cmegp.gov.in
+    // Maharashtra," with no document list or multi-step process stated
+    // on this page to cite.
+    lastVerified: '2026-09-03',
   },
 ]

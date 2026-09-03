@@ -268,6 +268,19 @@ export interface Scheme {
    * `lib/schemes/describe-audience.ts`).
    */
   enhancedSupportFor?: { group: string; detail: string }[]
+  /**
+   * Optional, purely informational "data confidence" caveat — set only
+   * for a scheme whose OWN sourcing comment in data/schemes.ts already
+   * flags a genuine limitation (an unresolved figure, a tier not
+   * separately stated, a primary source that couldn't be independently
+   * verified). Never invented for a scheme that doesn't already carry
+   * one. NEVER read by the matching engine, by design (see
+   * `enhancedSupportFor` above for the same guarantee) — this can never
+   * affect `matchScore` or `eligibilityStatus`. Surfaced only as a
+   * small note via `components/schemes/data-confidence-note.tsx`.
+   * Undefined (the default) for every scheme without a flagged caveat.
+   */
+  dataConfidenceNote?: string
   /** Required unless isDemo is true. */
   officialUrl: string | null
   /**

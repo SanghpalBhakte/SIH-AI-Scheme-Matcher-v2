@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { SaveSchemeButton } from '@/components/schemes/save-scheme-button'
+import { DataConfidenceNote } from '@/components/schemes/data-confidence-note'
 import { useLanguage } from '@/lib/i18n/language-context'
 import type { Scheme } from '@/lib/matching/types'
 
@@ -47,6 +48,7 @@ export function SchemeBrowserCard({ scheme }: { scheme: Scheme }) {
             ? t('browser.documentsRequired', { count: scheme.requiredDocuments.length })
             : t('browser.documentsUnknown')}
         </p>
+        <DataConfidenceNote scheme={scheme} />
 
         <div className="flex flex-wrap items-center gap-3 pt-1">
           <Link

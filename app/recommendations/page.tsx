@@ -10,6 +10,7 @@ import { MethodologyNote } from '@/components/recommendations/methodology-note'
 import { RecommendationsSummary } from '@/components/recommendations/recommendations-summary'
 import { LowMatchNotice } from '@/components/recommendations/low-match-notice'
 import { RecommendationCard } from '@/components/recommendations/recommendation-card'
+import { RecommendationDisclaimer } from '@/components/recommendations/recommendation-disclaimer'
 import { StartOverButton } from '@/components/assessment/start-over-button'
 import { useAssessment } from '@/lib/assessment/assessment-context'
 import { useLanguage } from '@/lib/i18n/language-context'
@@ -98,6 +99,7 @@ export default function RecommendationsPage() {
       <MethodologyNote />
 
       <RecommendationsSummary results={results} totalEvaluated={allResults.length} />
+      <RecommendationDisclaimer />
 
       {!hasStrongMatch && <LowMatchNotice />}
 

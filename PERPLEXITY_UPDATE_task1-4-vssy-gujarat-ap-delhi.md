@@ -1,0 +1,40 @@
+# Handoff to Perplexity: VSSY correction, Gujarat/AP/Delhi additions, Task 4 backlog (Sept 2, 2026)
+
+Paste this into the same Perplexity thread as your Task 1–4 brief. This reports what Claude actually implemented, re-raises one still-unresolved conflict from your brief, and flags the Task 4 states left on HOLD.
+
+## Quick recap
+
+SchemeSetu (SIH26092) — Next.js/TypeScript app matching Indian entrepreneurs to real government schemes. Deterministic rule engine, not ML. No-fabrication rule: every scheme needs a real, verified official URL and no invented figures; unverifiable facts stay `null`/flagged rather than guessed.
+
+## What changed in this task
+
+**Dataset: 31 → 34 schemes.**
+
+- **UP VSSY corrected, not renamed to "2.0".** Re-verified both your cited sources directly. The PDF (`GovernmentScheme638927397130517915.pdf`) confirms "6 days" training and does **not** use the name "VSSY 2.0" anywhere. The HTML page you cited as primary (`msme1connect.up.gov.in/Home/SchemesList/1`) — same domain — states **"up to 10 days"**, contradicting the PDF. Rather than silently pick one, the dataset now documents both figures and the conflict in a code comment, keeps the toolkit figure at "up to ₹15,000" (confirmed), removes the specific loan range and UPKVIB lender claim (unconfirmed), and keeps `maxIncomeLakh: null`. This is the **second time** this exact scheme's figures haven't matched your brief — see the "Ask" section below.
+- **Gujarat "Scheme for Assistance for Startups / Innovation" added** as instructed, plus a new matching-engine test proving a Gujarat applicant gets a real state match while a non-Gujarat applicant gets a correctly-labelled hard state-fail (never silently dropped).
+- **Delhi "Composite Loan Scheme" added — decision: ADD.** DSFDC's own eligibility page plus a secondary aggregator (publicservicesmap.in) corroborate: SC applicants up to ₹3,00,000, OBC/Minority/PwD up to ₹1,00,000 (ST tier not separately stated anywhere found), income cap ₹1,20,000/year, administered by DSFDC under Delhi's Social Welfare Department. **Known schema gap flagged in a code comment**: this dataset's `Category` type only has `General/OBC/SC/ST` — there's no `Minority` or `PwD` value, so those two officially-eligible groups can't be represented and won't match in the app yet. Not something Claude can fix by editing scheme data — it's a `lib/matching/types.ts` schema limitation worth a product decision.
+- **Andhra Pradesh "AP Innovation & Startup Policy 4.0 — Startup Grant" added — new state, not in your original list.** Verified via the official policy PDF (apit.ap.gov.in) cross-checked against startupindia.gov.in's AP state-policy summary: grant up to ₹2 lakh upfront + up to ₹15 lakh total until product viability, administered by AP Innovation Society. A separate, larger ₹20 lakh grant tier exists for underrepresented founders (Women/BC/SC/ST/Minority/Differently-Abled) but wasn't encoded — same category-schema gap as Delhi, plus no per-gender-tier field.
+- **Maharashtra, Punjab, Rajasthan — all three HOLD, no entries added.** Full reasoning and exact TODO comments are in `data/schemes.ts` right before the Andhra Pradesh entry. Short version below.
+- **Found and fixed a real bug** in `lib/chat/scheme-lookup.ts`: `detectSchemeName`'s id-token matching didn't strip stopwords the way its name-token matching did, so a scheme id containing the literal word "scheme" (like the new `delhi-composite-loan-scheme`) would falsely match generic phrasing like "explain this scheme." One-line fix (apply the existing `STOPWORDS` filter to id tokens too); full verification suite re-run clean afterward. This is a pre-existing latent bug your new scheme additions happened to trip, not something introduced by bad data.
+- Full verification suite passed clean: `tsc --noEmit`, `eslint --max-warnings 0`, `verify:engine` (34 schemes, all new state-isolation/category/income tests pass), `verify:chat-engine` (after the fix above), `next build`. Spot-checked all 4 touched/added scheme detail pages live via a local production server before delivery.
+
+## Task 4 backlog — compact report
+
+| State | Scheme candidate | Official URL(s) checked | Department | Target group | Benefit officially verified? | Income cap | Active/current evidence | Recommendation |
+|---|---|---|---|---|---|---|---|---|
+| Andhra Pradesh | AP Innovation & Startup Policy 4.0 — Startup Grant | [apit.ap.gov.in PDF](https://apit.ap.gov.in/assets/files/2025ITC_36424_MS9_E.pdf), [startupindia.gov.in AP policy](https://www.startupindia.gov.in/content/sih/en/state-startup-policies/Andhra-Pradesh-state-policy.html) | AP Innovation Society (APIS) | Startups/students with innovative ideas | Yes — ₹2L upfront + up to ₹15L total | Not stated | Policy dated 2024–2029, both sources current | **ADD** (done) |
+| Maharashtra | Annasaheb Patil Arthik Vikas Mahamandal (IR-I individual / IR-II group interest reimbursement) | [udyog.mahaswayam.gov.in](https://udyog.mahaswayam.gov.in/) | Annasaheb Patil Arthik Magas Vikas Mahamandal | Maratha community specifically (not a clean fit for this app's category field) | **No** — only third-party aggregators state amounts, ranging ₹10L–₹50L, inconsistent | Not confirmed | Portal live (2026 copyright) | **HOLD** — no official figure, and target group doesn't map onto `General/OBC/SC/ST` |
+| Punjab | Interest Subsidy under Industrial & Business Development Policy 2022 | [punjabinfotech.in 2022 policy PDF](https://punjabinfotech.in/assets/pdf/Industrial_Policy_2022.pdf) (confirms Section 12.7 exists), [startupindia.gov.in Punjab policy](https://www.startupindia.gov.in/content/sih/en/state-startup-policies/Punjab-state-policy.html) (states 8%/5yr/₹5L cap but cites the superseded 2017–2022 policy) | Dept. of Industries & Commerce, Punjab | Startups obtaining loans from scheduled banks | **No** — rate/cap not confirmed from the current 2022 document itself | Not stated | 2022 policy is the current one; older startupindia figure's currency is unconfirmed | **HOLD** — reconcile rate before adding |
+| Rajasthan | Mukhyamantri Yuva Swarozgar Yojana (tentative — name confusion found) | [myscheme.gov.in/schemes/myuyb](https://www.myscheme.gov.in/schemes/myuyb) (unreachable — JS-rendered), [Vikaspedia](https://en.vikaspedia.in/viewcontent/schemesall/state-specific-schemes/welfare-schemes-of-rajasthan/mukhyamantri-yuva-swarozgar-yojana) | Industries & Commerce Dept., Rajasthan | Rajasthan youth, manufacturing/services | **No** — no loan amount found | Not stated | Unclear — real risk of cross-state name collision (a similarly-named scheme belongs to Madhya Pradesh; another to UP) | **HOLD** — resolve name collision + get a figure first |
+
+## Two things worth your second opinion
+
+**1. UP VSSY — still unresolved, second round now.** Your brief again asserted "6-day" training and a "VSSY 2.0" name. Direct fetch of your own cited PDF confirms 6 days but never says "2.0"; direct fetch of your own cited HTML page (same domain) says "10 days." Could you trace exactly where "10 days" vs "6 days" and the "2.0" suffix came from on your end? If `diupmsme.upsdc.gov.in` (the actual application portal, still unconfirmed live) has a page stating either figure authoritatively, that would resolve this cleanly.
+
+**2. Rajasthan name collision.** If you have a way to confirm which "Mukhyamantri Yuva Udyami/Swarozgar Yojana" variant is actually Rajasthan's current one (vs. Madhya Pradesh's `merayuva.mp.gov.in` scheme or UP's "Yuva Udyami Vikas Yojana"), that would unblock this state.
+
+## Ask
+
+1. Re-verify UP VSSY's training-duration figure and the "2.0" naming per the discrepancy above.
+2. If bandwidth allows: Maharashtra (confirm an official loan/subsidy figure — current sources give none), Punjab (confirm the 2022 policy's current interest-subsidy rate/cap), Rajasthan (resolve the scheme-name collision, then confirm a benefit figure).
+3. No action needed on the Gujarat/Delhi/AP additions or the chat-engine bugfix — those are implemented, tested, and shipped.

@@ -1,11 +1,12 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { ArrowRight, CheckCircle2, Circle, ExternalLink } from 'lucide-react'
 
 import { cn } from '@/lib/utils'
 import { useLanguage } from '@/lib/i18n/language-context'
 import { GENERIC_CHECKLIST_STEPS, type ChecklistStepId } from '@/lib/schemes/checklist'
+import { loadPersistedChecklist, savePersistedChecklist } from '@/lib/schemes/checklist-persistence'
 import type { Scheme } from '@/lib/matching/types'
 
 /**
@@ -72,16 +73,33 @@ function StepDetail({ id, scheme, t }: { id: ChecklistStepId; scheme: Scheme; t:
 /**
  * A guided, trackable application checklist for one scheme. Built to
  * be reusable (e.g. a future dashboard or saved-schemes area): it
- * takes only `scheme` and owns its own session-only progress state —
- * no persistence, no wiring beyond that one prop.
+ * takes only `scheme` and owns its own progress state — no wiring
+ * beyond that one prop.
  *
- * Progress is deliberately not saved anywhere (no localStorage/
- * sessionStorage/backend) — a page refresh starts the checklist over.
- * That's a simple, honest implementation for this phase, not a bug.
+ * Progress is persisted to localStorage, keyed per scheme id, via
+ * lib/schemes/checklist-persistence.ts — the same isHydrated-safe
+ * pattern as lib/schemes/saved-schemes-context.tsx (server render and
+ * the client's first paint always start from an empty checklist; a
+ * client-only effect restores real stored progress a moment later, so
+ * there's no hydration mismatch) and the same versioned,
+ * safe-to-discard-on-any-shape-mismatch storage as
+ * lib/assessment/persistence.ts. A page refresh no longer starts the
+ * checklist over.
  */
 export function ApplicationChecklist({ scheme }: { scheme: Scheme }) {
   const { t } = useLanguage()
   const [completed, setCompleted] = useState<ReadonlySet<ChecklistStepId>>(new Set())
+  const [isHydrated, setIsHydrated] = useState(false)
+
+  // Runs on mount and whenever the scheme changes (this component can
+  // be reused across schemes without unmounting) — always resets to
+  // that scheme's own persisted progress, or an empty checklist if
+  // none is stored, rather than carrying over the previous scheme's
+  // state.
+  useEffect(() => {
+    setCompleted(loadPersistedChecklist(scheme.id) ?? new Set())
+    setIsHydrated(true)
+  }, [scheme.id])
 
   function toggle(id: ChecklistStepId) {
     setCompleted((prev) => {
@@ -91,6 +109,7 @@ export function ApplicationChecklist({ scheme }: { scheme: Scheme }) {
       } else {
         next.add(id)
       }
+      savePersistedChecklist(scheme.id, next)
       return next
     })
   }
@@ -135,9 +154,14 @@ export function ApplicationChecklist({ scheme }: { scheme: Scheme }) {
               <button
                 type="button"
                 onClick={() => toggle(step.id)}
+                // Guards against a click landing in the brief window
+                // before the persisted-progress effect has run, which
+                // would otherwise toggle against (and then overwrite)
+                // state that hasn't finished loading yet.
+                disabled={!isHydrated}
                 aria-pressed={isDone}
                 aria-label={t('checklist.markAs', { label, state: isDone ? t('checklist.notStarted') : t('checklist.completed') })}
-                className="mt-0.5 shrink-0 text-muted-foreground transition-all duration-150 hover:scale-110 hover:text-primary"
+                className="mt-0.5 shrink-0 text-muted-foreground transition-all duration-150 hover:scale-110 hover:text-primary disabled:pointer-events-none disabled:opacity-50"
               >
                 {isDone ? (
                   <CheckCircle2 className="h-5 w-5 text-success" aria-hidden />

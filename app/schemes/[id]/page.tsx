@@ -10,6 +10,8 @@ import { Alert, AlertDescription } from '@/components/ui/alert'
 import { DisclaimerBanner } from '@/components/layout/disclaimer-banner'
 import { EligibilityStatusBadge } from '@/components/recommendations/eligibility-status-badge'
 import { MatchExplanation } from '@/components/recommendations/match-explanation'
+import { RecommendationReasoning } from '@/components/recommendations/recommendation-reasoning'
+import { RecommendationDisclaimer } from '@/components/recommendations/recommendation-disclaimer'
 import { SchemeOverview } from '@/components/schemes/scheme-overview'
 import { ApplicationChecklist } from '@/components/schemes/application-checklist'
 import { SaveSchemeButton } from '@/components/schemes/save-scheme-button'
@@ -193,6 +195,19 @@ export default function SchemeDetailsPage({ params }: { params: { id: string } }
               </Alert>
             )}
           </section>
+
+          {/* Only rendered when a real SchemeMatchResult exists (a
+              completed assessment profile) — never shown for a direct
+              browse with no profile, so this can never claim a match
+              that wasn't actually computed (see app-level requirement
+              on not misrepresenting a direct browse as a match). */}
+          {result && (
+            <section className="space-y-2 border-t border-border pt-4">
+              <h2 className="text-xs font-semibold uppercase tracking-wide text-accent">{t('reasoning.whyTitle')}</h2>
+              <RecommendationReasoning result={result} scheme={scheme} variant="full" />
+              <RecommendationDisclaimer className="pt-1" />
+            </section>
+          )}
 
           <section className="space-y-2 border-t border-border pt-4">
             <h2 className="text-xs font-semibold uppercase tracking-wide text-accent">{t('schemeDetails.applicationChecklist')}</h2>

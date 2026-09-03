@@ -382,6 +382,27 @@ const en: Dictionary = {
     "This page isn't cached yet. Reconnect to load it, or revisit any page you've already opened — it'll keep working offline.",
   'pwa.install': 'Install app',
   'pwa.installed': 'Installed',
+  'error.title': 'Something went wrong',
+  'error.body':
+    "This page ran into an unexpected error. You can try again, or head back to the homepage — nothing else in the app is affected.",
+  'error.startOver': 'Start over',
+  'error.goHome': 'Go home',
+  'dataConfidence.label': 'Sourcing note:',
+  'machineTranslation.title': 'Machine-translated:',
+  'machineTranslation.body':
+    "This language hasn't been reviewed by a native speaker yet, so some wording may be imperfect. For the most precise reading, switch to English or Hindi.",
+  'reasoning.matchLabel.strong': 'Strong match',
+  'reasoning.matchLabel.possible': 'Possible match',
+  'reasoning.matchLabel.explore': 'Explore after verification',
+  'reasoning.whyTitle': 'Why this may fit you',
+  'reasoning.expandMore': 'Why this matched',
+  'reasoning.fallback': 'Matched based on your profile details; review eligibility before applying.',
+  'reasoning.verifyTitle': 'Verify before applying',
+  'reasoning.verify.confirmEligibility': 'Confirm final eligibility on the official portal',
+  'reasoning.verify.categoryAndLocal': 'Verify category and local implementation requirements',
+  'reasoning.verify.fundingWindow': 'Check current funding limits and application window',
+  'reasoning.disclaimer':
+    'SchemeSetu provides guidance based on your inputs. Final eligibility and approval are decided by the official implementing authority.',
 }
 
 const hi: Dictionary = {
@@ -681,6 +702,27 @@ const hi: Dictionary = {
     'यह पेज अभी तक सेव नहीं हुआ है। इसे लोड करने के लिए फिर से कनेक्ट करें, या कोई भी पहले खोला हुआ पेज देखें — वह ऑफ़लाइन भी काम करता रहेगा।',
   'pwa.install': 'ऐप इंस्टॉल करें',
   'pwa.installed': 'इंस्टॉल हो गया',
+  'error.title': 'कुछ गड़बड़ हो गई',
+  'error.body':
+    'इस पेज पर एक अनपेक्षित त्रुटि आ गई। आप फिर से कोशिश कर सकते हैं, या होमपेज पर वापस जा सकते हैं — ऐप में बाकी कुछ भी प्रभावित नहीं हुआ है।',
+  'error.startOver': 'फिर से शुरू करें',
+  'error.goHome': 'होम पर जाएं',
+  'dataConfidence.label': 'स्रोत संबंधी टिप्पणी:',
+  'machineTranslation.title': 'मशीन-अनुवादित:',
+  'machineTranslation.body':
+    'इस भाषा की अभी तक किसी मातृभाषी वक्ता द्वारा समीक्षा नहीं हुई है, इसलिए कुछ शब्द अशुद्ध हो सकते हैं। सबसे सटीक जानकारी के लिए अंग्रेज़ी या हिंदी में बदलें।',
+  'reasoning.matchLabel.strong': 'मजबूत मेल',
+  'reasoning.matchLabel.possible': 'संभावित मेल',
+  'reasoning.matchLabel.explore': 'सत्यापन के बाद विचार करें',
+  'reasoning.whyTitle': 'यह आपके लिए उपयुक्त क्यों हो सकता है',
+  'reasoning.expandMore': 'यह मेल क्यों हुआ',
+  'reasoning.fallback': 'आपकी प्रोफ़ाइल के विवरण के आधार पर मेल किया गया; आवेदन करने से पहले पात्रता की समीक्षा करें।',
+  'reasoning.verifyTitle': 'आवेदन करने से पहले सत्यापित करें',
+  'reasoning.verify.confirmEligibility': 'आधिकारिक पोर्टल पर अंतिम पात्रता की पुष्टि करें',
+  'reasoning.verify.categoryAndLocal': 'श्रेणी और स्थानीय कार्यान्वयन आवश्यकताओं को सत्यापित करें',
+  'reasoning.verify.fundingWindow': 'वर्तमान फंडिंग सीमा और आवेदन विंडो की जांच करें',
+  'reasoning.disclaimer':
+    'SchemeSetu आपके इनपुट के आधार पर मार्गदर्शन प्रदान करता है। अंतिम पात्रता और अनुमोदन का निर्णय आधिकारिक कार्यान्वयन प्राधिकरण द्वारा किया जाता है।',
 }
 
 const bn: Dictionary = {
@@ -954,6 +996,27 @@ const bn: Dictionary = {
     'এই পেজটি এখনও সংরক্ষিত হয়নি। এটি লোড করতে আবার সংযুক্ত হন, অথবা আগে খোলা যেকোনো পেজ দেখুন — সেটি অফলাইনেও কাজ করবে।',
   'pwa.install': 'অ্যাপ ইনস্টল করুন',
   'pwa.installed': 'ইনস্টল করা হয়েছে',
+  'error.title': 'কিছু ভুল হয়েছে',
+  'error.body':
+    'এই পেজে একটি অপ্রত্যাশিত ত্রুটি ঘটেছে। আপনি আবার চেষ্টা করতে পারেন, অথবা হোমপেজে ফিরে যেতে পারেন — অ্যাপের বাকি অংশ প্রভাবিত হয়নি।',
+  'error.startOver': 'আবার শুরু করুন',
+  'error.goHome': 'হোমে যান',
+  'dataConfidence.label': 'উৎস সংক্রান্ত মন্তব্য:',
+  'machineTranslation.title': 'যন্ত্র-অনূদিত:',
+  'machineTranslation.body':
+    'এই ভাষাটি এখনও কোনো স্থানীয় ভাষাভাষী দ্বারা পর্যালোচিত হয়নি, তাই কিছু শব্দ অসম্পূর্ণ হতে পারে। সবচেয়ে সঠিক তথ্যের জন্য ইংরেজি বা হিন্দিতে পরিবর্তন করুন।',
+  'reasoning.matchLabel.strong': 'শক্তিশালী মিল',
+  'reasoning.matchLabel.possible': 'সম্ভাব্য মিল',
+  'reasoning.matchLabel.explore': 'যাচাইয়ের পর বিবেচনা করুন',
+  'reasoning.whyTitle': 'এটি আপনার জন্য কেন উপযুক্ত হতে পারে',
+  'reasoning.expandMore': 'এই মিল কেন হয়েছে',
+  'reasoning.fallback': 'আপনার প্রোফাইলের বিবরণের ভিত্তিতে মিলিত হয়েছে; আবেদন করার আগে যোগ্যতা পর্যালোচনা করুন।',
+  'reasoning.verifyTitle': 'আবেদন করার আগে যাচাই করুন',
+  'reasoning.verify.confirmEligibility': 'অফিসিয়াল পোর্টালে চূড়ান্ত যোগ্যতা নিশ্চিত করুন',
+  'reasoning.verify.categoryAndLocal': 'শ্রেণী এবং স্থানীয় বাস্তবায়ন প্রয়োজনীয়তা যাচাই করুন',
+  'reasoning.verify.fundingWindow': 'বর্তমান তহবিল সীমা এবং আবেদনের সময়সীমা পরীক্ষা করুন',
+  'reasoning.disclaimer':
+    'SchemeSetu আপনার তথ্যের ভিত্তিতে দিকনির্দেশনা প্রদান করে। চূড়ান্ত যোগ্যতা এবং অনুমোদন সরকারি বাস্তবায়নকারী কর্তৃপক্ষ দ্বারা নির্ধারিত হয়।',
 }
 
 const mr: Dictionary = {
@@ -1227,6 +1290,27 @@ const mr: Dictionary = {
     'हे पान अजून सेव्ह झालेले नाही. ते लोड करण्यासाठी पुन्हा कनेक्ट करा, किंवा आधी उघडलेले कोणतेही पान पहा — ते ऑफलाइनही काम करत राहील.',
   'pwa.install': 'अ‍ॅप इंस्टॉल करा',
   'pwa.installed': 'इंस्टॉल झाले',
+  'error.title': 'काहीतरी चूक झाली',
+  'error.body':
+    'या पेजवर एक अनपेक्षित त्रुटी आली. तुम्ही पुन्हा प्रयत्न करू शकता, किंवा मुख्यपृष्ठावर परत जाऊ शकता — अ‍ॅपमधील इतर कशावरही परिणाम झालेला नाही.',
+  'error.startOver': 'पुन्हा सुरू करा',
+  'error.goHome': 'मुख्यपृष्ठावर जा',
+  'dataConfidence.label': 'स्रोताबाबत टीप:',
+  'machineTranslation.title': 'यंत्र-अनुवादित:',
+  'machineTranslation.body':
+    'या भाषेचे अद्याप कोणत्याही मातृभाषिकाकडून पुनरावलोकन झालेले नाही, त्यामुळे काही शब्द अचूक नसू शकतात. अधिक अचूक माहितीसाठी इंग्रजी किंवा हिंदीवर स्विच करा.',
+  'reasoning.matchLabel.strong': 'मजबूत जुळणी',
+  'reasoning.matchLabel.possible': 'संभाव्य जुळणी',
+  'reasoning.matchLabel.explore': 'पडताळणीनंतर विचार करा',
+  'reasoning.whyTitle': 'हे तुमच्यासाठी योग्य का असू शकते',
+  'reasoning.expandMore': 'ही जुळणी का झाली',
+  'reasoning.fallback': 'तुमच्या प्रोफाइलच्या तपशीलांवर आधारित जुळणी झाली; अर्ज करण्यापूर्वी पात्रतेचे पुनरावलोकन करा.',
+  'reasoning.verifyTitle': 'अर्ज करण्यापूर्वी पडताळणी करा',
+  'reasoning.verify.confirmEligibility': 'अधिकृत पोर्टलवर अंतिम पात्रतेची पुष्टी करा',
+  'reasoning.verify.categoryAndLocal': 'श्रेणी आणि स्थानिक अंमलबजावणी आवश्यकता पडताळून पाहा',
+  'reasoning.verify.fundingWindow': 'सध्याची निधी मर्यादा आणि अर्ज कालावधी तपासा',
+  'reasoning.disclaimer':
+    'SchemeSetu तुमच्या माहितीच्या आधारे मार्गदर्शन प्रदान करते. अंतिम पात्रता आणि मंजुरी अधिकृत अंमलबजावणी प्राधिकरणाद्वारे ठरवली जाते.',
 }
 
 const te: Dictionary = {
@@ -1500,6 +1584,27 @@ const te: Dictionary = {
     'ఈ పేజీ ఇంకా సేవ్ కాలేదు. దీన్ని లోడ్ చేయడానికి మళ్లీ కనెక్ట్ అవ్వండి, లేదా మీరు ఇంతకుముందు తెరిచిన ఏదైనా పేజీని చూడండి — అది ఆఫ్‌లైన్‌లో కూడా పనిచేస్తూనే ఉంటుంది.',
   'pwa.install': 'యాప్‌ను ఇన్‌స్టాల్ చేయండి',
   'pwa.installed': 'ఇన్‌స్టాల్ చేయబడింది',
+  'error.title': 'ఏదో తప్పు జరిగింది',
+  'error.body':
+    'ఈ పేజీలో ఊహించని లోపం ఏర్పడింది. మీరు మళ్ళీ ప్రయత్నించవచ్చు, లేదా హోమ్‌పేజీకి తిరిగి వెళ్లవచ్చు — యాప్‌లోని మిగతా భాగానికి ఎలాంటి ప్రభావం లేదు.',
+  'error.startOver': 'మళ్ళీ మొదలుపెట్టండి',
+  'error.goHome': 'హోమ్‌కు వెళ్ళండి',
+  'dataConfidence.label': 'మూలం సంబంధిత గమనిక:',
+  'machineTranslation.title': 'యంత్ర-అనువాదం:',
+  'machineTranslation.body':
+    'ఈ భాషను ఇంకా స్థానిక భాషికుడు సమీక్షించలేదు, కాబట్టి కొన్ని పదాలు అసంపూర్ణంగా ఉండవచ్చు. అత్యంత ఖచ్చితమైన సమాచారం కోసం ఇంగ్లీష్ లేదా హిందీకి మారండి.',
+  'reasoning.matchLabel.strong': 'బలమైన సరిపోలిక',
+  'reasoning.matchLabel.possible': 'సాధ్యమైన సరిపోలిక',
+  'reasoning.matchLabel.explore': 'ధృవీకరణ తర్వాత పరిశీలించండి',
+  'reasoning.whyTitle': 'ఇది మీకు ఎందుకు సరిపోవచ్చు',
+  'reasoning.expandMore': 'ఈ సరిపోలిక ఎందుకు జరిగింది',
+  'reasoning.fallback': 'మీ ప్రొఫైల్ వివరాల ఆధారంగా సరిపోలింది; దరఖాస్తు చేసుకునే ముందు అర్హతను సమీక్షించండి.',
+  'reasoning.verifyTitle': 'దరఖాస్తు చేసుకునే ముందు ధృవీకరించండి',
+  'reasoning.verify.confirmEligibility': 'అధికారిక పోర్టల్‌లో తుది అర్హతను నిర్ధారించుకోండి',
+  'reasoning.verify.categoryAndLocal': 'వర్గం మరియు స్థానిక అమలు అవసరాలను ధృవీకరించండి',
+  'reasoning.verify.fundingWindow': 'ప్రస్తుత నిధుల పరిమితులు మరియు దరఖాస్తు గడువును తనిఖీ చేయండి',
+  'reasoning.disclaimer':
+    'SchemeSetu మీ ఇన్‌పుట్‌ల ఆధారంగా మార్గదర్శకత్వం అందిస్తుంది. తుది అర్హత మరియు ఆమోదం అధికారిక అమలు అధికార సంస్థ ద్వారా నిర్ణయించబడతాయి.',
 }
 
 const ta: Dictionary = {
@@ -1773,6 +1878,27 @@ const ta: Dictionary = {
     'இந்தப் பக்கம் இன்னும் சேமிக்கப்படவில்லை. அதை ஏற்ற மீண்டும் இணையவும், அல்லது ஏற்கனவே திறந்த எந்தப் பக்கத்தையும் பார்வையிடவும் — அது ஆஃப்லைனிலும் தொடர்ந்து செயல்படும்.',
   'pwa.install': 'ஆப்பை நிறுவவும்',
   'pwa.installed': 'நிறுவப்பட்டது',
+  'error.title': 'ஏதோ தவறு நடந்துவிட்டது',
+  'error.body':
+    'இந்தப் பக்கத்தில் எதிர்பாராத பிழை ஏற்பட்டது. நீங்கள் மீண்டும் முயற்சிக்கலாம், அல்லது முகப்புப் பக்கத்திற்குத் திரும்பலாம் — ஆப்பின் மற்ற பகுதிகள் பாதிக்கப்படவில்லை.',
+  'error.startOver': 'மீண்டும் தொடங்கு',
+  'error.goHome': 'முகப்புக்குச் செல்',
+  'dataConfidence.label': 'மூல குறிப்பு:',
+  'machineTranslation.title': 'இயந்திர மொழிபெயர்ப்பு:',
+  'machineTranslation.body':
+    'இந்த மொழி இன்னும் ஒரு தாய்மொழி பேசுபவரால் மதிப்பாய்வு செய்யப்படவில்லை, எனவே சில வார்த்தைகள் துல்லியமற்றதாக இருக்கலாம். மிகச் சரியான தகவலுக்கு ஆங்கிலம் அல்லது இந்திக்கு மாறவும்.',
+  'reasoning.matchLabel.strong': 'வலுவான பொருத்தம்',
+  'reasoning.matchLabel.possible': 'சாத்தியமான பொருத்தம்',
+  'reasoning.matchLabel.explore': 'சரிபார்ப்புக்குப் பிறகு பரிசீலிக்கவும்',
+  'reasoning.whyTitle': 'இது உங்களுக்கு ஏன் பொருந்தக்கூடும்',
+  'reasoning.expandMore': 'இந்தப் பொருத்தம் ஏன் ஏற்பட்டது',
+  'reasoning.fallback': 'உங்கள் சுயவிவரத் தகவல்களின் அடிப்படையில் பொருத்தப்பட்டது; விண்ணப்பிக்கும் முன் தகுதியை மதிப்பாய்வு செய்யவும்.',
+  'reasoning.verifyTitle': 'விண்ணப்பிக்கும் முன் சரிபார்க்கவும்',
+  'reasoning.verify.confirmEligibility': 'அதிகாரப்பூர்வ போர்ட்டலில் இறுதி தகுதியை உறுதிப்படுத்தவும்',
+  'reasoning.verify.categoryAndLocal': 'பிரிவு மற்றும் உள்ளூர் அமலாக்கத் தேவைகளைச் சரிபார்க்கவும்',
+  'reasoning.verify.fundingWindow': 'தற்போதைய நிதி வரம்புகள் மற்றும் விண்ணப்ப காலத்தைச் சரிபார்க்கவும்',
+  'reasoning.disclaimer':
+    'SchemeSetu உங்கள் உள்ளீடுகளின் அடிப்படையில் வழிகாட்டுதலை வழங்குகிறது. இறுதி தகுதி மற்றும் ஒப்புதல் அதிகாரப்பூர்வ செயல்படுத்தும் ஆணையத்தால் தீர்மானிக்கப்படுகிறது.',
 }
 
 const gu: Dictionary = {
@@ -2046,6 +2172,27 @@ const gu: Dictionary = {
     'આ પેજ હજુ સેવ થયું નથી. તેને લોડ કરવા ફરીથી કનેક્ટ થાઓ, અથવા પહેલાં ખોલેલું કોઈપણ પેજ જુઓ — તે ઑફલાઇન પણ કામ કરતું રહેશે.',
   'pwa.install': 'એપ ઇન્સ્ટોલ કરો',
   'pwa.installed': 'ઇન્સ્ટોલ થયું',
+  'error.title': 'કંઈક ખોટું થયું',
+  'error.body':
+    'આ પેજ પર એક અણધારી ભૂલ આવી. તમે ફરીથી પ્રયાસ કરી શકો છો, અથવા મુખ્ય પૃષ્ઠ પર પાછા જઈ શકો છો — એપ્લિકેશનના બાકીના ભાગને અસર થઈ નથી.',
+  'error.startOver': 'ફરીથી શરૂ કરો',
+  'error.goHome': 'મુખ્ય પૃષ્ઠ પર જાઓ',
+  'dataConfidence.label': 'સ્રોત વિશે નોંધ:',
+  'machineTranslation.title': 'મશીન-અનુવાદિત:',
+  'machineTranslation.body':
+    'આ ભાષાની હજુ સુધી કોઈ મૂળ ભાષી દ્વારા સમીક્ષા કરવામાં આવી નથી, તેથી કેટલાક શબ્દો અચોક્કસ હોઈ શકે છે. સૌથી સચોટ માહિતી માટે અંગ્રેજી અથવા હિન્દીમાં બદલો.',
+  'reasoning.matchLabel.strong': 'મજબૂત મેળ',
+  'reasoning.matchLabel.possible': 'સંભવિત મેળ',
+  'reasoning.matchLabel.explore': 'ચકાસણી પછી વિચારો',
+  'reasoning.whyTitle': 'આ તમારા માટે શા માટે યોગ્ય હોઈ શકે છે',
+  'reasoning.expandMore': 'આ મેળ શા માટે થયો',
+  'reasoning.fallback': 'તમારી પ્રોફાઇલની વિગતોના આધારે મેળ થયો; અરજી કરતા પહેલા પાત્રતાની સમીક્ષા કરો.',
+  'reasoning.verifyTitle': 'અરજી કરતા પહેલા ચકાસો',
+  'reasoning.verify.confirmEligibility': 'સત્તાવાર પોર્ટલ પર અંતિમ પાત્રતાની પુષ્ટિ કરો',
+  'reasoning.verify.categoryAndLocal': 'શ્રેણી અને સ્થાનિક અમલીકરણ આવશ્યકતાઓ ચકાસો',
+  'reasoning.verify.fundingWindow': 'વર્તમાન ભંડોળ મર્યાદા અને અરજી સમયગાળો તપાસો',
+  'reasoning.disclaimer':
+    'SchemeSetu તમારા ઇનપુટના આધારે માર્ગદર્શન પૂરું પાડે છે. અંતિમ પાત્રતા અને મંજૂરી સત્તાવાર અમલીકરણ સત્તાધિકારી દ્વારા નક્કી કરવામાં આવે છે.',
 }
 
 const kn: Dictionary = {
@@ -2319,6 +2466,27 @@ const kn: Dictionary = {
     'ಈ ಪುಟ ಇನ್ನೂ ಉಳಿಸಲಾಗಿಲ್ಲ. ಇದನ್ನು ಲೋಡ್ ಮಾಡಲು ಮತ್ತೆ ಸಂಪರ್ಕಿಸಿ, ಅಥವಾ ಈಗಾಗಲೇ ತೆರೆದ ಯಾವುದೇ ಪುಟವನ್ನು ವೀಕ್ಷಿಸಿ — ಅದು ಆಫ್‌ಲೈನ್‌ನಲ್ಲಿಯೂ ಕಾರ್ಯನಿರ್ವಹಿಸುತ್ತಿರುತ್ತದೆ.',
   'pwa.install': 'ಅಪ್ಲಿಕೇಶನ್ ಸ್ಥಾಪಿಸಿ',
   'pwa.installed': 'ಸ್ಥಾಪಿಸಲಾಗಿದೆ',
+  'error.title': 'ಏನೋ ತಪ್ಪಾಗಿದೆ',
+  'error.body':
+    'ಈ ಪುಟದಲ್ಲಿ ಅನಿರೀಕ್ಷಿತ ದೋಷ ಸಂಭವಿಸಿದೆ. ನೀವು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಬಹುದು, ಅಥವಾ ಮುಖಪುಟಕ್ಕೆ ಹಿಂತಿರುಗಬಹುದು — ಅಪ್ಲಿಕೇಶನ್‌ನ ಉಳಿದ ಭಾಗಕ್ಕೆ ಯಾವುದೇ ಪರಿಣಾಮ ಇಲ್ಲ.',
+  'error.startOver': 'ಮತ್ತೆ ಪ್ರಾರಂಭಿಸಿ',
+  'error.goHome': 'ಮುಖಪುಟಕ್ಕೆ ಹೋಗಿ',
+  'dataConfidence.label': 'ಮೂಲದ ಬಗ್ಗೆ ಟಿಪ್ಪಣಿ:',
+  'machineTranslation.title': 'ಯಂತ್ರ-ಅನುವಾದಿತ:',
+  'machineTranslation.body':
+    'ಈ ಭಾಷೆಯನ್ನು ಇನ್ನೂ ಸ್ಥಳೀಯ ಭಾಷಿಕರು ಪರಿಶೀಲಿಸಿಲ್ಲ, ಆದ್ದರಿಂದ ಕೆಲವು ಪದಗಳು ನಿಖರವಾಗಿಲ್ಲದಿರಬಹುದು. ಹೆಚ್ಚು ನಿಖರವಾದ ಮಾಹಿತಿಗಾಗಿ ಇಂಗ್ಲಿಷ್ ಅಥವಾ ಹಿಂದಿಗೆ ಬದಲಿಸಿ.',
+  'reasoning.matchLabel.strong': 'ಬಲವಾದ ಹೊಂದಾಣಿಕೆ',
+  'reasoning.matchLabel.possible': 'ಸಂಭಾವ್ಯ ಹೊಂದಾಣಿಕೆ',
+  'reasoning.matchLabel.explore': 'ಪರಿಶೀಲನೆಯ ನಂತರ ಪರಿಗಣಿಸಿ',
+  'reasoning.whyTitle': 'ಇದು ನಿಮಗೆ ಏಕೆ ಸೂಕ್ತವಾಗಬಹುದು',
+  'reasoning.expandMore': 'ಈ ಹೊಂದಾಣಿಕೆ ಏಕೆ ಆಯಿತು',
+  'reasoning.fallback': 'ನಿಮ್ಮ ಪ್ರೊಫೈಲ್ ವಿವರಗಳ ಆಧಾರದ ಮೇಲೆ ಹೊಂದಿಸಲಾಗಿದೆ; ಅರ್ಜಿ ಸಲ್ಲಿಸುವ ಮೊದಲು ಅರ್ಹತೆಯನ್ನು ಪರಿಶೀಲಿಸಿ.',
+  'reasoning.verifyTitle': 'ಅರ್ಜಿ ಸಲ್ಲಿಸುವ ಮೊದಲು ಪರಿಶೀಲಿಸಿ',
+  'reasoning.verify.confirmEligibility': 'ಅಧಿಕೃತ ಪೋರ್ಟಲ್‌ನಲ್ಲಿ ಅಂತಿಮ ಅರ್ಹತೆಯನ್ನು ದೃಢೀಕರಿಸಿ',
+  'reasoning.verify.categoryAndLocal': 'ವರ್ಗ ಮತ್ತು ಸ್ಥಳೀಯ ಅನುಷ್ಠಾನ ಅವಶ್ಯಕತೆಗಳನ್ನು ಪರಿಶೀಲಿಸಿ',
+  'reasoning.verify.fundingWindow': 'ಪ್ರಸ್ತುತ ನಿಧಿ ಮಿತಿಗಳು ಮತ್ತು ಅರ್ಜಿ ಅವಧಿಯನ್ನು ಪರಿಶೀಲಿಸಿ',
+  'reasoning.disclaimer':
+    'SchemeSetu ನಿಮ್ಮ ಇನ್‌ಪುಟ್‌ಗಳ ಆಧಾರದ ಮೇಲೆ ಮಾರ್ಗದರ್ಶನ ನೀಡುತ್ತದೆ. ಅಂತಿಮ ಅರ್ಹತೆ ಮತ್ತು ಅನುಮೋದನೆಯನ್ನು ಅಧಿಕೃತ ಅನುಷ್ಠಾನ ಪ್ರಾಧಿಕಾರ ನಿರ್ಧರಿಸುತ್ತದೆ.',
 }
 
 const pa: Dictionary = {
@@ -2623,6 +2791,27 @@ const pa: Dictionary = {
     'ਇਹ ਪੰਨਾ ਅਜੇ ਸੰਭਾਲਿਆ ਨਹੀਂ ਗਿਆ। ਇਸਨੂੰ ਲੋਡ ਕਰਨ ਲਈ ਦੁਬਾਰਾ ਕਨੈਕਟ ਕਰੋ, ਜਾਂ ਕੋਈ ਵੀ ਪਹਿਲਾਂ ਖੋਲ੍ਹਿਆ ਪੰਨਾ ਦੇਖੋ — ਇਹ ਆਫਲਾਈਨ ਵੀ ਕੰਮ ਕਰਦਾ ਰਹੇਗਾ।',
   'pwa.install': 'ਐਪ ਇੰਸਟਾਲ ਕਰੋ',
   'pwa.installed': 'ਇੰਸਟਾਲ ਹੋ ਗਿਆ',
+  'error.title': 'ਕੁਝ ਗਲਤ ਹੋ ਗਿਆ',
+  'error.body':
+    "ਇਸ ਪੇਜ 'ਤੇ ਇੱਕ ਅਚਾਨਕ ਗਲਤੀ ਆ ਗਈ। ਤੁਸੀਂ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰ ਸਕਦੇ ਹੋ, ਜਾਂ ਹੋਮਪੇਜ 'ਤੇ ਵਾਪਸ ਜਾ ਸਕਦੇ ਹੋ — ਐਪ ਦੇ ਬਾਕੀ ਹਿੱਸੇ 'ਤੇ ਕੋਈ ਅਸਰ ਨਹੀਂ ਪਿਆ।",
+  'error.startOver': 'ਦੁਬਾਰਾ ਸ਼ੁਰੂ ਕਰੋ',
+  'error.goHome': "ਹੋਮ 'ਤੇ ਜਾਓ",
+  'dataConfidence.label': 'ਸਰੋਤ ਸੰਬੰਧੀ ਨੋਟ:',
+  'machineTranslation.title': 'ਮਸ਼ੀਨ-ਅਨੁਵਾਦਿਤ:',
+  'machineTranslation.body':
+    "ਇਸ ਭਾਸ਼ਾ ਦੀ ਅਜੇ ਤੱਕ ਕਿਸੇ ਮੂਲ ਬੋਲਣ ਵਾਲੇ ਦੁਆਰਾ ਸਮੀਖਿਆ ਨਹੀਂ ਕੀਤੀ ਗਈ, ਇਸ ਲਈ ਕੁਝ ਸ਼ਬਦ ਸਹੀ ਨਹੀਂ ਹੋ ਸਕਦੇ। ਸਭ ਤੋਂ ਸਟੀਕ ਜਾਣਕਾਰੀ ਲਈ ਅੰਗਰੇਜ਼ੀ ਜਾਂ ਹਿੰਦੀ 'ਤੇ ਬਦਲੋ।",
+  'reasoning.matchLabel.strong': 'ਮਜ਼ਬੂਤ ਮੇਲ',
+  'reasoning.matchLabel.possible': 'ਸੰਭਾਵੀ ਮੇਲ',
+  'reasoning.matchLabel.explore': 'ਪੁਸ਼ਟੀ ਤੋਂ ਬਾਅਦ ਵਿਚਾਰ ਕਰੋ',
+  'reasoning.whyTitle': 'ਇਹ ਤੁਹਾਡੇ ਲਈ ਕਿਉਂ ਢੁਕਵਾਂ ਹੋ ਸਕਦਾ ਹੈ',
+  'reasoning.expandMore': 'ਇਹ ਮੇਲ ਕਿਉਂ ਹੋਇਆ',
+  'reasoning.fallback': "ਤੁਹਾਡੀ ਪ੍ਰੋਫਾਈਲ ਦੇ ਵੇਰਵਿਆਂ ਦੇ ਆਧਾਰ 'ਤੇ ਮੇਲ ਕੀਤਾ ਗਿਆ; ਅਰਜ਼ੀ ਦੇਣ ਤੋਂ ਪਹਿਲਾਂ ਯੋਗਤਾ ਦੀ ਸਮੀਖਿਆ ਕਰੋ।",
+  'reasoning.verifyTitle': 'ਅਰਜ਼ੀ ਦੇਣ ਤੋਂ ਪਹਿਲਾਂ ਪੁਸ਼ਟੀ ਕਰੋ',
+  'reasoning.verify.confirmEligibility': "ਅਧਿਕਾਰਤ ਪੋਰਟਲ 'ਤੇ ਅੰਤਿਮ ਯੋਗਤਾ ਦੀ ਪੁਸ਼ਟੀ ਕਰੋ",
+  'reasoning.verify.categoryAndLocal': 'ਸ਼੍ਰੇਣੀ ਅਤੇ ਸਥਾਨਕ ਲਾਗੂਕਰਨ ਲੋੜਾਂ ਦੀ ਪੁਸ਼ਟੀ ਕਰੋ',
+  'reasoning.verify.fundingWindow': 'ਮੌਜੂਦਾ ਫੰਡਿੰਗ ਸੀਮਾਵਾਂ ਅਤੇ ਅਰਜ਼ੀ ਵਿੰਡੋ ਦੀ ਜਾਂਚ ਕਰੋ',
+  'reasoning.disclaimer':
+    "SchemeSetu ਤੁਹਾਡੇ ਇਨਪੁਟਸ ਦੇ ਆਧਾਰ 'ਤੇ ਮਾਰਗਦਰਸ਼ਨ ਪ੍ਰਦਾਨ ਕਰਦਾ ਹੈ। ਅੰਤਿਮ ਯੋਗਤਾ ਅਤੇ ਮਨਜ਼ੂਰੀ ਅਧਿਕਾਰਤ ਲਾਗੂਕਰਨ ਅਥਾਰਟੀ ਦੁਆਰਾ ਤੈਅ ਕੀਤੀ ਜਾਂਦੀ ਹੈ।",
 }
 
 const or: Dictionary = {
@@ -2935,6 +3124,27 @@ const or: Dictionary = {
     'ଏହି ପୃଷ୍ଠା ଏପର୍ଯ୍ୟନ୍ତ ସାଇତି ହୋଇନାହିଁ। ଏହାକୁ ଲୋଡ୍ କରିବାକୁ ପୁନଃ ସଂଯୋଗ କରନ୍ତୁ, କିମ୍ବା ପୂର୍ବରୁ ଖୋଲିଥିବା କୌଣସି ପୃଷ୍ଠା ଦେଖନ୍ତୁ — ଏହା ଅଫଲାଇନ୍‌ରେ ମଧ୍ୟ କାମ କରିବ।',
   'pwa.install': 'ଆପ୍ ଇନଷ୍ଟଲ୍ କରନ୍ତୁ',
   'pwa.installed': 'ଇନଷ୍ଟଲ୍ ହୋଇଗଲା',
+  'error.title': 'କିଛି ଭୁଲ ହୋଇଗଲା',
+  'error.body':
+    'ଏହି ପୃଷ୍ଠାରେ ଏକ ଅପ୍ରତ୍ୟାଶିତ ତ୍ରୁଟି ଘଟିଛି। ଆପଣ ପୁଣି ଚେଷ୍ଟା କରିପାରିବେ, କିମ୍ବା ମୁଖ୍ୟପୃଷ୍ଠାକୁ ଫେରିଯାଇପାରିବେ — ଆପ୍‌ର ବାକି ଅଂଶ ପ୍ରଭାବିତ ହୋଇନାହିଁ।',
+  'error.startOver': 'ପୁଣି ଆରମ୍ଭ କରନ୍ତୁ',
+  'error.goHome': 'ମୁଖ୍ୟପୃଷ୍ଠାକୁ ଯାଆନ୍ତୁ',
+  'dataConfidence.label': 'ଉତ୍ସ ସମ୍ବନ୍ଧୀୟ ଟିପ୍ପଣୀ:',
+  'machineTranslation.title': 'ଯାନ୍ତ୍ରିକ-ଅନୁବାଦିତ:',
+  'machineTranslation.body':
+    'ଏହି ଭାଷାକୁ ଏପର୍ଯ୍ୟନ୍ତ କୌଣସି ମାତୃଭାଷୀ ଦ୍ୱାରା ସମୀକ୍ଷା କରାଯାଇ ନାହିଁ, ତେଣୁ କିଛି ଶବ୍ଦ ଅସଠିକ ହୋଇପାରେ। ସବୁଠାରୁ ସଠିକ ସୂଚନା ପାଇଁ ଇଂରାଜୀ କିମ୍ବା ହିନ୍ଦୀକୁ ବଦଳାନ୍ତୁ।',
+  'reasoning.matchLabel.strong': 'ଶକ୍ତିଶାଳୀ ମେଳ',
+  'reasoning.matchLabel.possible': 'ସମ୍ଭାବ୍ୟ ମେଳ',
+  'reasoning.matchLabel.explore': 'ଯାଞ୍ଚ ପରେ ବିଚାର କରନ୍ତୁ',
+  'reasoning.whyTitle': 'ଏହା ଆପଣଙ୍କ ପାଇଁ କାହିଁକି ଉପଯୁକ୍ତ ହୋଇପାରେ',
+  'reasoning.expandMore': 'ଏହି ମେଳ କାହିଁକି ହେଲା',
+  'reasoning.fallback': 'ଆପଣଙ୍କ ପ୍ରୋଫାଇଲ୍ ବିବରଣୀ ଆଧାରରେ ମେଳ ହେଲା; ଆବେଦନ କରିବା ପୂର୍ବରୁ ଯୋଗ୍ୟତା ସମୀକ୍ଷା କରନ୍ତୁ।',
+  'reasoning.verifyTitle': 'ଆବେଦନ କରିବା ପୂର୍ବରୁ ଯାଞ୍ଚ କରନ୍ତୁ',
+  'reasoning.verify.confirmEligibility': 'ସରକାରୀ ପୋର୍ଟାଲରେ ଅନ୍ତିମ ଯୋଗ୍ୟତା ନିଶ୍ଚିତ କରନ୍ତୁ',
+  'reasoning.verify.categoryAndLocal': 'ବର୍ଗ ଏବଂ ସ୍ଥାନୀୟ କାର୍ଯ୍ୟାନ୍ୱୟନ ଆବଶ୍ୟକତା ଯାଞ୍ଚ କରନ୍ତୁ',
+  'reasoning.verify.fundingWindow': 'ବର୍ତ୍ତମାନର ପାଣ୍ଠି ସୀମା ଏବଂ ଆବେଦନ ସମୟସୀମା ଯାଞ୍ଚ କରନ୍ତୁ',
+  'reasoning.disclaimer':
+    'SchemeSetu ଆପଣଙ୍କ ସୂଚନା ଆଧାରରେ ମାର୍ଗଦର୍ଶନ ପ୍ରଦାନ କରେ। ଅନ୍ତିମ ଯୋଗ୍ୟତା ଏବଂ ଅନୁମୋଦନ ସରକାରୀ କାର୍ଯ୍ୟାନ୍ୱୟନ ପ୍ରାଧିକରଣ ଦ୍ୱାରା ସ୍ଥିର କରାଯାଏ।',
 }
 
 const ml: Dictionary = {
@@ -3249,6 +3459,27 @@ const ml: Dictionary = {
     'ഈ പേജ് ഇതുവരെ കാഷെ ചെയ്തിട്ടില്ല. ഇത് ലോഡ് ചെയ്യാൻ വീണ്ടും കണക്റ്റ് ചെയ്യുക, അല്ലെങ്കിൽ നിങ്ങൾ മുമ്പ് തുറന്ന ഏതെങ്കിലും പേജ് സന്ദർശിക്കുക — അത് ഓഫ്‌ലൈനിലും പ്രവർത്തിക്കുന്നത് തുടരും.',
   'pwa.install': 'ആപ്പ് ഇൻസ്റ്റാൾ ചെയ്യുക',
   'pwa.installed': 'ഇൻസ്റ്റാൾ ചെയ്തു',
+  'error.title': 'എന്തോ പിഴവ് സംഭവിച്ചു',
+  'error.body':
+    'ഈ പേജിൽ അപ്രതീക്ഷിതമായ ഒരു പിശക് ഉണ്ടായി. നിങ്ങൾക്ക് വീണ്ടും ശ്രമിക്കാം, അല്ലെങ്കിൽ ഹോംപേജിലേക്ക് മടങ്ങാം — ആപ്പിന്റെ മറ്റ് ഭാഗങ്ങളെ ഇത് ബാധിച്ചിട്ടില്ല.',
+  'error.startOver': 'വീണ്ടും ആരംഭിക്കുക',
+  'error.goHome': 'ഹോമിലേക്ക് പോകുക',
+  'dataConfidence.label': 'സ്രോതസ്സ് സംബന്ധിച്ച കുറിപ്പ്:',
+  'machineTranslation.title': 'യന്ത്ര-വിവർത്തനം:',
+  'machineTranslation.body':
+    'ഈ ഭാഷ ഇതുവരെ ഒരു മാതൃഭാഷക്കാരൻ അവലോകനം ചെയ്തിട്ടില്ല, അതിനാൽ ചില വാക്കുകൾ കൃത്യമല്ലാതിരിക്കാം. ഏറ്റവും കൃത്യമായ വിവരത്തിന് ഇംഗ്ലീഷ് അല്ലെങ്കിൽ ഹിന്ദിയിലേക്ക് മാറുക.',
+  'reasoning.matchLabel.strong': 'ശക്തമായ പൊരുത്തം',
+  'reasoning.matchLabel.possible': 'സാധ്യമായ പൊരുത്തം',
+  'reasoning.matchLabel.explore': 'പരിശോധനയ്ക്ക് ശേഷം പരിഗണിക്കുക',
+  'reasoning.whyTitle': 'ഇത് നിങ്ങൾക്ക് അനുയോജ്യമാകുന്നത് എന്തുകൊണ്ട്',
+  'reasoning.expandMore': 'ഈ പൊരുത്തം എന്തുകൊണ്ട് സംഭവിച്ചു',
+  'reasoning.fallback': 'നിങ്ങളുടെ പ്രൊഫൈൽ വിശദാംശങ്ങളുടെ അടിസ്ഥാനത്തിൽ പൊരുത്തപ്പെട്ടു; അപേക്ഷിക്കുന്നതിന് മുമ്പ് യോഗ്യത അവലോകനം ചെയ്യുക.',
+  'reasoning.verifyTitle': 'അപേക്ഷിക്കുന്നതിന് മുമ്പ് പരിശോധിക്കുക',
+  'reasoning.verify.confirmEligibility': 'ഔദ്യോഗിക പോർട്ടലിൽ അന്തിമ യോഗ്യത സ്ഥിരീകരിക്കുക',
+  'reasoning.verify.categoryAndLocal': 'വിഭാഗവും പ്രാദേശിക നടപ്പാക്കൽ ആവശ്യകതകളും പരിശോധിക്കുക',
+  'reasoning.verify.fundingWindow': 'നിലവിലെ ധനസഹായ പരിധികളും അപേക്ഷാ കാലയളവും പരിശോധിക്കുക',
+  'reasoning.disclaimer':
+    'SchemeSetu നിങ്ങളുടെ വിവരങ്ങളുടെ അടിസ്ഥാനത്തിൽ മാർഗ്ഗനിർദ്ദേശം നൽകുന്നു. അന്തിമ യോഗ്യതയും അംഗീകാരവും ഔദ്യോഗിക നടപ്പാക്കൽ അതോറിറ്റി തീരുമാനിക്കുന്നു.',
 }
 
 const as: Dictionary = {
@@ -3519,6 +3750,27 @@ const as: Dictionary = {
   'offline.body': 'এই পৃষ্ঠাটো এতিয়াও সংৰক্ষিত হোৱা নাই। ইয়াক ল\'ড কৰিবলৈ পুনৰ সংযুক্ত হওক, বা আগতে খোলা যিকোনো পৃষ্ঠা চাওক — সেয়া অফলাইনতো কাম কৰি থাকিব।',
   'pwa.install': 'এপ ইনষ্টল কৰক',
   'pwa.installed': 'ইনষ্টল কৰা হৈছে',
+  'error.title': "কিবা ভুল হ'ল",
+  'error.body':
+    "এই পৃষ্ঠাত এটা অপ্ৰত্যাশিত ত্ৰুটি হ'ল। আপুনি পুনৰ চেষ্টা কৰিব পাৰে, বা হোমপেজলৈ ঘূৰি যাব পাৰে — এপ্‌টোৰ বাকী অংশ প্ৰভাৱিত হোৱা নাই।",
+  'error.startOver': 'পুনৰ আৰম্ভ কৰক',
+  'error.goHome': 'হোমলৈ যাওক',
+  'dataConfidence.label': 'উৎস সম্পৰ্কীয় মন্তব্য:',
+  'machineTranslation.title': 'যান্ত্ৰিক-অনুবাদিত:',
+  'machineTranslation.body':
+    "এই ভাষাটো এতিয়াও কোনো মাতৃভাষীৰ দ্বাৰা পৰ্যালোচনা কৰা হোৱা নাই, সেয়েহে কিছুমান শব্দ অশুদ্ধ হ'ব পাৰে। আটাইতকৈ শুদ্ধ তথ্যৰ বাবে ইংৰাজী বা হিন্দীলৈ সলনি কৰক।",
+  'reasoning.matchLabel.strong': 'শক্তিশালী মিল',
+  'reasoning.matchLabel.possible': 'সম্ভাৱ্য মিল',
+  'reasoning.matchLabel.explore': 'সত্যাপনৰ পিছত বিবেচনা কৰক',
+  'reasoning.whyTitle': 'এইটো আপোনাৰ বাবে কিয় উপযুক্ত হ\'ব পাৰে',
+  'reasoning.expandMore': 'এই মিলটো কিয় হ\'ল',
+  'reasoning.fallback': 'আপোনাৰ প্ৰ\'ফাইলৰ বিৱৰণৰ আধাৰত মিল কৰা হৈছে; আবেদন কৰাৰ আগতে যোগ্যতা পৰ্যালোচনা কৰক।',
+  'reasoning.verifyTitle': 'আবেদন কৰাৰ আগতে সত্যাপন কৰক',
+  'reasoning.verify.confirmEligibility': 'চৰকাৰী পৰ্টেলত চূড়ান্ত যোগ্যতা নিশ্চিত কৰক',
+  'reasoning.verify.categoryAndLocal': 'শ্ৰেণী আৰু স্থানীয় প্ৰয়োগ প্ৰয়োজনীয়তা সত্যাপন কৰক',
+  'reasoning.verify.fundingWindow': 'বৰ্তমানৰ পুঁজি সীমা আৰু আবেদন সময়সীমা পৰীক্ষা কৰক',
+  'reasoning.disclaimer':
+    "SchemeSetu-এ আপোনাৰ তথ্যৰ আধাৰত পথনিৰ্দেশনা প্ৰদান কৰে। চূড়ান্ত যোগ্যতা আৰু অনুমোদন চৰকাৰী প্ৰয়োগ প্ৰাধিকাৰীয়ে নিৰ্ধাৰণ কৰে।",
 }
 
 export const translations: Record<Locale, Dictionary> = { en, hi, bn, mr, te, ta, gu, kn, pa, or, ml, as }

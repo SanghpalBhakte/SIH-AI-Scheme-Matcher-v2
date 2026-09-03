@@ -3,6 +3,7 @@
 import { Users } from 'lucide-react'
 
 import { describeAudience } from '@/lib/schemes/describe-audience'
+import { DataConfidenceNote } from '@/components/schemes/data-confidence-note'
 import { useLanguage } from '@/lib/i18n/language-context'
 import type { Scheme } from '@/lib/matching/types'
 
@@ -21,6 +22,7 @@ export function SchemeOverview({ scheme }: { scheme: Scheme }) {
       <div>
         <p className="font-medium text-primary">{scheme.benefit}</p>
         <p className="mt-1 text-muted-foreground">{scheme.summary}</p>
+        <DataConfidenceNote scheme={scheme} className="mt-2" />
       </div>
 
       <div>

@@ -6,7 +6,9 @@ import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { EligibilityStatusBadge, ELIGIBILITY_STATUS_ACCENT } from './eligibility-status-badge'
 import { MatchExplanation } from './match-explanation'
+import { RecommendationReasoning } from './recommendation-reasoning'
 import { SaveSchemeButton } from '@/components/schemes/save-scheme-button'
+import { DataConfidenceNote } from '@/components/schemes/data-confidence-note'
 import { useLanguage } from '@/lib/i18n/language-context'
 import { cn } from '@/lib/utils'
 import type { SchemeMatchResult } from '@/lib/matching/types'
@@ -56,8 +58,17 @@ export function RecommendationCard({ result }: { result: SchemeMatchResult }) {
       <CardContent className="flex-1 space-y-3 text-sm">
         <p className="font-medium text-primary">{scheme.benefit}</p>
         <p className="text-muted-foreground">{scheme.summary}</p>
+        <DataConfidenceNote scheme={scheme} />
 
-        <MatchExplanation result={result} />
+        <RecommendationReasoning result={result} scheme={scheme} variant="compact" />
+
+        {/* Visually separated from RecommendationReasoning above so its
+            own "Why this matches you:" lead-in never reads as a second
+            answer to the same question right underneath "Why this
+            matched" — MatchExplanation itself is untouched. */}
+        <div className="border-t border-border pt-3">
+          <MatchExplanation result={result} />
+        </div>
 
         <div className="flex flex-wrap items-center gap-3 pt-1">
           <Link

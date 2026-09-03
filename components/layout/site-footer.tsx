@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { Landmark } from 'lucide-react'
 
 import { DisclaimerBanner } from '@/components/layout/disclaimer-banner'
+import { MachineTranslationNotice } from '@/components/layout/machine-translation-notice'
 import { InstallPrompt } from '@/components/pwa/install-prompt'
 import { useLanguage } from '@/lib/i18n/language-context'
 
@@ -62,6 +63,7 @@ export function SiteFooter() {
         </div>
 
         <DisclaimerBanner />
+        <MachineTranslationNotice />
 
         <div className="flex flex-wrap items-center justify-between gap-3 text-xs text-muted-foreground">
           <p>{t('footer.copyright', { year: String(new Date().getFullYear()) })}</p>
