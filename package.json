@@ -8,13 +8,15 @@
     "start": "next start",
     "lint": "next lint",
     "verify:engine": "tsx scripts/verify-matching-engine.ts",
-    "verify:chat-engine": "tsx scripts/verify-chat-engine.ts"
+    "verify:chat-engine": "tsx scripts/verify-chat-engine.ts",
+    "seed:supabase": "tsx scripts/seed-supabase-schemes.ts"
   },
   "dependencies": {
     "@fontsource/fraunces": "^5.3.0",
     "@fontsource/inter": "^5.3.0",
     "@radix-ui/react-progress": "^1.1.0",
     "@radix-ui/react-slot": "^1.1.0",
+    "@supabase/supabase-js": "^2.115.0",
     "@vercel/analytics": "^2.0.1",
     "@vercel/speed-insights": "^2.0.0",
     "class-variance-authority": "^0.7.0",

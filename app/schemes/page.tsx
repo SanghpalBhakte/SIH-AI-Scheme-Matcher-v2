@@ -11,21 +11,25 @@ import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 import { DisclaimerBanner } from '@/components/layout/disclaimer-banner'
 import { SchemeBrowserCard } from '@/components/schemes/scheme-browser-card'
 import { useLanguage } from '@/lib/i18n/language-context'
-import { schemes } from '@/data/schemes'
+import { useSchemes } from '@/lib/schemes/live-schemes'
 
 // Standalone catalog of every scheme — no assessment required. Filter
 // option sets are derived from the dataset itself rather than reusing
 // CATEGORY_OPTIONS/SECTOR_OPTIONS (lib/matching/types.ts), because
 // scheme data contains values like "Woman"/"Any" that aren't part of
-// those stricter assessment-form option lists.
-const ALL_CATEGORIES = Array.from(new Set(schemes.flatMap((s) => s.categories))).sort()
-const ALL_SECTORS = Array.from(new Set(schemes.flatMap((s) => s.sectors))).sort()
+// those stricter assessment-form option lists. Computed via useMemo
+// (not a module-level constant) since the dataset itself can now
+// upgrade from static to live after mount — see lib/schemes/live-schemes.tsx.
 
 export default function SchemesBrowserPage() {
   const { t } = useLanguage()
+  const schemes = useSchemes()
   const [search, setSearch] = useState('')
   const [category, setCategory] = useState('')
   const [sector, setSector] = useState('')
+
+  const allCategories = useMemo(() => Array.from(new Set(schemes.flatMap((s) => s.categories))).sort(), [schemes])
+  const allSectors = useMemo(() => Array.from(new Set(schemes.flatMap((s) => s.sectors))).sort(), [schemes])
 
   const filtered = useMemo(() => {
     const q = search.trim().toLowerCase()
@@ -39,7 +43,7 @@ export default function SchemesBrowserPage() {
       const matchesSector = sector === '' || scheme.sectors.includes(sector)
       return matchesQuery && matchesCategory && matchesSector
     })
-  }, [search, category, sector])
+  }, [schemes, search, category, sector])
 
   const hasActiveFilters = search !== '' || category !== '' || sector !== ''
 
@@ -68,7 +72,7 @@ export default function SchemesBrowserPage() {
         />
         <Select value={category} onChange={(e) => setCategory(e.target.value)} aria-label={t('common.allCategories')} className="sm:max-w-[180px]">
           <option value="">{t('common.allCategories')}</option>
-          {ALL_CATEGORIES.map((c) => (
+          {allCategories.map((c) => (
             <option key={c} value={c}>
               {c}
             </option>
@@ -76,7 +80,7 @@ export default function SchemesBrowserPage() {
         </Select>
         <Select value={sector} onChange={(e) => setSector(e.target.value)} aria-label={t('common.allSectors')} className="sm:max-w-[180px]">
           <option value="">{t('common.allSectors')}</option>
-          {ALL_SECTORS.map((s) => (
+          {allSectors.map((s) => (
             <option key={s} value={s}>
               {s}
             </option>

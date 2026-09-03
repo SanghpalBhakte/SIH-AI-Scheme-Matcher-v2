@@ -23,6 +23,7 @@ import { AssessmentProvider } from '@/lib/assessment/assessment-context'
 import { ThemeProvider, THEME_INIT_SCRIPT } from '@/lib/theme/theme-context'
 import { LanguageProvider } from '@/lib/i18n/language-context'
 import { SavedSchemesProvider } from '@/lib/schemes/saved-schemes-context'
+import { SchemesProvider } from '@/lib/schemes/live-schemes'
 
 export const metadata: Metadata = {
   title: 'SchemeSetu — SIH26092',
@@ -66,32 +67,34 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className="flex min-h-screen flex-col antialiased">
         <ThemeProvider>
-          <LanguageProvider>
-            <SavedSchemesProvider>
-              <AssessmentProvider>
-                <SiteHeader />
+          <SchemesProvider>
+            <LanguageProvider>
+              <SavedSchemesProvider>
+                <AssessmentProvider>
+                  <SiteHeader />
 
-                <div className="flex-1">{children}</div>
+                  <div className="flex-1">{children}</div>
 
-                <SiteFooter />
+                  <SiteFooter />
 
-                {/* App-wide floating assistant — see components/chat/chat-widget.tsx.
-                    Mounted here (inside AssessmentProvider, outside <main>) so it reads
-                    live profile state and persists across route changes without
-                    affecting any page's own layout or scroll. */}
-                <ChatWidget />
-                <ServiceWorkerRegistration />
-                {/* Vercel Speed Insights — reports real-user Core Web Vitals.
-                    Gated on VERCEL env var to prevent the
-                    "startTime of undefined" PerformanceEntry crash that
-                    occurs when the package runs outside Vercel infrastructure. */}
-                {isVercel && <SpeedInsights />}
-                {/* Vercel Web Analytics — same gate: only activates on
-                    Vercel edge; no-op and no config anywhere else. */}
-                {isVercel && <Analytics />}
-              </AssessmentProvider>
-            </SavedSchemesProvider>
-          </LanguageProvider>
+                  {/* App-wide floating assistant — see components/chat/chat-widget.tsx.
+                      Mounted here (inside AssessmentProvider, outside <main>) so it reads
+                      live profile state and persists across route changes without
+                      affecting any page's own layout or scroll. */}
+                  <ChatWidget />
+                  <ServiceWorkerRegistration />
+                  {/* Vercel Speed Insights — reports real-user Core Web Vitals.
+                      Gated on VERCEL env var to prevent the
+                      "startTime of undefined" PerformanceEntry crash that
+                      occurs when the package runs outside Vercel infrastructure. */}
+                  {isVercel && <SpeedInsights />}
+                  {/* Vercel Web Analytics — same gate: only activates on
+                      Vercel edge; no-op and no config anywhere else. */}
+                  {isVercel && <Analytics />}
+                </AssessmentProvider>
+              </SavedSchemesProvider>
+            </LanguageProvider>
+          </SchemesProvider>
         </ThemeProvider>
       </body>
     </html>

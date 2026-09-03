@@ -35,7 +35,7 @@ import { Badge } from '@/components/ui/badge'
 import { MatchMotif } from '@/components/landing/match-motif'
 import { HeroBackdrop } from '@/components/landing/hero-backdrop'
 import { LanguageChipStrip } from '@/components/i18n/language-chip-strip'
-import { schemes } from '@/data/schemes'
+import { useSchemes } from '@/lib/schemes/live-schemes'
 import { useLanguage } from '@/lib/i18n/language-context'
 import { LOCALES } from '@/lib/i18n/translations'
 
@@ -117,6 +117,7 @@ const SUPPORTED_LANGUAGES = LOCALES.map((l) => l.nativeLabel).join(', ')
 
 export default function HomePage() {
   const { t } = useLanguage()
+  const schemes = useSchemes()
 
   return (
     <main>

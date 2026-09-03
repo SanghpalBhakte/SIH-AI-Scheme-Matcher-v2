@@ -12,7 +12,7 @@ import { useAssessment } from '@/lib/assessment/assessment-context'
 import { useSavedSchemes } from '@/lib/schemes/saved-schemes-context'
 import { useLanguage } from '@/lib/i18n/language-context'
 import { evaluateScheme } from '@/lib/matching/engine'
-import { schemes } from '@/data/schemes'
+import { useSchemes } from '@/lib/schemes/live-schemes'
 import { deriveSpecialGroups, isProfileComplete } from '@/lib/matching/types'
 
 // Saved schemes now live here (this route was a deliberate
@@ -25,6 +25,7 @@ export default function DashboardPage() {
   const { profile, isHydrated: profileHydrated } = useAssessment()
   const { savedIds, isHydrated: savedHydrated } = useSavedSchemes()
   const { t } = useLanguage()
+  const schemes = useSchemes()
 
   const isHydrated = profileHydrated && savedHydrated
   const savedSchemes = savedIds.map((id) => schemes.find((s) => s.id === id)).filter((s): s is (typeof schemes)[number] => Boolean(s))

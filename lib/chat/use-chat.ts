@@ -20,7 +20,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { usePathname } from 'next/navigation'
 
 import { useAssessment } from '@/lib/assessment/assessment-context'
-import { schemes } from '@/data/schemes'
+import { useSchemes } from '@/lib/schemes/live-schemes'
 import { buildChatContext } from './context-adapter'
 import { answerQuery } from './engine'
 import { getQuickSuggestions } from './suggestions'
@@ -107,6 +107,7 @@ function persistSession(session: ChatSession): void {
 export function useChat() {
   const { profile, isHydrated: profileHydrated } = useAssessment()
   const pathname = usePathname()
+  const schemes = useSchemes()
 
   const [isOpen, setIsOpen] = useState(false)
   const [messages, setMessages] = useState<ChatMessage[]>([WELCOME_MESSAGE])
@@ -138,7 +139,7 @@ export function useChat() {
 
   const context = useMemo(
     () => buildChatContext({ profile, isHydrated: profileHydrated, pathname: pathname ?? '', schemes }),
-    [profile, profileHydrated, pathname]
+    [profile, profileHydrated, pathname, schemes]
   )
 
   const suggestions = useMemo(() => getQuickSuggestions(context, session), [context, session])
@@ -159,7 +160,7 @@ export function useChat() {
         setIsTyping(false)
       }, RESPONSE_DELAY_MS)
     },
-    [context, session, isTyping]
+    [context, session, isTyping, schemes]
   )
 
   return {

@@ -18,7 +18,7 @@ import { SaveSchemeButton } from '@/components/schemes/save-scheme-button'
 import { useAssessment } from '@/lib/assessment/assessment-context'
 import { useLanguage } from '@/lib/i18n/language-context'
 import { evaluateScheme } from '@/lib/matching/engine'
-import { schemes } from '@/data/schemes'
+import { useSchemes } from '@/lib/schemes/live-schemes'
 import { deriveSpecialGroups, isProfileComplete } from '@/lib/matching/types'
 import { getInstitutionForScheme } from '@/lib/institutions/directory'
 import { isLoanBased } from '@/lib/finance/emi'
@@ -31,6 +31,7 @@ import { isLoanBased } from '@/lib/finance/emi'
 export default function SchemeDetailsPage({ params }: { params: { id: string } }) {
   const { profile, isHydrated } = useAssessment()
   const { t } = useLanguage()
+  const schemes = useSchemes()
   const scheme = schemes.find((s) => s.id === params.id)
 
   if (!scheme) {

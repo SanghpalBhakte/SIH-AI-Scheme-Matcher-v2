@@ -16,6 +16,7 @@
 // schemes' checklists at once) — never a single shared key.
 
 import { GENERIC_CHECKLIST_STEPS, type ChecklistStepId } from './checklist'
+import { syncChecklist } from '@/lib/supabase/sync'
 
 const STORAGE_KEY_PREFIX = 'sih26092.checklist.'
 
@@ -84,6 +85,9 @@ export function savePersistedChecklist(schemeId: string, completed: ReadonlySet<
   } catch {
     // storage full/unavailable — persistence is a nice-to-have, never fatal
   }
+  // Best-effort mirror to Supabase — never awaited, localStorage above
+  // remains what the UI actually reads from either way.
+  syncChecklist(schemeId, [...completed]).catch(() => {})
 }
 
 /** Clears persisted progress for one scheme — e.g. if a "reset checklist" action is ever added. */

@@ -10,6 +10,8 @@
 
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from 'react'
 
+import { syncSavedSchemes } from '@/lib/supabase/sync'
+
 const STORAGE_KEY = 'sih26092.savedSchemes'
 
 function loadSavedIds(): string[] {
@@ -32,6 +34,9 @@ function persistSavedIds(ids: string[]): void {
   } catch {
     // storage full/unavailable — saving is a nice-to-have, never fatal
   }
+  // Best-effort mirror to Supabase — never awaited, localStorage above
+  // remains what the UI actually reads from either way.
+  syncSavedSchemes(ids).catch(() => {})
 }
 
 interface SavedSchemesContextValue {

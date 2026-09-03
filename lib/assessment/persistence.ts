@@ -1,8 +1,11 @@
 // Client-side-only persistence for the in-progress assessment draft.
-// This is explicitly LOCAL PROTOTYPE PERSISTENCE — browser
-// localStorage, never a backend, never anything beyond the same
-// profile fields the assessment form already collects (no secrets,
-// no auth tokens, nothing new).
+// localStorage remains what the UI actually reads from — nothing about
+// that changed. savePersistedAssessment() additionally fires a
+// best-effort, non-blocking mirror write to Supabase (see
+// lib/supabase/sync.ts) so a visitor's draft can survive a cleared
+// browser IF Supabase is configured and reachable; a visitor with
+// Supabase unconfigured, offline, or mid-outage sees zero difference —
+// localStorage alone still fully drives this app.
 //
 // Why localStorage and not sessionStorage: the goal is refresh/close
 // -tab demo reliability, and localStorage survives an accidental tab
@@ -17,6 +20,7 @@
 // and client would render different content on the very first paint).
 
 import { ASSESSMENT_STEPS } from './steps'
+import { syncAssessmentProfile } from '@/lib/supabase/sync'
 import type { DraftEntrepreneurProfile } from '@/lib/matching/types'
 
 const STORAGE_KEY = 'sih26092.assessment'
@@ -132,6 +136,9 @@ export function savePersistedAssessment(profile: DraftEntrepreneurProfile, stepI
   } catch {
     // storage full/unavailable — persistence is a nice-to-have, never fatal
   }
+  // Best-effort mirror to Supabase — never awaited, never blocks the
+  // local save above, silently inert if Supabase isn't configured.
+  syncAssessmentProfile(profile, stepIndex).catch(() => {})
 }
 
 /** Clears any persisted draft — used once the draft is back to empty, and on resetAssessment(). */

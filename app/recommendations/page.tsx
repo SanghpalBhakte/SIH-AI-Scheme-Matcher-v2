@@ -15,7 +15,7 @@ import { StartOverButton } from '@/components/assessment/start-over-button'
 import { useAssessment } from '@/lib/assessment/assessment-context'
 import { useLanguage } from '@/lib/i18n/language-context'
 import { matchSchemes } from '@/lib/matching/engine'
-import { schemes } from '@/data/schemes'
+import { useSchemes } from '@/lib/schemes/live-schemes'
 import { deriveSpecialGroups, isProfileComplete } from '@/lib/matching/types'
 
 const RESULTS_SHOWN = 3
@@ -23,6 +23,7 @@ const RESULTS_SHOWN = 3
 export default function RecommendationsPage() {
   const { profile, isHydrated } = useAssessment()
   const { t } = useLanguage()
+  const schemes = useSchemes()
 
   // Before the localStorage read completes, `profile` is always the
   // empty default (see assessment-context.tsx) — showing the
