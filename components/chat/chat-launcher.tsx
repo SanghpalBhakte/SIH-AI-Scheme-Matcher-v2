@@ -22,10 +22,22 @@ export const ChatLauncher = forwardRef<HTMLButtonElement, ChatLauncherProps>(fun
       type="button"
       onClick={onOpen}
       aria-label={ariaLabel}
-      className="fixed bottom-4 right-4 z-50 flex items-center gap-2 rounded-full bg-primary px-4 py-3 text-primary-foreground shadow-elevated-lg transition-all duration-150 hover:-translate-y-0.5 hover:shadow-elevated-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 sm:bottom-6 sm:right-6"
+      // Icon-only 48px circle below `sm` (same hide-the-label-on-mobile
+      // pattern site-header.tsx uses for its wordmark): a real mobile
+      // audit found the full labeled pill (123px wide) landing on top
+      // of real content on short viewports — the hero CTA, a form
+      // field, a "Save scheme" button — because at 360x640 there's no
+      // scroll-free band of the screen that's reliably empty. Shrinking
+      // to a corner icon (48px — comfortably above the 40px touch-target
+      // minimum, small enough to keep any remaining corner overlap to a
+      // sliver of whatever's underneath) keeps the launcher discoverable
+      // while leaving the rest of that element reachable. Desktop keeps
+      // the original labeled pill — collisions there are far less
+      // likely on taller viewports, and the label helps discovery.
+      className="fixed bottom-4 right-4 z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-elevated-lg transition-all duration-150 hover:-translate-y-0.5 hover:shadow-elevated-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 sm:bottom-6 sm:right-6 sm:h-auto sm:w-auto sm:gap-2 sm:px-4 sm:py-3"
     >
       <MessageCircle className="h-5 w-5 shrink-0" aria-hidden />
-      <span className="text-sm font-semibold">{label}</span>
+      <span className="hidden text-sm font-semibold sm:inline">{label}</span>
     </button>
   )
 })

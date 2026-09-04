@@ -69,7 +69,22 @@ self.addEventListener('fetch', (event) => {
       fetch(request)
         .then((response) => {
           if (response.ok) {
-            caches.open(PAGES_CACHE).then((cache) => cache.put(request, response.clone()))
+            // .clone() has to happen right here, synchronously, before
+            // this callback returns `response` to the browser — a
+            // Response's body can only be cloned before anyone has
+            // started reading it. The previous version called
+            // response.clone() lazily inside the .then() below, after
+            // caches.open() had resolved — by then the browser had
+            // already started consuming the original response to
+            // render the page, so every clone() call was throwing
+            // ("Response body is already used") and failing silently:
+            // this cache had never actually cached a single page.
+            // event.waitUntil is the other half of the fix: without
+            // it, nothing stops the browser tearing down this worker
+            // the instant `response` is returned, before the write
+            // below (now using the pre-made clone) finishes.
+            const responseToCache = response.clone()
+            event.waitUntil(caches.open(PAGES_CACHE).then((cache) => cache.put(request, responseToCache)))
           }
           return response
         })

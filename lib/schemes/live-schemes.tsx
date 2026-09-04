@@ -57,29 +57,43 @@ function isSchemeArray(value: unknown): value is Scheme[] {
   )
 }
 
+// Supabase's client has no built-in request timeout, so on a
+// genuinely bad mobile connection (patchy 2G/3G — this app's actual
+// audience) a hung request could sit open far longer than a visitor
+// would ever wait, then swap the schemes array out from under them
+// mid-session once it finally settles. This bounds that: the query
+// races an AbortController deadline, and either way (abort or a real
+// failure) the catch block below keeps the static data exactly as it
+// already did.
+const LIVE_FETCH_TIMEOUT_MS = 6000
+
 export function SchemesProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState<SchemesContextValue>({ schemes: staticSchemes, source: 'static' })
 
   useEffect(() => {
     let cancelled = false
+    const controller = new AbortController()
+    const timeoutId = window.setTimeout(() => controller.abort(), LIVE_FETCH_TIMEOUT_MS)
 
     ;(async () => {
       try {
         const client = await getSupabaseClient()
         if (!client || cancelled) return
-        const { data, error } = await client.from('schemes').select('data')
+        const { data, error } = await client.from('schemes').select('data').abortSignal(controller.signal)
         if (cancelled || error || !data) return
         const rows = data.map((row: { data: unknown }) => row.data)
         if (isSchemeArray(rows)) {
           setState({ schemes: rows, source: 'live' })
         }
       } catch {
-        // network error, timeout, unreachable project, or Supabase unconfigured — keep static data
+        // network error, timeout/abort, unreachable project, or Supabase unconfigured — keep static data
       }
     })()
 
     return () => {
       cancelled = true
+      window.clearTimeout(timeoutId)
+      controller.abort()
     }
   }, [])
 

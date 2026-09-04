@@ -59,11 +59,14 @@ export function LanguageNudge({ hidden = false }: { hidden?: boolean }) {
         type="button"
         onClick={dismiss}
         aria-label="Dismiss language hint"
-        className="absolute right-1.5 top-1.5 rounded-sm p-0.5 text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
+        // p-2.5 around a 12px icon gives a ~32px tap target (the icon
+        // itself stays visually small) — the raw p-0.5 this replaced
+        // measured at just 16x16px on a real mobile audit.
+        className="absolute right-0.5 top-0.5 rounded-sm p-2.5 text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
       >
         <X className="h-3 w-3" aria-hidden />
       </button>
-      <p className="pr-4 text-xs leading-relaxed text-foreground">
+      <p className="pr-6 text-xs leading-relaxed text-foreground">
         <span className="font-semibold">12 Indian languages available</span> — tap here to read this app in yours.
       </p>
     </div>

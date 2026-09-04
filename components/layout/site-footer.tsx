@@ -19,7 +19,18 @@ export function SiteFooter() {
   const { t } = useLanguage()
 
   return (
-    <footer className="border-t border-border bg-secondary/30">
+    // mt-28 on mobile only: on a short page (dashboard, offline) at a
+    // phone-height viewport, the flex-1 content area above stretches to
+    // fill the remaining viewport height regardless of its own content
+    // — so extra bottom padding *inside* that area has no effect on
+    // where this footer starts (flex-grow, not content size, decides
+    // that). Margin here, on the footer itself, isn't absorbed the same
+    // way: it reliably pushes the footer (and the nav links right
+    // inside it) down and clear of the floating chat launcher's fixed
+    // bottom-right band (see chat-launcher.tsx), instead of landing
+    // under it. Not needed from sm: up, where the launcher moves to
+    // bottom-6 and taller viewports make this a non-issue.
+    <footer className="mt-28 border-t border-border bg-secondary/30 sm:mt-0">
       <div className="container flex flex-col gap-8 py-10">
         <div className="grid gap-8 sm:grid-cols-[1.3fr_1fr_1fr]">
           <div className="space-y-2">

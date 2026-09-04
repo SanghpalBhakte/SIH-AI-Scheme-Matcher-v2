@@ -60,7 +60,12 @@ export function SiteHeader() {
         <Link
           href="/"
           onClick={(e) => guardNavigation(e, '/')}
-          className="flex shrink-0 items-center gap-2 text-sm font-semibold text-foreground transition-opacity hover:opacity-80"
+          // -m-2/p-2 grows the tap target to ~36px without shifting
+          // layout (the negative margin exactly cancels the padding on
+          // every side) — below `sm` the wordmark is hidden and the
+          // link would otherwise be just the 20px icon, well under a
+          // usable mobile touch target.
+          className="-m-2 flex shrink-0 items-center gap-2 p-2 text-sm font-semibold text-foreground transition-opacity hover:opacity-80"
         >
           <Landmark className="h-5 w-5 text-primary" aria-hidden />
           {/* Wordmark hides below sm — on a narrow phone the icon alone
