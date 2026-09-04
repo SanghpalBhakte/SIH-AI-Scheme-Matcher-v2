@@ -37,7 +37,7 @@ export const metadata: Metadata = {
 }
 
 export const viewport = {
-  themeColor: '#1c3f73',
+  themeColor: '#19763b',
 }
 
 // Only mount Vercel observability components when actually running on

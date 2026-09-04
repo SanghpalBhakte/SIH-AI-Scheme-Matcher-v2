@@ -5,11 +5,25 @@
 /* ---------------------------------------------------------------------
  * Design tokens
  * ---------------------------------------------------------------------
- * Palette direction: deep civic navy (trust, institutional) paired with
- * a restrained warm gold accent (the classic "seal/emblem" pairing —
- * premium and distinctly non-startup, without touching purple gradients
- * or neon). Backgrounds lean warm-neutral rather than cool gray, which
- * reads calmer and less "default SaaS dashboard."
+ * Palette direction: a warm, saturated green (trust, growth, "this is
+ * what a real government scheme site looks like") paired with a
+ * restrained warm gold accent. Replaces an earlier navy-led palette —
+ * navy tested well against Western nonprofit references (Kiva, SCORE,
+ * MBDA) but reads as generic "corporate SaaS" to Indian audiences per
+ * color-psychology research, and doesn't match the one directly
+ * comparable real-world precedent this audience may already know:
+ * myscheme.gov.in, the actual Indian government scheme portal, which
+ * uses this same green family. Backgrounds lean warm-neutral rather
+ * than cool gray or stark white — pure white reads cold/mourning-
+ * adjacent in parts of India — which also reads calmer and less
+ * "default SaaS dashboard."
+ *
+ * --success is deliberately a different, cooler/more teal-leaning
+ * green (not just a lighter/darker version of --primary): once green
+ * is the brand's own chrome (nav, buttons, links), an eligibility
+ * badge that says "Likely Eligible" needs to still read as a distinct
+ * status signal, not just "more of the same brand color." Keep this
+ * gap if either value moves again.
  *
  * Dark mode is a deliberately separate palette, not an inversion: a
  * near-black warm navy background, slightly lifted card surfaces for
@@ -25,7 +39,7 @@
     --card: 0 0% 100%;
     --card-foreground: 222 28% 13%;
 
-    --primary: 219 62% 23%;
+    --primary: 142 65% 28%;
     --primary-foreground: 0 0% 100%;
 
     --secondary: 36 20% 93%;
@@ -43,7 +57,7 @@
     --destructive: 356 65% 44%;
     --destructive-foreground: 0 0% 100%;
 
-    --success: 152 47% 28%;
+    --success: 165 60% 32%;
     --success-foreground: 0 0% 100%;
 
     --warning: 32 88% 40%;
@@ -51,7 +65,7 @@
 
     --border: 36 18% 87%;
     --input: 36 18% 85%;
-    --ring: 219 62% 23%;
+    --ring: 142 65% 28%;
 
     --radius: 0.625rem;
 
@@ -70,7 +84,7 @@
     --card: 222 27% 11%;
     --card-foreground: 38 22% 92%;
 
-    --primary: 213 72% 62%;
+    --primary: 142 55% 55%;
     --primary-foreground: 222 40% 10%;
 
     --secondary: 222 22% 15%;
@@ -85,7 +99,7 @@
     --destructive: 356 68% 58%;
     --destructive-foreground: 222 34% 8%;
 
-    --success: 152 42% 46%;
+    --success: 165 50% 50%;
     --success-foreground: 222 34% 8%;
 
     --warning: 36 82% 55%;
@@ -93,7 +107,7 @@
 
     --border: 222 20% 20%;
     --input: 222 20% 22%;
-    --ring: 213 72% 62%;
+    --ring: 142 55% 55%;
   }
 }
 
