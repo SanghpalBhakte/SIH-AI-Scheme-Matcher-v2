@@ -32,7 +32,7 @@ import {
 import { Button } from '@/components/ui/button'
 import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { MatchMotif } from '@/components/landing/match-motif'
+import { HeroPhoto } from '@/components/landing/hero-photo'
 import { HeroBackdrop } from '@/components/landing/hero-backdrop'
 import { LanguageChipStrip } from '@/components/i18n/language-chip-strip'
 import { useSchemes } from '@/lib/schemes/live-schemes'
@@ -161,7 +161,7 @@ export default function HomePage() {
           </div>
 
           <div className="relative hidden justify-self-center lg:block">
-            <MatchMotif className="h-72 w-72 animate-fade-in-up" />
+            <HeroPhoto className="animate-fade-in-up h-72 w-72 rounded-xl border border-border object-cover shadow-elevated-lg" />
             <div
               className="animate-fade-in-up absolute -bottom-4 left-1/2 w-56 -translate-x-1/2 rounded-lg border border-border bg-card/95 px-3 py-2 text-center shadow-elevated backdrop-blur-sm"
               style={{ animationDelay: '150ms' }}

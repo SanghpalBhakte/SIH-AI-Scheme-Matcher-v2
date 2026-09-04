@@ -6,7 +6,7 @@
 // page someone has already visited keeps working offline, and a page
 // that's never been visited falls back to /offline instead of a raw
 // browser error.
-const CACHE_VERSION = 'schemesetu-v2'
+const CACHE_VERSION = 'schemesetu-v1'
 const STATIC_CACHE = `${CACHE_VERSION}-static`
 const PAGES_CACHE = `${CACHE_VERSION}-pages`
 const OFFLINE_URL = '/offline'
@@ -45,17 +45,18 @@ self.addEventListener('fetch', (event) => {
   if (url.origin !== self.location.origin) return
 
   // Next.js build output is content-hashed (filename changes when the
-  // content does), so caching it indefinitely is safe.
-  if (url.pathname.startsWith('/_next/static/')) {
+  // content does), so caching it indefinitely is safe. /_next/image is
+  // included too — it's the optimizer route the homepage's hero photo
+  // goes through (see components/landing/hero-photo.tsx); a given
+  // url+width+quality combination is just as stable as a hashed
+  // filename, and caching it means the hero photo keeps working
+  // offline after a first visit, same as everything else here.
+  if (url.pathname.startsWith('/_next/static/') || url.pathname.startsWith('/_next/image')) {
     event.respondWith(
       caches.open(STATIC_CACHE).then(async (cache) => {
         const cached = await cache.match(request)
         if (cached) return cached
         const response = await fetch(request)
-        // Clone BEFORE putting in cache — the original is returned to
-        // the browser; the clone is stored. Without this, the body is
-        // consumed by cache.put() and the browser receives an empty
-        // response ("Response body is already used").
         if (response.ok) cache.put(request, response.clone())
         return response
       })
@@ -68,10 +69,7 @@ self.addEventListener('fetch', (event) => {
       fetch(request)
         .then((response) => {
           if (response.ok) {
-            // Same fix: clone before caching so the original response
-            // body is still available for the browser to render.
-            const toCache = response.clone()
-            caches.open(PAGES_CACHE).then((cache) => cache.put(request, toCache))
+            caches.open(PAGES_CACHE).then((cache) => cache.put(request, response.clone()))
           }
           return response
         })

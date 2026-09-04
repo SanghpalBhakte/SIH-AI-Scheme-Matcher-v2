@@ -3,14 +3,12 @@ import { Landmark, Sprout, TrendingUp } from 'lucide-react'
 /**
  * Purely decorative backdrop for the landing page's two bookend
  * sections (hero, closing CTA band) — soft color glows, a faint
- * dot-grid, and a few oversized, low-opacity civic/growth icons
- * standing in for the kind of photographic hero background other
- * scheme-finder sites use, without pulling in a stock image or an
- * external asset host: this app self-hosts every asset it ships (see
- * the font-loading note in app/layout.tsx for the same reasoning), and
- * a real photo would need a real license. `variant` swaps the palette
- * so the same layer works on both the light hero surface and the dark
- * primary-colored CTA band.
+ * dot-grid, and a few oversized, low-opacity civic/growth icons. Sits
+ * behind the copy/CTA column in the hero (see HeroPhoto for the actual
+ * photograph in the other column) and behind the closing CTA band,
+ * which has no photo. `variant` swaps the palette so the same layer
+ * works on both the light hero surface and the dark primary-colored
+ * CTA band.
  *
  * Entirely aria-hidden and non-interactive (`pointer-events-none`) —
  * it never competes with the real content painted on top of it.
