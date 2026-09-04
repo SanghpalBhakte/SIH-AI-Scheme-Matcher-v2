@@ -152,7 +152,7 @@ const en: Dictionary = {
   'assessment.step.business.title': 'Business information',
   'assessment.step.business.description': 'Sector, stage, and first-time status narrow schemes down to your kind of business.',
   'assessment.step.financial.title': 'Financial information',
-  'assessment.step.financial.description': 'Income (optional) can match income-capped schemes; the rest helps us understand your needs.',
+  'assessment.step.financial.description': 'Income (optional) can match schemes with an income limit; the rest helps us understand your needs.',
   'assessment.step.needs.title': 'Business needs',
   'assessment.step.needs.description': 'Select everything that applies — this helps us understand what kind of support you need.',
 
@@ -398,7 +398,7 @@ const en: Dictionary = {
   'reasoning.fallback': 'Matched based on your profile details; review eligibility before applying.',
   'reasoning.verifyTitle': 'Verify before applying',
   'reasoning.verify.confirmEligibility': 'Confirm final eligibility on the official portal',
-  'reasoning.verify.categoryAndLocal': 'Verify category and local implementation requirements',
+  'reasoning.verify.categoryAndLocal': 'Check any extra rules for your state or category',
   'reasoning.verify.fundingWindow': 'Check current funding limits and application window',
   'reasoning.disclaimer':
     'SchemeSetu provides guidance based on your inputs. Final eligibility and approval are decided by the official implementing authority.',
@@ -485,7 +485,7 @@ const hi: Dictionary = {
   'assessment.step.business.title': 'व्यवसाय जानकारी',
   'assessment.step.business.description': 'क्षेत्र, चरण और पहली बार की स्थिति योजनाओं को आपके व्यवसाय के अनुसार सीमित करती हैं।',
   'assessment.step.financial.title': 'वित्तीय जानकारी',
-  'assessment.step.financial.description': 'आय (वैकल्पिक) आय-सीमित योजनाओं से मेल खा सकती है; बाकी हमें आपकी आवश्यकताएं समझने में मदद करता है।',
+  'assessment.step.financial.description': 'आय (वैकल्पिक) आय सीमा वाली योजनाओं से मेल खा सकती है; बाकी हमें आपकी आवश्यकताएं समझने में मदद करता है।',
   'assessment.step.needs.title': 'व्यवसाय आवश्यकताएं',
   'assessment.step.needs.description': 'जो भी लागू हो उसे चुनें — इससे हमें पता चलता है कि आपको किस तरह के समर्थन की आवश्यकता है।',
 
@@ -717,7 +717,7 @@ const hi: Dictionary = {
   'reasoning.fallback': 'आपकी प्रोफ़ाइल के विवरण के आधार पर मेल किया गया; आवेदन करने से पहले पात्रता की समीक्षा करें।',
   'reasoning.verifyTitle': 'आवेदन करने से पहले सत्यापित करें',
   'reasoning.verify.confirmEligibility': 'आधिकारिक पोर्टल पर अंतिम पात्रता की पुष्टि करें',
-  'reasoning.verify.categoryAndLocal': 'श्रेणी और स्थानीय कार्यान्वयन आवश्यकताओं को सत्यापित करें',
+  'reasoning.verify.categoryAndLocal': 'अपने राज्य या श्रेणी के लिए अतिरिक्त नियमों की जांच करें',
   'reasoning.verify.fundingWindow': 'वर्तमान फंडिंग सीमा और आवेदन विंडो की जांच करें',
   'reasoning.disclaimer':
     'SchemeSetu आपके इनपुट के आधार पर मार्गदर्शन प्रदान करता है। अंतिम पात्रता और अनुमोदन का निर्णय आधिकारिक कार्यान्वयन प्राधिकरण द्वारा किया जाता है।',
@@ -795,7 +795,7 @@ const bn: Dictionary = {
   'assessment.step.business.title': 'ব্যবসা সংক্রান্ত তথ্য',
   'assessment.step.business.description': 'ক্ষেত্র, পর্যায় এবং প্রথমবার উদ্যোক্তা কিনা তা স্কিমগুলিকে আপনার ব্যবসার ধরন অনুযায়ী নির্দিষ্ট করে তোলে।',
   'assessment.step.financial.title': 'আর্থিক তথ্য',
-  'assessment.step.financial.description': 'আয় (ঐচ্ছিক) আয়-সীমাযুক্ত স্কিমের সাথে মেলাতে সাহায্য করতে পারে; বাকি তথ্য আমাদের আপনার প্রয়োজন বুঝতে সহায়তা করে।',
+  'assessment.step.financial.description': 'আয় (ঐচ্ছিক) আয়ের সীমা আছে এমন স্কিমের সাথে মেলাতে সাহায্য করতে পারে; বাকি তথ্য আমাদের আপনার প্রয়োজন বুঝতে সহায়তা করে।',
   'assessment.step.needs.title': 'ব্যবসার প্রয়োজন',
   'assessment.step.needs.description': 'প্রযোজ্য সবকিছু নির্বাচন করুন — এটি আমাদের বুঝতে সাহায্য করে আপনার কী ধরনের সহায়তা প্রয়োজন।',
   'field.fullName': 'পুরো নাম (ঐচ্ছিক)',
@@ -1010,7 +1010,7 @@ const bn: Dictionary = {
   'reasoning.fallback': 'আপনার প্রোফাইলের বিবরণের ভিত্তিতে মিলিত হয়েছে; আবেদন করার আগে যোগ্যতা পর্যালোচনা করুন।',
   'reasoning.verifyTitle': 'আবেদন করার আগে যাচাই করুন',
   'reasoning.verify.confirmEligibility': 'অফিসিয়াল পোর্টালে চূড়ান্ত যোগ্যতা নিশ্চিত করুন',
-  'reasoning.verify.categoryAndLocal': 'শ্রেণী এবং স্থানীয় বাস্তবায়ন প্রয়োজনীয়তা যাচাই করুন',
+  'reasoning.verify.categoryAndLocal': 'আপনার রাজ্য বা শ্রেণীর জন্য কোনো অতিরিক্ত নিয়ম আছে কিনা পরীক্ষা করুন',
   'reasoning.verify.fundingWindow': 'বর্তমান তহবিল সীমা এবং আবেদনের সময়সীমা পরীক্ষা করুন',
   'reasoning.disclaimer':
     'SchemeSetu আপনার তথ্যের ভিত্তিতে দিকনির্দেশনা প্রদান করে। চূড়ান্ত যোগ্যতা এবং অনুমোদন সরকারি বাস্তবায়নকারী কর্তৃপক্ষ দ্বারা নির্ধারিত হয়।',
@@ -1088,7 +1088,7 @@ const mr: Dictionary = {
   'assessment.step.business.title': 'व्यवसायाची माहिती',
   'assessment.step.business.description': 'क्षेत्र, टप्पा आणि प्रथमच उद्योजक स्थिती योजना तुमच्या प्रकारच्या व्यवसायापुरत्या मर्यादित करतात.',
   'assessment.step.financial.title': 'आर्थिक माहिती',
-  'assessment.step.financial.description': 'उत्पन्न (ऐच्छिक) उत्पन्न-मर्यादित योजनांशी जुळू शकते; उर्वरित माहिती आम्हाला तुमच्या गरजा समजून घेण्यास मदत करते.',
+  'assessment.step.financial.description': 'उत्पन्न (ऐच्छिक) उत्पन्न मर्यादा असलेल्या योजनांशी जुळू शकते; उर्वरित माहिती आम्हाला तुमच्या गरजा समजून घेण्यास मदत करते.',
   'assessment.step.needs.title': 'व्यवसायाच्या गरजा',
   'assessment.step.needs.description': 'लागू होणारे सर्व पर्याय निवडा — यामुळे तुम्हाला कोणत्या प्रकारच्या सहाय्याची गरज आहे हे समजण्यास मदत होते.',
   'field.fullName': 'पूर्ण नाव (ऐच्छिक)',
@@ -1303,7 +1303,7 @@ const mr: Dictionary = {
   'reasoning.fallback': 'तुमच्या प्रोफाइलच्या तपशीलांवर आधारित जुळणी झाली; अर्ज करण्यापूर्वी पात्रतेचे पुनरावलोकन करा.',
   'reasoning.verifyTitle': 'अर्ज करण्यापूर्वी पडताळणी करा',
   'reasoning.verify.confirmEligibility': 'अधिकृत पोर्टलवर अंतिम पात्रतेची पुष्टी करा',
-  'reasoning.verify.categoryAndLocal': 'श्रेणी आणि स्थानिक अंमलबजावणी आवश्यकता पडताळून पाहा',
+  'reasoning.verify.categoryAndLocal': 'तुमच्या राज्य किंवा श्रेणीसाठी काही अतिरिक्त नियम आहेत का ते तपासा',
   'reasoning.verify.fundingWindow': 'सध्याची निधी मर्यादा आणि अर्ज कालावधी तपासा',
   'reasoning.disclaimer':
     'SchemeSetu तुमच्या माहितीच्या आधारे मार्गदर्शन प्रदान करते. अंतिम पात्रता आणि मंजुरी अधिकृत अंमलबजावणी प्राधिकरणाद्वारे ठरवली जाते.',
@@ -1596,7 +1596,7 @@ const te: Dictionary = {
   'reasoning.fallback': 'మీ ప్రొఫైల్ వివరాల ఆధారంగా సరిపోలింది; దరఖాస్తు చేసుకునే ముందు అర్హతను సమీక్షించండి.',
   'reasoning.verifyTitle': 'దరఖాస్తు చేసుకునే ముందు ధృవీకరించండి',
   'reasoning.verify.confirmEligibility': 'అధికారిక పోర్టల్‌లో తుది అర్హతను నిర్ధారించుకోండి',
-  'reasoning.verify.categoryAndLocal': 'వర్గం మరియు స్థానిక అమలు అవసరాలను ధృవీకరించండి',
+  'reasoning.verify.categoryAndLocal': 'మీ రాష్ట్రం లేదా వర్గానికి ఏవైనా అదనపు నియమాలు ఉన్నాయో లేదో తనిఖీ చేయండి',
   'reasoning.verify.fundingWindow': 'ప్రస్తుత నిధుల పరిమితులు మరియు దరఖాస్తు గడువును తనిఖీ చేయండి',
   'reasoning.disclaimer':
     'SchemeSetu మీ ఇన్‌పుట్‌ల ఆధారంగా మార్గదర్శకత్వం అందిస్తుంది. తుది అర్హత మరియు ఆమోదం అధికారిక అమలు అధికార సంస్థ ద్వారా నిర్ణయించబడతాయి.',
@@ -1889,7 +1889,7 @@ const ta: Dictionary = {
   'reasoning.fallback': 'உங்கள் சுயவிவரத் தகவல்களின் அடிப்படையில் பொருத்தப்பட்டது; விண்ணப்பிக்கும் முன் தகுதியை மதிப்பாய்வு செய்யவும்.',
   'reasoning.verifyTitle': 'விண்ணப்பிக்கும் முன் சரிபார்க்கவும்',
   'reasoning.verify.confirmEligibility': 'அதிகாரப்பூர்வ போர்ட்டலில் இறுதி தகுதியை உறுதிப்படுத்தவும்',
-  'reasoning.verify.categoryAndLocal': 'பிரிவு மற்றும் உள்ளூர் அமலாக்கத் தேவைகளைச் சரிபார்க்கவும்',
+  'reasoning.verify.categoryAndLocal': 'உங்கள் மாநிலம் அல்லது பிரிவுக்கு கூடுதல் விதிகள் ஏதேனும் உள்ளதா எனச் சரிபார்க்கவும்',
   'reasoning.verify.fundingWindow': 'தற்போதைய நிதி வரம்புகள் மற்றும் விண்ணப்ப காலத்தைச் சரிபார்க்கவும்',
   'reasoning.disclaimer':
     'SchemeSetu உங்கள் உள்ளீடுகளின் அடிப்படையில் வழிகாட்டுதலை வழங்குகிறது. இறுதி தகுதி மற்றும் ஒப்புதல் அதிகாரப்பூர்வ செயல்படுத்தும் ஆணையத்தால் தீர்மானிக்கப்படுகிறது.',
@@ -1967,7 +1967,7 @@ const gu: Dictionary = {
   'assessment.step.business.title': 'વ્યવસાય માહિતી',
   'assessment.step.business.description': 'ક્ષેત્ર, તબક્કો અને પ્રથમ વખતની સ્થિતિ યોજનાઓને તમારા પ્રકારના વ્યવસાય સુધી સીમિત કરે છે.',
   'assessment.step.financial.title': 'નાણાકીય માહિતી',
-  'assessment.step.financial.description': 'આવક (વૈકલ્પિક) આવક-મર્યાદિત યોજનાઓ સાથે મેચ કરી શકે છે; બાકીનું અમને તમારી જરૂરિયાતો સમજવામાં મદદ કરે છે.',
+  'assessment.step.financial.description': 'આવક (વૈકલ્પિક) આવક મર્યાદા ધરાવતી યોજનાઓ સાથે મેચ કરી શકે છે; બાકીનું અમને તમારી જરૂરિયાતો સમજવામાં મદદ કરે છે.',
   'assessment.step.needs.title': 'વ્યવસાયિક જરૂરિયાતો',
   'assessment.step.needs.description': 'લાગુ પડતું બધું પસંદ કરો — આ અમને તમને કેવા પ્રકારના સહયોગની જરૂર છે તે સમજવામાં મદદ કરે છે.',
   'field.fullName': 'પૂરું નામ (વૈકલ્પિક)',
@@ -2182,7 +2182,7 @@ const gu: Dictionary = {
   'reasoning.fallback': 'તમારી પ્રોફાઇલની વિગતોના આધારે મેળ થયો; અરજી કરતા પહેલા પાત્રતાની સમીક્ષા કરો.',
   'reasoning.verifyTitle': 'અરજી કરતા પહેલા ચકાસો',
   'reasoning.verify.confirmEligibility': 'સત્તાવાર પોર્ટલ પર અંતિમ પાત્રતાની પુષ્ટિ કરો',
-  'reasoning.verify.categoryAndLocal': 'શ્રેણી અને સ્થાનિક અમલીકરણ આવશ્યકતાઓ ચકાસો',
+  'reasoning.verify.categoryAndLocal': 'તમારા રાજ્ય અથવા શ્રેણી માટે કોઈ વધારાના નિયમો છે કે કેમ તે તપાસો',
   'reasoning.verify.fundingWindow': 'વર્તમાન ભંડોળ મર્યાદા અને અરજી સમયગાળો તપાસો',
   'reasoning.disclaimer':
     'SchemeSetu તમારા ઇનપુટના આધારે માર્ગદર્શન પૂરું પાડે છે. અંતિમ પાત્રતા અને મંજૂરી સત્તાવાર અમલીકરણ સત્તાધિકારી દ્વારા નક્કી કરવામાં આવે છે.',
@@ -2260,7 +2260,7 @@ const kn: Dictionary = {
   'assessment.step.business.title': 'ಉದ್ಯಮದ ಮಾಹಿತಿ',
   'assessment.step.business.description': 'ವಲಯ, ಹಂತ ಮತ್ತು ಮೊದಲ ಬಾರಿಯ ಸ್ಥಿತಿ ಯೋಜನೆಗಳನ್ನು ನಿಮ್ಮ ರೀತಿಯ ಉದ್ಯಮಕ್ಕೆ ಸಂಕುಚಿತಗೊಳಿಸುತ್ತವೆ.',
   'assessment.step.financial.title': 'ಹಣಕಾಸಿನ ಮಾಹಿತಿ',
-  'assessment.step.financial.description': 'ಆದಾಯ (ಐಚ್ಛಿಕ) ಆದಾಯ-ಮಿತಿಯ ಯೋಜನೆಗಳೊಂದಿಗೆ ಹೊಂದಿಸಬಹುದು; ಉಳಿದವು ನಿಮ್ಮ ಅಗತ್ಯಗಳನ್ನು ಅರ್ಥಮಾಡಿಕೊಳ್ಳಲು ನಮಗೆ ಸಹಾಯ ಮಾಡುತ್ತವೆ.',
+  'assessment.step.financial.description': 'ಆದಾಯ (ಐಚ್ಛಿಕ) ಆದಾಯ ಮಿತಿ ಇರುವ ಯೋಜನೆಗಳೊಂದಿಗೆ ಹೊಂದಿಸಬಹುದು; ಉಳಿದವು ನಿಮ್ಮ ಅಗತ್ಯಗಳನ್ನು ಅರ್ಥಮಾಡಿಕೊಳ್ಳಲು ನಮಗೆ ಸಹಾಯ ಮಾಡುತ್ತವೆ.',
   'assessment.step.needs.title': 'ಉದ್ಯಮದ ಅಗತ್ಯಗಳು',
   'assessment.step.needs.description': 'ಅನ್ವಯವಾಗುವ ಎಲ್ಲವನ್ನೂ ಆಯ್ಕೆ ಮಾಡಿ — ಇದು ನಿಮಗೆ ಯಾವ ರೀತಿಯ ಬೆಂಬಲ ಬೇಕು ಎಂಬುದನ್ನು ಅರ್ಥಮಾಡಿಕೊಳ್ಳಲು ನಮಗೆ ಸಹಾಯ ಮಾಡುತ್ತದೆ.',
   'field.fullName': 'ಪೂರ್ಣ ಹೆಸರು (ಐಚ್ಛಿಕ)',
@@ -2475,7 +2475,7 @@ const kn: Dictionary = {
   'reasoning.fallback': 'ನಿಮ್ಮ ಪ್ರೊಫೈಲ್ ವಿವರಗಳ ಆಧಾರದ ಮೇಲೆ ಹೊಂದಿಸಲಾಗಿದೆ; ಅರ್ಜಿ ಸಲ್ಲಿಸುವ ಮೊದಲು ಅರ್ಹತೆಯನ್ನು ಪರಿಶೀಲಿಸಿ.',
   'reasoning.verifyTitle': 'ಅರ್ಜಿ ಸಲ್ಲಿಸುವ ಮೊದಲು ಪರಿಶೀಲಿಸಿ',
   'reasoning.verify.confirmEligibility': 'ಅಧಿಕೃತ ಪೋರ್ಟಲ್‌ನಲ್ಲಿ ಅಂತಿಮ ಅರ್ಹತೆಯನ್ನು ದೃಢೀಕರಿಸಿ',
-  'reasoning.verify.categoryAndLocal': 'ವರ್ಗ ಮತ್ತು ಸ್ಥಳೀಯ ಅನುಷ್ಠಾನ ಅವಶ್ಯಕತೆಗಳನ್ನು ಪರಿಶೀಲಿಸಿ',
+  'reasoning.verify.categoryAndLocal': 'ನಿಮ್ಮ ರಾಜ್ಯ ಅಥವಾ ವರ್ಗಕ್ಕೆ ಯಾವುದೇ ಹೆಚ್ಚುವರಿ ನಿಯಮಗಳಿವೆಯೇ ಎಂದು ಪರಿಶೀಲಿಸಿ',
   'reasoning.verify.fundingWindow': 'ಪ್ರಸ್ತುತ ನಿಧಿ ಮಿತಿಗಳು ಮತ್ತು ಅರ್ಜಿ ಅವಧಿಯನ್ನು ಪರಿಶೀಲಿಸಿ',
   'reasoning.disclaimer':
     'SchemeSetu ನಿಮ್ಮ ಇನ್‌ಪುಟ್‌ಗಳ ಆಧಾರದ ಮೇಲೆ ಮಾರ್ಗದರ್ಶನ ನೀಡುತ್ತದೆ. ಅಂತಿಮ ಅರ್ಹತೆ ಮತ್ತು ಅನುಮೋದನೆಯನ್ನು ಅಧಿಕೃತ ಅನುಷ್ಠಾನ ಪ್ರಾಧಿಕಾರ ನಿರ್ಧರಿಸುತ್ತದೆ.',
@@ -2562,7 +2562,7 @@ const pa: Dictionary = {
   'assessment.step.business.title': 'ਕਾਰੋਬਾਰੀ ਜਾਣਕਾਰੀ',
   'assessment.step.business.description': 'ਖੇਤਰ, ਪੜਾਅ ਅਤੇ ਪਹਿਲੀ ਵਾਰ ਦੀ ਸਥਿਤੀ ਸਕੀਮਾਂ ਨੂੰ ਤੁਹਾਡੇ ਕਾਰੋਬਾਰ ਦੀ ਕਿਸਮ ਤੱਕ ਸੀਮਿਤ ਕਰਦੀਆਂ ਹਨ।',
   'assessment.step.financial.title': 'ਵਿੱਤੀ ਜਾਣਕਾਰੀ',
-  'assessment.step.financial.description': 'ਆਮਦਨ (ਵਿਕਲਪਿਕ) ਆਮਦਨ-ਸੀਮਤ ਸਕੀਮਾਂ ਨਾਲ ਮੇਲ ਖਾ ਸਕਦੀ ਹੈ; ਬਾਕੀ ਸਾਨੂੰ ਤੁਹਾਡੀਆਂ ਲੋੜਾਂ ਸਮਝਣ ਵਿੱਚ ਮਦਦ ਕਰਦਾ ਹੈ।',
+  'assessment.step.financial.description': 'ਆਮਦਨ (ਵਿਕਲਪਿਕ) ਆਮਦਨ ਸੀਮਾ ਵਾਲੀਆਂ ਸਕੀਮਾਂ ਨਾਲ ਮੇਲ ਖਾ ਸਕਦੀ ਹੈ; ਬਾਕੀ ਸਾਨੂੰ ਤੁਹਾਡੀਆਂ ਲੋੜਾਂ ਸਮਝਣ ਵਿੱਚ ਮਦਦ ਕਰਦਾ ਹੈ।',
   'assessment.step.needs.title': 'ਕਾਰੋਬਾਰੀ ਲੋੜਾਂ',
   'assessment.step.needs.description': 'ਜੋ ਵੀ ਲਾਗੂ ਹੋਵੇ ਚੁਣੋ — ਇਸ ਨਾਲ ਸਾਨੂੰ ਪਤਾ ਲੱਗਦਾ ਹੈ ਕਿ ਤੁਹਾਨੂੰ ਕਿਸ ਤਰ੍ਹਾਂ ਦੀ ਸਹਾਇਤਾ ਦੀ ਲੋੜ ਹੈ।',
 
@@ -2799,7 +2799,7 @@ const pa: Dictionary = {
   'reasoning.fallback': "ਤੁਹਾਡੀ ਪ੍ਰੋਫਾਈਲ ਦੇ ਵੇਰਵਿਆਂ ਦੇ ਆਧਾਰ 'ਤੇ ਮੇਲ ਕੀਤਾ ਗਿਆ; ਅਰਜ਼ੀ ਦੇਣ ਤੋਂ ਪਹਿਲਾਂ ਯੋਗਤਾ ਦੀ ਸਮੀਖਿਆ ਕਰੋ।",
   'reasoning.verifyTitle': 'ਅਰਜ਼ੀ ਦੇਣ ਤੋਂ ਪਹਿਲਾਂ ਪੁਸ਼ਟੀ ਕਰੋ',
   'reasoning.verify.confirmEligibility': "ਅਧਿਕਾਰਤ ਪੋਰਟਲ 'ਤੇ ਅੰਤਿਮ ਯੋਗਤਾ ਦੀ ਪੁਸ਼ਟੀ ਕਰੋ",
-  'reasoning.verify.categoryAndLocal': 'ਸ਼੍ਰੇਣੀ ਅਤੇ ਸਥਾਨਕ ਲਾਗੂਕਰਨ ਲੋੜਾਂ ਦੀ ਪੁਸ਼ਟੀ ਕਰੋ',
+  'reasoning.verify.categoryAndLocal': 'ਆਪਣੇ ਰਾਜ ਜਾਂ ਸ਼੍ਰੇਣੀ ਲਈ ਕੋਈ ਵਾਧੂ ਨਿਯਮ ਹਨ ਕਿ ਨਹੀਂ ਇਹ ਜਾਂਚ ਕਰੋ',
   'reasoning.verify.fundingWindow': 'ਮੌਜੂਦਾ ਫੰਡਿੰਗ ਸੀਮਾਵਾਂ ਅਤੇ ਅਰਜ਼ੀ ਵਿੰਡੋ ਦੀ ਜਾਂਚ ਕਰੋ',
   'reasoning.disclaimer':
     "SchemeSetu ਤੁਹਾਡੇ ਇਨਪੁਟਸ ਦੇ ਆਧਾਰ 'ਤੇ ਮਾਰਗਦਰਸ਼ਨ ਪ੍ਰਦਾਨ ਕਰਦਾ ਹੈ। ਅੰਤਿਮ ਯੋਗਤਾ ਅਤੇ ਮਨਜ਼ੂਰੀ ਅਧਿਕਾਰਤ ਲਾਗੂਕਰਨ ਅਥਾਰਟੀ ਦੁਆਰਾ ਤੈਅ ਕੀਤੀ ਜਾਂਦੀ ਹੈ।",
@@ -2890,7 +2890,7 @@ const or: Dictionary = {
   'assessment.step.business.description': 'କ୍ଷେତ୍ର, ପର୍ଯ୍ୟାୟ ଏବଂ ପ୍ରଥମ ଥର ସ୍ଥିତି ଯୋଜନାଗୁଡ଼ିକୁ ଆପଣଙ୍କ ବ୍ୟବସାୟ ପ୍ରକାର ପର୍ଯ୍ୟନ୍ତ ସୀମିତ କରେ।',
   'assessment.step.financial.title': 'ଆର୍ଥିକ ସୂଚନା',
   'assessment.step.financial.description':
-    'ଆୟ (ଇଚ୍ଛାଧୀନ) ଆୟ-ସୀମିତ ଯୋଜନା ସହିତ ମେଳ ଖାଇପାରେ; ବାକି ଆମକୁ ଆପଣଙ୍କର ଆବଶ୍ୟକତା ବୁଝିବାରେ ସାହାଯ୍ୟ କରେ।',
+    'ଆୟ (ଇଚ୍ଛାଧୀନ) ଆୟ ସୀମା ଥିବା ଯୋଜନା ସହିତ ମେଳ ଖାଇପାରେ; ବାକି ଆମକୁ ଆପଣଙ୍କର ଆବଶ୍ୟକତା ବୁଝିବାରେ ସାହାଯ୍ୟ କରେ।',
   'assessment.step.needs.title': 'ବ୍ୟବସାୟ ଆବଶ୍ୟକତା',
   'assessment.step.needs.description': 'ଯାହା ପ୍ରଯୁଜ୍ୟ ତାହା ବାଛନ୍ତୁ — ଏହା ଆମକୁ ବୁଝାଏ ଆପଣଙ୍କୁ କେଉଁ ପ୍ରକାର ସହାୟତା ଆବଶ୍ୟକ।',
 
@@ -3131,7 +3131,7 @@ const or: Dictionary = {
   'reasoning.fallback': 'ଆପଣଙ୍କ ପ୍ରୋଫାଇଲ୍ ବିବରଣୀ ଆଧାରରେ ମେଳ ହେଲା; ଆବେଦନ କରିବା ପୂର୍ବରୁ ଯୋଗ୍ୟତା ସମୀକ୍ଷା କରନ୍ତୁ।',
   'reasoning.verifyTitle': 'ଆବେଦନ କରିବା ପୂର୍ବରୁ ଯାଞ୍ଚ କରନ୍ତୁ',
   'reasoning.verify.confirmEligibility': 'ସରକାରୀ ପୋର୍ଟାଲରେ ଅନ୍ତିମ ଯୋଗ୍ୟତା ନିଶ୍ଚିତ କରନ୍ତୁ',
-  'reasoning.verify.categoryAndLocal': 'ବର୍ଗ ଏବଂ ସ୍ଥାନୀୟ କାର୍ଯ୍ୟାନ୍ୱୟନ ଆବଶ୍ୟକତା ଯାଞ୍ଚ କରନ୍ତୁ',
+  'reasoning.verify.categoryAndLocal': 'ଆପଣଙ୍କ ରାଜ୍ୟ କିମ୍ବା ବର୍ଗ ପାଇଁ କୌଣସି ଅତିରିକ୍ତ ନିୟମ ଅଛି କି ନାହିଁ ଯାଞ୍ଚ କରନ୍ତୁ',
   'reasoning.verify.fundingWindow': 'ବର୍ତ୍ତମାନର ପାଣ୍ଠି ସୀମା ଏବଂ ଆବେଦନ ସମୟସୀମା ଯାଞ୍ଚ କରନ୍ତୁ',
   'reasoning.disclaimer':
     'SchemeSetu ଆପଣଙ୍କ ସୂଚନା ଆଧାରରେ ମାର୍ଗଦର୍ଶନ ପ୍ରଦାନ କରେ। ଅନ୍ତିମ ଯୋଗ୍ୟତା ଏବଂ ଅନୁମୋଦନ ସରକାରୀ କାର୍ଯ୍ୟାନ୍ୱୟନ ପ୍ରାଧିକରଣ ଦ୍ୱାରା ସ୍ଥିର କରାଯାଏ।',
@@ -3465,7 +3465,7 @@ const ml: Dictionary = {
   'reasoning.fallback': 'നിങ്ങളുടെ പ്രൊഫൈൽ വിശദാംശങ്ങളുടെ അടിസ്ഥാനത്തിൽ പൊരുത്തപ്പെട്ടു; അപേക്ഷിക്കുന്നതിന് മുമ്പ് യോഗ്യത അവലോകനം ചെയ്യുക.',
   'reasoning.verifyTitle': 'അപേക്ഷിക്കുന്നതിന് മുമ്പ് പരിശോധിക്കുക',
   'reasoning.verify.confirmEligibility': 'ഔദ്യോഗിക പോർട്ടലിൽ അന്തിമ യോഗ്യത സ്ഥിരീകരിക്കുക',
-  'reasoning.verify.categoryAndLocal': 'വിഭാഗവും പ്രാദേശിക നടപ്പാക്കൽ ആവശ്യകതകളും പരിശോധിക്കുക',
+  'reasoning.verify.categoryAndLocal': 'നിങ്ങളുടെ സംസ്ഥാനത്തിനോ വിഭാഗത്തിനോ എന്തെങ്കിലും അധിക നിയമങ്ങൾ ഉണ്ടോ എന്ന് പരിശോധിക്കുക',
   'reasoning.verify.fundingWindow': 'നിലവിലെ ധനസഹായ പരിധികളും അപേക്ഷാ കാലയളവും പരിശോധിക്കുക',
   'reasoning.disclaimer':
     'SchemeSetu നിങ്ങളുടെ വിവരങ്ങളുടെ അടിസ്ഥാനത്തിൽ മാർഗ്ഗനിർദ്ദേശം നൽകുന്നു. അന്തിമ യോഗ്യതയും അംഗീകാരവും ഔദ്യോഗിക നടപ്പാക്കൽ അതോറിറ്റി തീരുമാനിക്കുന്നു.',
@@ -3543,7 +3543,7 @@ const as: Dictionary = {
   'assessment.step.business.title': 'ব্যৱসায় সম্পৰ্কীয় তথ্য',
   'assessment.step.business.description': 'ক্ষেত্ৰ, পৰ্যায় আৰু প্ৰথমবাৰৰ উদ্যোগী হয় নে নাই এই বিষয়বোৰে আঁচনিবোৰক আপোনাৰ ব্যৱসায়ৰ ধৰণ অনুসৰি নিৰ্দিষ্ট কৰি তোলে।',
   'assessment.step.financial.title': 'বিত্তীয় তথ্য',
-  'assessment.step.financial.description': 'আয় (ঐচ্ছিক) আয়-সীমাযুক্ত আঁচনিৰ সৈতে মিলাবলৈ সহায় কৰিব পাৰে; বাকী তথ্যই আমাক আপোনাৰ প্ৰয়োজন বুজিবলৈ সহায় কৰে।',
+  'assessment.step.financial.description': 'আয় (ঐচ্ছিক) আয়ৰ সীমা থকা আঁচনিৰ সৈতে মিলাবলৈ সহায় কৰিব পাৰে; বাকী তথ্যই আমাক আপোনাৰ প্ৰয়োজন বুজিবলৈ সহায় কৰে।',
   'assessment.step.needs.title': 'ব্যৱসায়ৰ প্ৰয়োজন',
   'assessment.step.needs.description': 'প্ৰযোজ্য সকলো বাছনি কৰক — ই আমাক বুজিবলৈ সহায় কৰে আপোনাক কি ধৰণৰ সহায়ৰ প্ৰয়োজন।',
   'field.fullName': 'সম্পূৰ্ণ নাম (ঐচ্ছিক)',
@@ -3755,7 +3755,7 @@ const as: Dictionary = {
   'reasoning.fallback': 'আপোনাৰ প্ৰ\'ফাইলৰ বিৱৰণৰ আধাৰত মিল কৰা হৈছে; আবেদন কৰাৰ আগতে যোগ্যতা পৰ্যালোচনা কৰক।',
   'reasoning.verifyTitle': 'আবেদন কৰাৰ আগতে সত্যাপন কৰক',
   'reasoning.verify.confirmEligibility': 'চৰকাৰী পৰ্টেলত চূড়ান্ত যোগ্যতা নিশ্চিত কৰক',
-  'reasoning.verify.categoryAndLocal': 'শ্ৰেণী আৰু স্থানীয় প্ৰয়োগ প্ৰয়োজনীয়তা সত্যাপন কৰক',
+  'reasoning.verify.categoryAndLocal': 'আপোনাৰ ৰাজ্য বা শ্ৰেণীৰ বাবে কোনো অতিৰিক্ত নিয়ম আছে নে নাই পৰীক্ষা কৰক',
   'reasoning.verify.fundingWindow': 'বৰ্তমানৰ পুঁজি সীমা আৰু আবেদন সময়সীমা পৰীক্ষা কৰক',
   'reasoning.disclaimer':
     "SchemeSetu-এ আপোনাৰ তথ্যৰ আধাৰত পথনিৰ্দেশনা প্ৰদান কৰে। চূড়ান্ত যোগ্যতা আৰু অনুমোদন চৰকাৰী প্ৰয়োগ প্ৰাধিকাৰীয়ে নিৰ্ধাৰণ কৰে।",
