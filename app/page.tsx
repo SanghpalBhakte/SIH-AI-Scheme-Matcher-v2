@@ -160,8 +160,8 @@ export default function HomePage() {
             <LanguageChipStrip />
           </div>
 
-          <div className="relative hidden justify-self-center lg:block">
-            <HeroPhoto className="animate-fade-in-up h-72 w-72 rounded-xl border border-border object-cover shadow-elevated-lg" />
+          <div className="relative hidden lg:block">
+            <HeroPhoto className="animate-fade-in-up relative mx-auto aspect-[4/5] w-full max-w-md overflow-hidden rounded-xl border border-border shadow-elevated-lg" />
             <div
               className="animate-fade-in-up absolute -bottom-4 left-1/2 w-56 -translate-x-1/2 rounded-lg border border-border bg-card/95 px-3 py-2 text-center shadow-elevated backdrop-blur-sm"
               style={{ animationDelay: '150ms' }}

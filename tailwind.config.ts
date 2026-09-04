@@ -78,9 +78,22 @@ const config: Config = {
           from: { opacity: '0', transform: 'translateY(8px)' },
           to: { opacity: '1', transform: 'translateY(0)' },
         },
+        // One shared curve for every photo in the hero rotation (see
+        // components/landing/hero-photo.tsx) — each <Image> uses this
+        // same keyframe set with a different negative animation-delay,
+        // which is what staggers them into a continuous crossfade
+        // instead of a hard cut. Percentages assume a 21s cycle split
+        // into three ~7s slots (1.5s fade + ~5.5s hold each) — keep the
+        // two in sync if either changes.
+        'hero-crossfade': {
+          '0%, 100%': { opacity: '0' },
+          '7.14%, 33.33%': { opacity: '1' },
+          '40.48%': { opacity: '0' },
+        },
       },
       animation: {
         'fade-in-up': 'fade-in-up 0.5s ease-out both',
+        'hero-crossfade': 'hero-crossfade 21s ease-in-out infinite',
       },
     },
   },
