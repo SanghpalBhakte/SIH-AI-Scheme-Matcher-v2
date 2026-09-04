@@ -60,7 +60,7 @@ export function ChatPanel({ messages, isTyping, suggestions, onSend, onClose }: 
     <div
       role="dialog"
       aria-modal="false"
-      aria-label="AI Assistant chat"
+      aria-label="Assistant chat"
       className="fixed inset-x-0 bottom-0 z-50 flex h-[85vh] w-full flex-col overflow-hidden rounded-t-2xl border border-border bg-background shadow-elevated-lg sm:inset-x-auto sm:bottom-6 sm:right-6 sm:h-[600px] sm:max-h-[80vh] sm:w-[380px] sm:rounded-xl"
     >
       {/* Header */}
@@ -80,7 +80,7 @@ export function ChatPanel({ messages, isTyping, suggestions, onSend, onClose }: 
           size="icon"
           className="h-11 w-11 shrink-0 sm:h-9 sm:w-9"
           onClick={onClose}
-          aria-label="Close AI Assistant chat"
+          aria-label="Close Assistant chat"
         >
           <X className="h-4 w-4" aria-hidden />
         </Button>
@@ -110,7 +110,7 @@ export function ChatPanel({ messages, isTyping, suggestions, onSend, onClose }: 
           value={draft}
           onChange={(e) => setDraft(e.target.value)}
           placeholder="Ask about schemes, eligibility, documents…"
-          aria-label="Message the AI Assistant"
+          aria-label="Message the Assistant"
           disabled={isTyping}
           className="flex-1"
         />

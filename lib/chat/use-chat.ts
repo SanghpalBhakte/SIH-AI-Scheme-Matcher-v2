@@ -36,7 +36,7 @@ const WELCOME_MESSAGE: ChatMessage = {
   id: 'welcome',
   role: 'bot',
   text:
-    "Hi! I'm your AI Assistant. Ask me about schemes, eligibility, required documents, or how to apply — " +
+    "Hi! I'm SchemeSetu's Assistant. Ask me about schemes, eligibility, required documents, or how to apply — " +
     "I only use information already in this app, and I'll say when something isn't in the dataset.",
   timestamp: 0,
 }

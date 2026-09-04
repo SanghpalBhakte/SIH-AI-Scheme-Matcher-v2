@@ -1,6 +1,6 @@
 'use client'
 
-// App-wide floating AI Assistant. Mounted once in app/layout.tsx (see
+// App-wide floating chat assistant. Mounted once in app/layout.tsx (see
 // that file), so it appears on every page and its state — open/closed,
 // message history, session memory — survives client-side navigation.
 //

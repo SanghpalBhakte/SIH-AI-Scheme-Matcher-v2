@@ -1,6 +1,6 @@
 // Reads app state (assessment profile, matching results, the
 // currently-open scheme) into a single snapshot the chat engine can
-// answer questions from. This is the ONLY place the chatbot touches
+// answer questions from. This is the ONLY place the assistant touches
 // app state directly — lib/chat/engine.ts only ever sees this plain
 // object, never the contexts/hooks themselves, so the engine stays a
 // pure function that's easy to reason about and test.

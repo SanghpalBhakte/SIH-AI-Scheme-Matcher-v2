@@ -5,7 +5,7 @@ export function TypingIndicator() {
     <div
       className="flex w-fit items-center gap-1 rounded-2xl rounded-bl-sm border border-border bg-card px-3.5 py-3 shadow-soft"
       role="status"
-      aria-label="AI Assistant is typing"
+      aria-label="Assistant is typing"
     >
       {[0, 1, 2].map((i) => (
         <span

@@ -1,4 +1,4 @@
-// Shared types for the local, rule-based AI Assistant chatbot. Nothing
+// Shared types for the local, rule-based chat assistant. Nothing
 // here calls a model or a remote service — see lib/chat/engine.ts for
 // the deterministic query engine these types support.
 
