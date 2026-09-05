@@ -33,6 +33,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { HeroPhoto } from '@/components/landing/hero-photo'
+import { MobileHeroPhoto } from '@/components/landing/hero-photo-mobile'
 import { HeroBackdrop } from '@/components/landing/hero-backdrop'
 import { LanguageChipStrip } from '@/components/i18n/language-chip-strip'
 import { useSchemes } from '@/lib/schemes/live-schemes'
@@ -158,6 +159,15 @@ export default function HomePage() {
             </p>
 
             <LanguageChipStrip />
+          </div>
+
+          {/* Phone-only counterpart to the crossfade below — see
+              hero-photo-mobile.tsx for why this is a single small
+              photo rather than reusing the desktop treatment. Hidden
+              at lg: alongside the text column taking both grid
+              columns there; the desktop photo takes over instead. */}
+          <div className="flex justify-center lg:hidden">
+            <MobileHeroPhoto className="animate-fade-in-up aspect-[4/5] w-60 overflow-hidden rounded-xl border border-border object-cover shadow-elevated" />
           </div>
 
           <div className="relative hidden lg:block">
