@@ -33,7 +33,6 @@ import { Button } from '@/components/ui/button'
 import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { HeroPhoto } from '@/components/landing/hero-photo'
-import { MobileHeroPhoto } from '@/components/landing/hero-photo-mobile'
 import { HeroBackdrop } from '@/components/landing/hero-backdrop'
 import { LanguageChipStrip } from '@/components/i18n/language-chip-strip'
 import { useSchemes } from '@/lib/schemes/live-schemes'
@@ -136,6 +135,31 @@ export default function HomePage() {
 
             <p className="max-w-xl text-base leading-relaxed text-muted-foreground">{t('landing.heroSubtitle')}</p>
 
+            {/* Phone-only placement of the same crossfade used in the
+                desktop column below — nested here (between the subtitle
+                and the CTAs) rather than left to trail after the
+                language chips at the bottom of this column, so it reads
+                as part of the hero instead of a stray afterthought.
+                lg:hidden removes it entirely at that breakpoint (the
+                dedicated desktop instance below takes over); see
+                hero-photo.tsx for why each instance is safe to render
+                unconditionally without double-fetching. */}
+            <div className="relative mx-auto w-full max-w-[280px] py-1 lg:hidden">
+              <HeroPhoto
+                sizes="(min-width: 1024px) 0px, 280px"
+                className="animate-fade-in-up relative aspect-[4/5] w-full overflow-hidden rounded-xl border border-border shadow-elevated"
+              />
+              <div
+                className="animate-fade-in-up absolute -bottom-3 left-1/2 w-48 -translate-x-1/2 rounded-lg border border-border bg-card/95 px-3 py-2 text-center shadow-elevated backdrop-blur-sm"
+                style={{ animationDelay: '150ms' }}
+              >
+                <p className="flex items-center justify-center gap-1.5 text-xs font-semibold text-foreground">
+                  <ShieldCheck className="h-3.5 w-3.5 shrink-0 text-success" aria-hidden />
+                  {t('landing.trust1Title')}
+                </p>
+              </div>
+            </div>
+
             <div className="flex flex-col gap-3 sm:flex-row">
               <Button size="lg" className="group" asChild>
                 <Link href="/assessment">
@@ -161,17 +185,11 @@ export default function HomePage() {
             <LanguageChipStrip />
           </div>
 
-          {/* Phone-only counterpart to the crossfade below — see
-              hero-photo-mobile.tsx for why this is a single small
-              photo rather than reusing the desktop treatment. Hidden
-              at lg: alongside the text column taking both grid
-              columns there; the desktop photo takes over instead. */}
-          <div className="flex justify-center lg:hidden">
-            <MobileHeroPhoto className="animate-fade-in-up aspect-[4/5] w-60 overflow-hidden rounded-xl border border-border object-cover shadow-elevated" />
-          </div>
-
           <div className="relative hidden lg:block">
-            <HeroPhoto className="animate-fade-in-up relative mx-auto aspect-[4/5] w-full max-w-md overflow-hidden rounded-xl border border-border shadow-elevated-lg" />
+            <HeroPhoto
+              sizes="(min-width: 1024px) 448px, 0px"
+              className="animate-fade-in-up relative mx-auto aspect-[4/5] w-full max-w-md overflow-hidden rounded-xl border border-border shadow-elevated-lg"
+            />
             <div
               className="animate-fade-in-up absolute -bottom-4 left-1/2 w-56 -translate-x-1/2 rounded-lg border border-border bg-card/95 px-3 py-2 text-center shadow-elevated backdrop-blur-sm"
               style={{ animationDelay: '150ms' }}

@@ -25,10 +25,20 @@ import { cn } from '@/lib/utils'
 // Self-hosted under /public/hero (same reasoning as the font-loading
 // note in app/layout.tsx — no external asset host at runtime), served
 // through Next's built-in image pipeline for automatic format/size
-// negotiation. No `priority` on purpose: this column is `hidden` below
-// the `lg` breakpoint (see app/page.tsx), and native lazy-loading means
-// a phone on a slow connection — this app's actual primary audience —
-// never fetches any of these, not even partially. `motion-reduce:`
+// negotiation. No `priority` on purpose: native lazy-loading means this
+// only downloads once the hero section is actually close to the
+// viewport, not on first paint.
+//
+// Rendered TWICE in app/page.tsx — once sized for the phone-width slot
+// between the subtitle and the CTAs, once for the desktop right-hand
+// column — rather than one instance reflowed by CSS, because the two
+// placements sit in genuinely different spots in the page's DOM order
+// (see the comment at each call site). Each instance is told its own
+// `sizes`, and each flips to `0px` for the breakpoint the OTHER
+// instance owns (mobile's sizes says `0px` above `lg`, desktop's says
+// `0px` below it) — so only one of the two ever actually requests
+// bytes at a given viewport width, on top of `hidden`/`lg:hidden`
+// removing the other from layout entirely. `motion-reduce:`
 // pins the first photo in place and drops the animation entirely for
 // prefers-reduced-motion, rather than relying on the global
 // animation-duration override in globals.css, which — since every
@@ -60,7 +70,7 @@ const PHOTOS = [
 // hero-crossfade comment in tailwind.config.ts for the 21s/7s math.
 const DELAYS = ['0s', '-7s', '-14s']
 
-export function HeroPhoto({ className }: { className?: string }) {
+export function HeroPhoto({ className, sizes }: { className?: string; sizes: string }) {
   return (
     <div className={className}>
       {PHOTOS.map((photo, i) => (
@@ -70,7 +80,7 @@ export function HeroPhoto({ className }: { className?: string }) {
           alt={photo.alt}
           width={1200}
           height={1200}
-          sizes="(min-width: 1024px) 448px, 0px"
+          sizes={sizes}
           className={cn(
             'absolute inset-0 h-full w-full object-cover',
             'opacity-0 motion-safe:animate-hero-crossfade motion-reduce:animate-none',
