@@ -1,0 +1,42 @@
+name: CI
+
+# Runs the same checks that used to be run by hand before every commit
+# in this project: type-check, lint, production build, and the two
+# standalone engine verification scripts (lib/matching + lib/chat).
+# None of these need Supabase or any other secret — the build and
+# every script here run entirely against the bundled data/schemes.ts,
+# so this works the same on a fork or a PR with no repo access.
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch: {}
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - name: Type-check
+        run: npx tsc --noEmit -p .
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Build
+        run: npm run build
+
+      - name: Verify matching engine
+        run: npm run verify:engine
+
+      - name: Verify chat engine
+        run: npm run verify:chat-engine

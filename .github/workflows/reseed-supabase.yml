@@ -1,0 +1,45 @@
+name: Reseed Supabase schemes
+
+# Keeps the live `schemes` table in sync with data/schemes.ts
+# automatically — this is the fix for the exact bug that shipped
+# silently for days: the documents-checklist feature worked in code
+# and in the local static fallback, but the live Supabase table still
+# held an older snapshot of the data with no requiredDocuments on any
+# scheme, so the "download PDF" button had nothing to generate from
+# for any visitor whose browser successfully reached Supabase.
+#
+# Runs scripts/seed-supabase-schemes.ts, which flushes and reseeds
+# `public.schemes` to be byte-identical to data/schemes.ts — the same
+# script that used to have to be remembered and run by hand after
+# every edit to that file.
+#
+# Triggered only after CI (.github/workflows/ci.yml) finishes
+# successfully on main, so a broken build or a failed engine-
+# verification check can never push its data live — and via
+# workflow_dispatch for an on-demand manual reseed.
+on:
+  workflow_run:
+    workflows: [CI]
+    branches: [main]
+    types: [completed]
+  workflow_dispatch: {}
+
+jobs:
+  reseed:
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - name: Reseed public.schemes from data/schemes.ts
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: npx tsx scripts/seed-supabase-schemes.ts
