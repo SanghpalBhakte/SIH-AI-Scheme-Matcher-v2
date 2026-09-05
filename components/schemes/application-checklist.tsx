@@ -7,6 +7,7 @@ import { cn } from '@/lib/utils'
 import { useLanguage } from '@/lib/i18n/language-context'
 import { GENERIC_CHECKLIST_STEPS, type ChecklistStepId } from '@/lib/schemes/checklist'
 import { loadPersistedChecklist, savePersistedChecklist } from '@/lib/schemes/checklist-persistence'
+import { DocumentsChecklistLink } from '@/components/schemes/documents-checklist-link'
 import type { Scheme } from '@/lib/matching/types'
 
 /**
@@ -25,11 +26,19 @@ function StepDetail({ id, scheme, t }: { id: ChecklistStepId; scheme: Scheme; t:
 
     case 'prepare-documents':
       return scheme.requiredDocuments && scheme.requiredDocuments.length > 0 ? (
-        <ul className="list-disc space-y-0.5 pl-4 text-xs text-muted-foreground">
-          {scheme.requiredDocuments.map((doc) => (
-            <li key={doc}>{doc}</li>
-          ))}
-        </ul>
+        <div className="space-y-1.5">
+          <ul className="list-disc space-y-0.5 pl-4 text-xs text-muted-foreground">
+            {scheme.requiredDocuments.map((doc) => (
+              <li key={doc}>{doc}</li>
+            ))}
+          </ul>
+          <DocumentsChecklistLink scheme={scheme} />
+        </div>
+      ) : scheme.officialChecklistUrl ? (
+        <div className="space-y-1.5">
+          <p className="text-xs text-muted-foreground">{t('checklist.detail.prepare-documents-fallback')}</p>
+          <DocumentsChecklistLink scheme={scheme} />
+        </div>
       ) : (
         <p className="text-xs text-muted-foreground">{t('checklist.detail.prepare-documents-fallback')}</p>
       )

@@ -7,6 +7,31 @@ import type { Scheme } from '@/lib/matching/types'
 // guidelines for prototype purposes — always verify specifics on the
 // official page before relying on them.
 
+// Shared "Common Loan Application Form" checklist for the Kishore and
+// Tarun tiers of Pradhan Mantri MUDRA Yojana (mudra-tarun, pmmy-kishore
+// below) — both tiers use the same official form. mudra.org.in itself
+// couldn't be fetched directly this session (persistent robots.txt/
+// timeout errors from every fetch tool available), so this was verified
+// via three independent public-sector bank websites (Bank of
+// Maharashtra, UCO Bank, Canara Bank) hosting byte-identical copies of
+// MUDRA's own form — not via a private/aggregator source. The
+// "applicant should not be a defaulter" line on the original form is an
+// eligibility condition, not a document, so it's omitted here.
+const MUDRA_KISHORE_TARUN_DOCUMENTS = [
+  'Proof of identity — self-certified copy of Voter ID, Driving Licence, PAN card, Aadhaar card, or Passport',
+  'Proof of residence — recent telephone/electricity bill, property tax receipt (not older than 2 months), Voter ID, Aadhaar card, or Passport of the proprietor/partners/directors',
+  'Proof of SC/ST/OBC/minority status, if applicable',
+  'Proof of identity/address of the business enterprise — copies of relevant licences, registration certificates, or other documents evidencing ownership',
+  'Statement of accounts from the existing banker for the last six months, if any',
+  "Last two years' balance sheets with income-tax/sales-tax returns, for loans of ₹2 lakh and above",
+  'Projected balance sheet for one year (working capital) or the loan period (term loan), for loans of ₹2 lakh and above',
+  'Sales achieved during the current financial year, up to the date of application',
+  'Project report for the proposed project, with technical and economic viability details',
+  'Memorandum and Articles of Association of the company, or the Partnership Deed',
+  'Asset and liability statement of the borrower (including directors/partners), if no third-party guarantee is offered',
+  'Photographs (two copies) of the proprietor/partners/directors',
+]
+
 export const schemes: Scheme[] = [
   {
     id: 'stand-up-india',
@@ -24,10 +49,17 @@ export const schemes: Scheme[] = [
     summary:
       'Facilitates bank loans for setting up a new greenfield enterprise in manufacturing, services, trading or agri-allied sectors.',
     officialUrl: 'https://www.standupmitra.in/',
-    // requiredDocuments intentionally left undefined: the official
-    // guidelines state banks set their own document requirements
-    // (e.g. stock statements, asset insurance) case by case — no
-    // single authoritative list exists to cite honestly.
+    // requiredDocuments intentionally left undefined, but NOT because no
+    // checklist exists (re-checked 2026-09-05, correcting the prior note
+    // below) — standupmitra.in's own Downloads page does publish a
+    // scheme-wide "Schemes Document & Check list" (in 10 languages).
+    // Its contents couldn't be read here (served as a bot-protected
+    // .docx; every fetch tool available was blocked), so rather than
+    // guess at what it says, officialChecklistUrl below links straight
+    // to the real file. Banks may still request case-by-case additions
+    // per the portal's own "Important Steps" page.
+    officialChecklistUrl:
+      'https://www.standupmitra.in/Default/DownloadFile/Stand-%20Up%20India%20loan%20Application%20Document%20CHECK%20LIST-English.docx',
     applicationSteps: [
       'Visit the Stand-Up India portal (standupmitra.in) in person, at a bank branch, or with help from a Common Service Centre or Lead District Manager.',
       "Answer the portal's onboarding questions about your category, business idea, location, and prior experience.",
@@ -35,7 +67,7 @@ export const schemes: Scheme[] = [
       'Ready Borrowers proceed directly to loan application at their chosen bank; Trainee Borrowers first get handholding support through a Stand Up Connect Centre.',
       'Once ready, the portal generates a formal loan application and shares your details with the concerned bank.',
     ],
-    lastVerified: '2026-08-27',
+    lastVerified: '2026-09-05',
     sourceUrl: 'https://samarth.powermin.gov.in/content/policies/5f0f87c0-6620-4fae-b440-d11d67d0b2a0.pdf',
   },
   {
@@ -57,6 +89,16 @@ export const schemes: Scheme[] = [
     // index on this older JSP app — link straight to its home page
     // instead. Verified 2026-08-28.
     officialUrl: 'https://www.kviconline.gov.in/pmegpeportal/pmegphome/index.jsp',
+    requiredDocuments: [
+      'Aadhaar card (mandatory) — PAN card accepted only where Aadhaar has not yet been issued (e.g. NER, J&K)',
+      'Caste certificate, if applicable',
+      'Special category certificate, wherever required',
+      'Rural area certificate, if applicable',
+      'Project report',
+      'Education / EDP / skill development training certificate, if applicable',
+    ],
+    lastVerified: '2026-09-05',
+    sourceUrl: 'https://www.kviconline.gov.in/pmegpeportal/dashboard/notification/PMEGP_Guidelines_Certified_2022_3.pdf',
   },
   {
     id: 'mudra-tarun',
@@ -74,11 +116,15 @@ export const schemes: Scheme[] = [
     summary:
       'Provides loans to existing micro and small enterprises looking to expand operations, no collateral required.',
     officialUrl: 'https://www.mudra.org.in/',
-    // requiredDocuments / applicationSteps intentionally left undefined:
-    // re-checked mudra.org.in on 2026-09-03 — the site describes the
-    // scheme (Shishu/Kishore/Tarun tiers) and points applicants to the
-    // separate udyamimitra.in portal to apply, but does not itself state
-    // a document list or a step-by-step application process to cite.
+    // Re-checked 2026-09-05, correcting the prior "no list" note below:
+    // Tarun uses the same official "Common Loan Application Form"
+    // checklist as Kishore — see MUDRA_KISHORE_TARUN_DOCUMENTS above for
+    // the verification method. applicationSteps still intentionally left
+    // undefined: no source found states a step-by-step process beyond
+    // "apply via udyamimitra.in or your bank."
+    requiredDocuments: MUDRA_KISHORE_TARUN_DOCUMENTS,
+    lastVerified: '2026-09-05',
+    sourceUrl: 'https://www.mudra.org.in/Default/DownloadFile/Common_loan_Application_form.pdf',
   },
   {
     id: 'mahila-udyam-nidhi',
@@ -95,6 +141,15 @@ export const schemes: Scheme[] = [
     benefit: 'Soft loan up to ₹25 lakh via SIDBI/PNB',
     summary: 'Low-interest financing for women setting up or expanding small-scale industrial units.',
     officialUrl: 'https://sidbi.in/',
+    // requiredDocuments intentionally left undefined: re-checked
+    // 2026-09-05 — this scheme no longer appears anywhere on SIDBI's
+    // current official site (including its own "Government Programmes"
+    // listing). A 2026-era PIB Lok Sabha reply confirms SIDBI
+    // historically ran it, but multiple independent signals suggest it
+    // has since been discontinued/phased out. FLAGGED for a maintainer
+    // to confirm whether this scheme should still be listed at all —
+    // not something to resolve unilaterally as part of a documents-list
+    // pass.
   },
   {
     id: 'tread',
@@ -112,6 +167,12 @@ export const schemes: Scheme[] = [
     summary:
       'Trade Related Entrepreneurship Assistance and Development for women in non-farm activities, bundled with training support.',
     officialUrl: 'https://msme.gov.in/',
+    // requiredDocuments intentionally left undefined: checked 2026-09-05
+    // — the official DC-MSME TREAD user manual only instructs applicants
+    // to use an "Upload Documents" tab without naming the documents, and
+    // the scheme's Office Memorandum states only that applications "in
+    // the prescribed format" must be submitted — no itemized list to
+    // cite honestly.
   },
   {
     id: 'vcf-sc',
@@ -131,6 +192,15 @@ export const schemes: Scheme[] = [
     // resolves (DNS lookup fails). VCF-SC has its own dedicated,
     // currently-live portal — verified 2026-08-28.
     officialUrl: 'https://www.vcfsc.in/',
+    // Scoped, conditional list — not a full generic checklist — exactly
+    // as stated on the official eligibility page. Checked 2026-09-05.
+    requiredDocuments: [
+      'Documentary proof of SC category, submitted by the entrepreneur',
+      'For the technology-incubation category: proof of support from an incubation centre/corporate, or patent/copyright documents in the SC entrepreneur’s name',
+      'Sanction letter from the concerned Government of India department, where the project is sanctioned by one',
+    ],
+    lastVerified: '2026-09-05',
+    sourceUrl: 'https://www.vcfsc.in/eligibility.html',
   },
   {
     id: 'nstfdc-term-loan',
@@ -172,6 +242,13 @@ export const schemes: Scheme[] = [
     summary:
       'Targeted micro-credit for low-income Safai Karamchari / SC community members to start small ventures.',
     officialUrl: 'https://nskfdc.nic.in/',
+    // requiredDocuments intentionally left undefined: checked 2026-09-05
+    // — the official "How to Apply" and FAQ pages describe only the
+    // institutional loan-routing process (via a State Channelising
+    // Agency/bank to NSKFDC's Project Appraisal Committee) and an
+    // occupation-based eligibility certificate; NSKFDC's own Preliminary
+    // Loan Application Form asks only for basic applicant details and
+    // does not itemize supporting documents to attach.
   },
   {
     id: 'pm-svanidhi',
@@ -278,6 +355,18 @@ export const schemes: Scheme[] = [
     summary:
       'Organises rural low-income women into Self-Help Groups and provides affordable credit plus livelihood training.',
     officialUrl: 'https://aajeevika.gov.in/',
+    // Scoped to the SHG bank credit-linkage step (this scheme's own
+    // "loans" benefit), not general SHG formation — from the official
+    // DAY-NRLM Handbook on SHG. Checked 2026-09-05.
+    requiredDocuments: [
+      'Resolution authorising the SHG to apply for a bank loan',
+      'Loan application form, signed by office bearers',
+      'Inter-se agreement',
+      'Loan agreement form',
+      "Photographs (passport-size, 3 copies each) of the SHG's office bearers, with the group's seal",
+    ],
+    lastVerified: '2026-09-05',
+    sourceUrl: 'https://daynrlmbl.aajeevika.gov.in/Circulars/Handbook%20on%20SHG.pdf',
   },
 
   // --- Added in a later batch: broadens coverage past the original scheme set ---
@@ -299,6 +388,22 @@ export const schemes: Scheme[] = [
     benefit: 'Collateral-free loan up to ₹50,000',
     summary: "The starter tranche of PMMY — small working-capital loans for a business that's just getting off the ground.",
     officialUrl: 'https://www.mudra.org.in/',
+    // Shishu has its own, shorter checklist, distinct from the Kishore/
+    // Tarun "Common Loan Application Form" (see MUDRA_KISHORE_TARUN_DOCUMENTS
+    // above). Same fetch limitation as noted there — verified via
+    // independent mirrors reproducing MUDRA's own Shishu checklist file
+    // rather than a direct fetch of mudra.org.in. Checked 2026-09-05.
+    requiredDocuments: [
+      'Proof of identity — self-certified copy of Voter ID, Driving Licence, PAN card, Aadhaar card, Passport, or another government-issued photo ID',
+      'Proof of residence — recent telephone/electricity bill, property tax receipt, Voter ID, Aadhaar card, Passport, or a certificate from a government authority/local panchayat/municipality',
+      "Applicant's recent photograph (2 copies), not older than 6 months",
+      'Proof of SC/ST/OBC/minority status, if applicable',
+      'Proof of identity/address of the business enterprise, if available',
+      'Statement of account from the existing banker for the last six months, if any',
+      'Quotation for machinery/equipment/items to be purchased, if applicable',
+    ],
+    lastVerified: '2026-09-05',
+    sourceUrl: 'https://www.mudra.org.in/Default/DownloadFile/Check_list_for_Shishu_application.jpg',
   },
   {
     id: 'pmmy-kishore',
@@ -315,6 +420,12 @@ export const schemes: Scheme[] = [
     benefit: 'Collateral-free loan from ₹50,000 up to ₹5 lakh',
     summary: 'The middle PMMY tranche, for a business past its first few months that needs more working capital than Shishu covers.',
     officialUrl: 'https://www.mudra.org.in/',
+    // Same "Common Loan Application Form" as Tarun — see
+    // MUDRA_KISHORE_TARUN_DOCUMENTS above for the list and verification
+    // method. Checked 2026-09-05.
+    requiredDocuments: MUDRA_KISHORE_TARUN_DOCUMENTS,
+    lastVerified: '2026-09-05',
+    sourceUrl: 'https://www.mudra.org.in/Default/DownloadFile/Common_loan_Application_form.pdf',
   },
   {
     id: 'cgtmse',
@@ -332,6 +443,13 @@ export const schemes: Scheme[] = [
     summary:
       'Guarantees bank and NBFC loans to micro and small enterprises, so a lender can extend credit without collateral or a third-party guarantor.',
     officialUrl: 'https://www.cgtmse.in/',
+    // requiredDocuments intentionally left undefined: checked 2026-09-05
+    // — CGTMSE does publish a "list of documents," but it's for lending
+    // institutions (banks/NBFCs) registering as Member Lending
+    // Institutions, not for the borrowing entrepreneur. CGTMSE itself
+    // states it "does not provide any financial assistance" directly —
+    // borrower documents follow the individual lender's own MSE/KYC
+    // requirements, which CGTMSE doesn't standardise or publish.
   },
   {
     id: 'scst-hub',
@@ -349,6 +467,13 @@ export const schemes: Scheme[] = [
     summary:
       'Dedicated centres that support SC/ST entrepreneurs with business handholding, skill development, and easier access to other MSME schemes and government marketplaces.',
     officialUrl: 'https://www.scsthub.in/',
+    // requiredDocuments intentionally left undefined: checked 2026-09-05
+    // — scsthub.in's general Hub sign-up only asks for name/email/mobile.
+    // One of the Hub's several sub-schemes (Bank Loan Processing Fee
+    // Reimbursement) does publish its own itemized document list, but
+    // that's scoped to that specific reimbursement, not to the Hub's
+    // handholding/marketing support described above — applying it here
+    // would misrepresent it as a general requirement.
   },
   {
     id: 'nbcfdc-loan',
@@ -366,6 +491,14 @@ export const schemes: Scheme[] = [
     summary:
       'Low-interest term loans for OBC entrepreneurs below the income cut-off, disbursed through state channelising agencies rather than directly.',
     officialUrl: 'https://nbcfdc.gov.in/',
+    // From NBCFDC's own official FAQ (Q.11, "what documents are required
+    // to prove eligibility for the loan"). Checked 2026-09-05.
+    requiredDocuments: [
+      'Caste certificate for Other Backward Classes, issued by the relevant District Administration authority',
+      'Proof of income — an income certificate from the Competent Authority/District Administration, an Antyodaya Anna Yojana (AAY) card, or a Below Poverty Line (BPL) card; alternatively, a self-certified annual family income declaration endorsed by a Gazetted Officer (or, for bank loan applicants, by the Branch Manager)',
+    ],
+    lastVerified: '2026-09-05',
+    sourceUrl: 'https://nbcfdc.gov.in/nbcfdc/web/sites/default/files/2024-11/FAQ-NBCFDC.pdf',
   },
   {
     id: 'ndfdc-disability',
@@ -395,6 +528,13 @@ export const schemes: Scheme[] = [
     summary:
       'Formerly the National Handicapped Finance & Development Corporation (NHFDC) — concessional loans and skill-training support for persons with disabilities starting or expanding a self-employment venture.',
     officialUrl: 'https://depwd.gov.in/en/national-handicapped-finance-and-development-corporation/',
+    // requiredDocuments intentionally left undefined: checked 2026-09-05
+    // — NDFDC's own domains (nhfdc.nic.in, ndfdc.nic.in) could not be
+    // reached at all this session (DNS resolution failure), including a
+    // page whose title suggested a document checklist might exist there.
+    // The reachable DEPWD parent-ministry page only says to "visit the
+    // NDFDC website" with no specifics. Re-check once nhfdc.nic.in is
+    // reachable, rather than guessing from an unreachable source.
   },
   {
     id: 'aspire',
@@ -412,6 +552,11 @@ export const schemes: Scheme[] = [
     summary:
       'A Scheme for Promotion of Innovation, Rural Industries and Entrepreneurship — funds business incubators that support rural and agro-based enterprises from idea to launch.',
     officialUrl: 'https://aspire.msme.gov.in/',
+    // requiredDocuments intentionally left undefined: checked 2026-09-05
+    // — the official MSME scheme page and PIB releases describe ASPIRE
+    // as funding incubator institutions via project proposals, with
+    // applications going to the Aspire Scheme Steering Committee; no
+    // individual-applicant document checklist is stated anywhere found.
   },
   {
     id: 'pmfme',
@@ -429,6 +574,11 @@ export const schemes: Scheme[] = [
     summary:
       'Helps existing micro food-processing units (and new ones under the One District One Product approach) formalise, upgrade equipment, and access credit.',
     officialUrl: 'https://pmfme.mofpi.gov.in/',
+    // requiredDocuments intentionally left undefined: checked 2026-09-05
+    // — the official Scheme Guidelines and FAQ describe a DPR-based
+    // application ("necessary documents such as lease/ownership
+    // documents, registration and Government clearances, basic KYC")
+    // without a single itemized checklist to cite.
   },
   {
     id: 'pmmsy',
@@ -449,6 +599,11 @@ export const schemes: Scheme[] = [
     summary:
       'Supports fish farmers and fisheries-sector entrepreneurs with subsidised capital for ponds, hatcheries, cold chain, and other allied infrastructure.',
     officialUrl: 'https://pmmsy.dof.gov.in/',
+    // requiredDocuments intentionally left undefined: checked 2026-09-05
+    // — the official Operational Guidelines and FAQ describe a Detailed
+    // Project Report (DPR) with supporting content (feasibility, land/
+    // statutory clearances, funding sources) rather than a fixed
+    // personal-document checklist.
   },
   {
     id: 'cgss-startups',
@@ -466,6 +621,12 @@ export const schemes: Scheme[] = [
     summary:
       'Guarantees working-capital and term loans to DPIIT-recognised startups, so a lender can extend credit without collateral.',
     officialUrl: 'https://www.startupindia.gov.in/content/sih/en/credit-guarantee-scheme-for-startups.html',
+    // requiredDocuments intentionally left undefined: checked 2026-09-05
+    // — CGSS is a credit guarantee, not a direct-apply scheme; official
+    // sources (NCGTC, Jan Samarth, PIB) say to apply via the Jan Samarth
+    // portal or approach a Member Institution directly, with
+    // documentation set by that lender rather than standardised by
+    // DPIIT/NCGTC on any page found.
   },
 
   // --- State-specific schemes ---
@@ -504,6 +665,19 @@ export const schemes: Scheme[] = [
     // data-confidence caveat, not just an internal note.
     dataConfidenceNote:
       'The ₹5L + ₹5L loan/subsidy split is corroborated across multiple independent scheme-tracking sources, not stated directly on the official Bihar portal itself.',
+    // From the official Bihar portal's own FAQ PDF (Q.7). Checked
+    // 2026-09-05.
+    requiredDocuments: [
+      'Matriculation certificate (showing date of birth)',
+      'Intermediate or equivalent qualification certificate',
+      'Caste certificate',
+      'Permanent residence certificate',
+      'Disability certificate, if applicable',
+      "Applicant's live photograph",
+      "Applicant's signature",
+    ],
+    lastVerified: '2026-09-05',
+    sourceUrl: 'https://udyami.bihar.gov.in/pdf/FAQ.pdf',
   },
   {
     id: 'wb-karma-sathi',
@@ -521,6 +695,19 @@ export const schemes: Scheme[] = [
     summary:
       'Self-employment loan scheme for West Bengal youth (18–45) with at least a Class VIII education, disbursed as a 0%-interest soft loan repayable over 5 years.',
     officialUrl: 'https://karmasathi.wb.gov.in/scheme',
+    // From the "Check List" printed on the official application form
+    // (West Bengal government's Bangla Sahayata Kendra portal). Checked
+    // 2026-09-05.
+    requiredDocuments: [
+      'Photo identity proof',
+      'Residence proof',
+      'Age proof',
+      'Proof of educational qualification',
+      'Caste certificate, if applicable',
+      'Detailed project report',
+    ],
+    lastVerified: '2026-09-05',
+    sourceUrl: 'https://bsk.wb.gov.in/download/49.pdf',
   },
   {
     id: 'kerala-kudumbashree',
@@ -538,6 +725,12 @@ export const schemes: Scheme[] = [
     summary:
       "Kerala's state poverty-eradication mission organises women into neighbourhood groups and funds micro-enterprises through interest subsidies and dedicated startup, revolving, technology, and innovation funds.",
     officialUrl: 'https://www.kudumbashree.org/pages/653',
+    // requiredDocuments intentionally left undefined: checked 2026-09-05
+    // — this page (and related official pages checked) covers roughly 20
+    // different Kudumbashree micro-enterprise sub-programmes and funding
+    // types with no documents named; Kudumbashree isn't a single scheme
+    // with one defined document set, so no honest single list can be
+    // cited at this level.
   },
   {
     id: 'karnataka-udyogini',
@@ -569,6 +762,15 @@ export const schemes: Scheme[] = [
     benefit: 'Collateral-free loan up to ₹3 lakh; subsidy 50% (max ₹1.5 lakh) for SC/ST, 30% (max ₹90,000) for general category',
     summary:
       'Subsidised, collateral-free loans for women aged 18–55 starting a small business across roughly 88 approved trades, with a higher subsidy tier for SC/ST applicants.',
+    // requiredDocuments NOT added despite a lead (checked 2026-09-05):
+    // the official page (kswdc.karnataka.gov.in/21/udyogini/en) does have
+    // an "Eligibility criteria and Required Documents" section, opening
+    // with Aadhaar card / residential certificate / project report — but
+    // the page repeatedly timed out on direct fetch, so only that
+    // fragment could be independently corroborated (via a search-index
+    // cache), not the full list verbatim. TODO: revisit with a live
+    // browser fetch before adding requiredDocuments here — do not guess
+    // the remainder from third-party aggregator sites.
     officialUrl: 'https://kswdc.karnataka.gov.in/21/udyogini/en',
     // See Task 3 (2026-09-03): mirrors the comment above — flagged as a
     // data-confidence caveat, not just an internal note.
@@ -591,6 +793,27 @@ export const schemes: Scheme[] = [
     summary:
       'Loan and interest-subsidy scheme for unemployed youth (18–45, minimum 8th-standard education) setting up a new industry or service business in Madhya Pradesh.',
     officialUrl: 'https://dhar.nic.in/en/scheme/mukhaymantri-udhaym-kranti-yojana/',
+    // Stated as run-on prose (not a clean bulleted list) under "How to
+    // apply under Scheme" on the official district NIC page — cleaned up
+    // into list form here without adding or dropping any item. Checked
+    // 2026-09-05.
+    requiredDocuments: [
+      'Project report',
+      'Ration card',
+      'Permanent resident certificate',
+      'Voter ID',
+      'Aadhaar card',
+      'PAN card',
+      'Bank passbook',
+      'Mark list of educational qualification (minimum 8th standard)',
+      'Birth certificate',
+      'Caste certificate',
+      'Land/building ownership document, or rent deed',
+      'Quotation (for machinery/equipment)',
+      'Passport-size photograph',
+    ],
+    lastVerified: '2026-09-05',
+    sourceUrl: 'https://dhar.nic.in/en/scheme/mukhaymantri-udhaym-kranti-yojana/',
   },
   {
     id: 'tn-needs',
@@ -608,6 +831,26 @@ export const schemes: Scheme[] = [
     summary:
       'Loan scheme for first-generation Tamil Nadu entrepreneurs (HSC-pass, resident 3+ years) starting a new manufacturing or service enterprise, with lower promoter contribution and relaxed age limits for women, SC/ST, and other special categories.',
     officialUrl: 'https://www.tiic.org/need-scheme/',
+    // The TIIC page above doesn't itself list documents — this comes
+    // from the official NEEDS application form issued by a Tamil Nadu
+    // District Industries Centre (a state government office under the
+    // Commissionerate of Industries and Commerce). Checked 2026-09-05.
+    requiredDocuments: [
+      'Proof of age — birth certificate, or Transfer Certificate from school/college',
+      'Proof of residence — Ration Card, or Residence Certificate from the Tahsildar',
+      'Degree/Diploma/Certificate of course completion',
+      'Community certificate',
+      'Certificate of Ex-servicemen/differently-abled/transgender status, wherever applicable',
+      "Project report with projected sales and cash-flow statement for the next 3 years",
+      'Copy of land document, if land is included in the project cost',
+      'Estimate of building, obtained from a Chartered Civil Engineer',
+      'Quotations for machinery or equipment',
+      'Sworn affidavit from a Notary Public, on ₹20 stamp paper',
+      'Entrepreneur Memorandum (Part I) acknowledgement from the District Industries Centre',
+      'Copy of partnership deed, for a partnership enterprise',
+    ],
+    lastVerified: '2026-09-05',
+    sourceUrl: 'https://www.dicnmkl.in/brochure/NEEDS_APPLICATION.pdf',
   },
   {
     id: 'odisha-mission-shakti',
@@ -625,6 +868,11 @@ export const schemes: Scheme[] = [
     summary:
       "Odisha's flagship women's Self-Help Group mission (groups of 10–15, members aged 18–65) providing near-zero-interest micro-enterprise loans alongside skill training.",
     officialUrl: 'https://missionshakti.odisha.gov.in/more/msd-FAQs',
+    // requiredDocuments intentionally left undefined: checked 2026-09-05
+    // — Mission Shakti is a broad department/mission (SHG formation,
+    // bank linkage, interest subvention, skilling) rather than a single
+    // scheme with one application form; the official FAQ covers
+    // eligibility and objectives, not a documents-required list.
   },
   {
     id: 'up-vishwakarma-shram-samman',
@@ -682,8 +930,17 @@ export const schemes: Scheme[] = [
     summary:
       'Skill training, toolkit support, and margin-money loan assistance for Uttar Pradesh artisans across 25 trades (16 traditional — carpenter, blacksmith, potter, tailor, etc. — plus 9 modern trades like mobile and solar-panel repair). Distinct from UP’s separate ODOP Training and Toolkit Scheme, which is not represented in this dataset.',
     officialUrl: 'https://msme1connect.up.gov.in/Home/SchemesList/1',
+    // Explicit "Documents Required:" heading in the official UP MSME PDF
+    // above. Re-checked 2026-09-05.
+    requiredDocuments: [
+      'Identity proof — Aadhaar card, Voter ID card, etc.',
+      'Proof of age',
+      'Caste certificate, if applicable',
+      'Disability certificate, if applicable',
+      'Any other document, if required',
+    ],
     sourceUrl: 'https://msme1connect.up.gov.in/GovernmentScheme/GovernmentScheme638927397130517915.pdf',
-    lastVerified: '2026-09-02',
+    lastVerified: '2026-09-05',
   },
   // TODO(state-schemes): Maharashtra — HOLD, re-checked 2026-09-02.
   // Annasaheb Patil Arthik Vikas Mahamandal (udyog.mahaswayam.gov.in) is

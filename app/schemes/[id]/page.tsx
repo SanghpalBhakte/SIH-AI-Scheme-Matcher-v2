@@ -15,6 +15,7 @@ import { RecommendationDisclaimer } from '@/components/recommendations/recommend
 import { SchemeOverview } from '@/components/schemes/scheme-overview'
 import { ApplicationChecklist } from '@/components/schemes/application-checklist'
 import { SaveSchemeButton } from '@/components/schemes/save-scheme-button'
+import { DocumentsChecklistLink } from '@/components/schemes/documents-checklist-link'
 import { useAssessment } from '@/lib/assessment/assessment-context'
 import { useLanguage } from '@/lib/i18n/language-context'
 import { evaluateScheme } from '@/lib/matching/engine'
@@ -121,11 +122,7 @@ export default function SchemeDetailsPage({ params }: { params: { id: string } }
                 <FileText className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden />
                 <div>
                   <p className="text-sm font-medium text-foreground">{t('schemeDetails.quickRefDocs')}</p>
-                  <p className="text-xs text-muted-foreground">
-                    {scheme.requiredDocuments && scheme.requiredDocuments.length > 0
-                      ? t('browser.documentsRequired', { count: scheme.requiredDocuments.length })
-                      : t('schemeDetails.quickRefDocsUnknown')}
-                  </p>
+                  <DocumentsChecklistLink scheme={scheme} />
                 </div>
               </div>
               <div className="flex items-start gap-2">

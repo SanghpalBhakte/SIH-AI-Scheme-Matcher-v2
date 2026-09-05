@@ -308,6 +308,18 @@ export interface Scheme {
    * or a press release rather than the portal's homepage.
    */
   sourceUrl?: string
+  /**
+   * A direct link to the scheme's OWN official document-checklist file
+   * (e.g. a portal's "Downloads" page), used only when SchemeSetu has
+   * confirmed the file genuinely exists and is officially hosted, but
+   * could not itself read/transcribe its contents (e.g. a bot-blocked
+   * .docx) — so requiredDocuments is left unset rather than guessed,
+   * and the UI links straight to the real file instead of generating a
+   * PDF from unverified content. In practice mutually exclusive with
+   * requiredDocuments: either the documents are known and cited, or the
+   * source that has them is linked directly.
+   */
+  officialChecklistUrl?: string
 }
 
 export type EligibilityStatus =
