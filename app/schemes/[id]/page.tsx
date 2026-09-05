@@ -15,6 +15,7 @@ import { RecommendationDisclaimer } from '@/components/recommendations/recommend
 import { SchemeOverview } from '@/components/schemes/scheme-overview'
 import { ApplicationChecklist } from '@/components/schemes/application-checklist'
 import { SaveSchemeButton } from '@/components/schemes/save-scheme-button'
+import { WhatsAppShareButton } from '@/components/schemes/whatsapp-share-button'
 import { DocumentsChecklistLink } from '@/components/schemes/documents-checklist-link'
 import { useAssessment } from '@/lib/assessment/assessment-context'
 import { useLanguage } from '@/lib/i18n/language-context'
@@ -108,7 +109,10 @@ export default function SchemeDetailsPage({ params }: { params: { id: string } }
             ) : (
               <p className="text-xs text-muted-foreground">{t('schemeDetails.noOfficialLink')}</p>
             )}
-            <SaveSchemeButton schemeId={scheme.id} variant="label" className="ml-auto" />
+            <div className="ml-auto flex flex-wrap items-center gap-2">
+              <WhatsAppShareButton scheme={scheme} variant="label" />
+              <SaveSchemeButton schemeId={scheme.id} variant="label" />
+            </div>
           </div>
         </CardHeader>
 

@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { ArrowLeft, ArrowRight, Sparkles } from 'lucide-react'
+import { ArrowLeft, ArrowRight, ChevronDown, Sparkles } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
@@ -86,6 +86,13 @@ export default function AssessmentPage() {
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }, [stepIndex])
 
+  // Quick match: category/gender/state (basic) + sector/stage/firstTime
+  // (business) are the only 6 fields lib/matching/engine.ts's
+  // HARD_FAIL_KEYS/soft-scoring criteria actually read (annualIncomeRange
+  // is the 7th — optional even to the engine, since '' is itself an
+  // honest "prefer not to say"). Once those 6 are answered the profile
+  // already satisfies isProfileComplete(), so "Skip ahead" below can jump
+  // straight to /recommendations without visiting Financial/Needs at all.
   const canAdvance = (() => {
     switch (step.id) {
       case 'basic':
@@ -169,26 +176,16 @@ export default function AssessmentPage() {
           <CardContent className="space-y-4">
             {step.id === 'basic' && (
               <>
-                <div className="space-y-1.5">
-                  <Label htmlFor="fullName">{t('field.fullName')}</Label>
-                  <Input
-                    id="fullName"
-                    value={profile.fullName}
-                    onChange={(e) => updateProfile({ fullName: e.target.value })}
-                    placeholder={t('field.fullNamePlaceholder')}
-                  />
-                </div>
+                {/* Required-for-matching fields first, always visible — see
+                    the "Quick match" note above canAdvance for why these
+                    three (plus sector/stage/firstTime on the next step) are
+                    the ones that actually decide eligibility. Everything
+                    else in this step is real, honestly-collected data, but
+                    the engine never reads it (see AdditionalProfileDetails
+                    in lib/matching/types.ts) — tucking it behind the
+                    <details> below keeps the fast path to three fields
+                    instead of ten. */}
                 <div className="grid gap-4 sm:grid-cols-2">
-                  <div className="space-y-1.5">
-                    <Label htmlFor="age">{t('field.age')}</Label>
-                    <Input
-                      id="age"
-                      type="number"
-                      min={0}
-                      value={profile.age}
-                      onChange={(e) => updateProfile({ age: parseOptionalNumber(e.target.value) })}
-                    />
-                  </div>
                   <div className="space-y-1.5">
                     <Label htmlFor="gender">{t('field.gender')}</Label>
                     <Select
@@ -206,8 +203,6 @@ export default function AssessmentPage() {
                       ))}
                     </Select>
                   </div>
-                </div>
-                <div className="grid gap-4 sm:grid-cols-2">
                   <div className="space-y-1.5">
                     <Label htmlFor="state">{t('field.state')}</Label>
                     <Select
@@ -225,30 +220,6 @@ export default function AssessmentPage() {
                       ))}
                     </Select>
                   </div>
-                  <div className="space-y-1.5">
-                    <Label htmlFor="district">{t('field.district')}</Label>
-                    <Input
-                      id="district"
-                      value={profile.district}
-                      onChange={(e) => updateProfile({ district: e.target.value })}
-                      placeholder={t('field.districtPlaceholder')}
-                    />
-                  </div>
-                </div>
-                <div className="space-y-1.5">
-                  <Label>{t('field.locationType')}</Label>
-                  <RadioGroup>
-                    {LOCATION_TYPE_OPTIONS.map((opt) => (
-                      <RadioOption
-                        key={opt}
-                        id={`locationType-${opt}`}
-                        name="locationType"
-                        label={opt}
-                        checked={profile.locationType === opt}
-                        onChange={() => updateProfile({ locationType: opt })}
-                      />
-                    ))}
-                  </RadioGroup>
                 </div>
                 <div className="space-y-1.5">
                   <Label htmlFor="category">{t('field.category')}</Label>
@@ -267,80 +238,115 @@ export default function AssessmentPage() {
                     ))}
                   </Select>
                 </div>
-                <div className="space-y-1.5">
-                  <Label>{t('field.disabilityStatus')}</Label>
-                  <RadioGroup>
-                    {YES_NO_OPTIONS.map((opt) => (
-                      <RadioOption
-                        key={opt}
-                        id={`disabilityStatus-${opt}`}
-                        name="disabilityStatus"
-                        label={opt}
-                        checked={profile.disabilityStatus === opt}
-                        onChange={() => updateProfile({ disabilityStatus: opt })}
+
+                <details className="group rounded-lg border border-border bg-secondary/30 p-3 open:pb-3.5">
+                  <summary className="flex cursor-pointer list-none items-center justify-between gap-2 text-sm font-medium text-foreground">
+                    {t('assessment.optionalDetails')}
+                    <ChevronDown
+                      className="h-4 w-4 shrink-0 text-muted-foreground transition-transform duration-200 group-open:rotate-180"
+                      aria-hidden
+                    />
+                  </summary>
+                  <div className="mt-4 space-y-4 border-t border-border pt-4">
+                    <div className="space-y-1.5">
+                      <Label htmlFor="fullName">{t('field.fullName')}</Label>
+                      <Input
+                        id="fullName"
+                        value={profile.fullName}
+                        onChange={(e) => updateProfile({ fullName: e.target.value })}
+                        placeholder={t('field.fullNamePlaceholder')}
                       />
-                    ))}
-                  </RadioGroup>
-                </div>
-                <div className="space-y-1.5">
-                  <Label>{t('field.minorityStatus')}</Label>
-                  <RadioGroup>
-                    {YES_NO_OPTIONS.map((opt) => (
-                      <RadioOption
-                        key={opt}
-                        id={`minorityStatus-${opt}`}
-                        name="minorityStatus"
-                        label={opt}
-                        checked={profile.minorityStatus === opt}
-                        onChange={() => updateProfile({ minorityStatus: opt })}
-                      />
-                    ))}
-                  </RadioGroup>
-                </div>
-                <div className="space-y-1.5">
-                  <Label htmlFor="educationLevel">{t('field.educationLevel')}</Label>
-                  <Select
-                    id="educationLevel"
-                    value={profile.educationLevel}
-                    onChange={(e) => updateProfile({ educationLevel: e.target.value as typeof profile.educationLevel })}
-                  >
-                    <option value="">{t('field.selectEducationLevel')}</option>
-                    {EDUCATION_LEVEL_OPTIONS.map((e) => (
-                      <option key={e} value={e}>
-                        {e}
-                      </option>
-                    ))}
-                  </Select>
-                </div>
+                    </div>
+                    <div className="grid gap-4 sm:grid-cols-2">
+                      <div className="space-y-1.5">
+                        <Label htmlFor="age">{t('field.age')}</Label>
+                        <Input
+                          id="age"
+                          type="number"
+                          min={0}
+                          value={profile.age}
+                          onChange={(e) => updateProfile({ age: parseOptionalNumber(e.target.value) })}
+                        />
+                      </div>
+                      <div className="space-y-1.5">
+                        <Label htmlFor="district">{t('field.district')}</Label>
+                        <Input
+                          id="district"
+                          value={profile.district}
+                          onChange={(e) => updateProfile({ district: e.target.value })}
+                          placeholder={t('field.districtPlaceholder')}
+                        />
+                      </div>
+                    </div>
+                    <div className="space-y-1.5">
+                      <Label>{t('field.locationType')}</Label>
+                      <RadioGroup>
+                        {LOCATION_TYPE_OPTIONS.map((opt) => (
+                          <RadioOption
+                            key={opt}
+                            id={`locationType-${opt}`}
+                            name="locationType"
+                            label={opt}
+                            checked={profile.locationType === opt}
+                            onChange={() => updateProfile({ locationType: opt })}
+                          />
+                        ))}
+                      </RadioGroup>
+                    </div>
+                    <div className="space-y-1.5">
+                      <Label>{t('field.disabilityStatus')}</Label>
+                      <RadioGroup>
+                        {YES_NO_OPTIONS.map((opt) => (
+                          <RadioOption
+                            key={opt}
+                            id={`disabilityStatus-${opt}`}
+                            name="disabilityStatus"
+                            label={opt}
+                            checked={profile.disabilityStatus === opt}
+                            onChange={() => updateProfile({ disabilityStatus: opt })}
+                          />
+                        ))}
+                      </RadioGroup>
+                    </div>
+                    <div className="space-y-1.5">
+                      <Label>{t('field.minorityStatus')}</Label>
+                      <RadioGroup>
+                        {YES_NO_OPTIONS.map((opt) => (
+                          <RadioOption
+                            key={opt}
+                            id={`minorityStatus-${opt}`}
+                            name="minorityStatus"
+                            label={opt}
+                            checked={profile.minorityStatus === opt}
+                            onChange={() => updateProfile({ minorityStatus: opt })}
+                          />
+                        ))}
+                      </RadioGroup>
+                    </div>
+                    <div className="space-y-1.5">
+                      <Label htmlFor="educationLevel">{t('field.educationLevel')}</Label>
+                      <Select
+                        id="educationLevel"
+                        value={profile.educationLevel}
+                        onChange={(e) =>
+                          updateProfile({ educationLevel: e.target.value as typeof profile.educationLevel })
+                        }
+                      >
+                        <option value="">{t('field.selectEducationLevel')}</option>
+                        {EDUCATION_LEVEL_OPTIONS.map((e) => (
+                          <option key={e} value={e}>
+                            {e}
+                          </option>
+                        ))}
+                      </Select>
+                    </div>
+                  </div>
+                </details>
               </>
             )}
 
             {step.id === 'business' && (
               <>
-                <div className="space-y-1.5">
-                  <Label htmlFor="businessName">{t('field.businessName')}</Label>
-                  <Input
-                    id="businessName"
-                    value={profile.businessName}
-                    onChange={(e) => updateProfile({ businessName: e.target.value })}
-                    placeholder={t('field.businessNamePlaceholder')}
-                  />
-                </div>
-                <div className="space-y-1.5">
-                  <Label htmlFor="businessType">{t('field.businessType')}</Label>
-                  <Select
-                    id="businessType"
-                    value={profile.businessType}
-                    onChange={(e) => updateProfile({ businessType: e.target.value as typeof profile.businessType })}
-                  >
-                    <option value="">{t('field.selectBusinessType')}</option>
-                    {BUSINESS_TYPE_OPTIONS.map((bt) => (
-                      <option key={bt} value={bt}>
-                        {bt}
-                      </option>
-                    ))}
-                  </Select>
-                </div>
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div className="space-y-1.5">
                     <Label htmlFor="sector">{t('field.sector')}</Label>
@@ -377,67 +383,6 @@ export default function AssessmentPage() {
                     </Select>
                   </div>
                 </div>
-                <div className="grid gap-4 sm:grid-cols-2">
-                  <div className="space-y-1.5">
-                    <Label htmlFor="yearsInOperation">{t('field.yearsInOperation')}</Label>
-                    <Input
-                      id="yearsInOperation"
-                      type="number"
-                      min={0}
-                      value={profile.yearsInOperation}
-                      onChange={(e) => updateProfile({ yearsInOperation: parseOptionalNumber(e.target.value) })}
-                    />
-                  </div>
-                  <div className="space-y-1.5">
-                    <Label htmlFor="numberOfEmployees">{t('field.numberOfEmployees')}</Label>
-                    <Input
-                      id="numberOfEmployees"
-                      type="number"
-                      min={0}
-                      value={profile.numberOfEmployees}
-                      onChange={(e) => updateProfile({ numberOfEmployees: parseOptionalNumber(e.target.value) })}
-                    />
-                  </div>
-                </div>
-                <div className="grid gap-4 sm:grid-cols-2">
-                  <div className="space-y-1.5">
-                    <Label htmlFor="annualTurnoverLakh">{t('field.annualTurnoverLakh')}</Label>
-                    <Input
-                      id="annualTurnoverLakh"
-                      type="number"
-                      min={0}
-                      step="0.1"
-                      value={profile.annualTurnoverLakh}
-                      onChange={(e) => updateProfile({ annualTurnoverLakh: parseOptionalNumber(e.target.value) })}
-                    />
-                  </div>
-                  <div className="space-y-1.5">
-                    <Label htmlFor="businessLocation">{t('field.businessLocation')}</Label>
-                    <Input
-                      id="businessLocation"
-                      value={profile.businessLocation}
-                      onChange={(e) => updateProfile({ businessLocation: e.target.value })}
-                      placeholder={t('field.businessLocationPlaceholder')}
-                    />
-                  </div>
-                </div>
-                <div className="space-y-1.5">
-                  <Label htmlFor="registrationStatus">{t('field.registrationStatus')}</Label>
-                  <Select
-                    id="registrationStatus"
-                    value={profile.registrationStatus}
-                    onChange={(e) =>
-                      updateProfile({ registrationStatus: e.target.value as typeof profile.registrationStatus })
-                    }
-                  >
-                    <option value="">{t('field.selectRegistrationStatus')}</option>
-                    {REGISTRATION_STATUS_OPTIONS.map((r) => (
-                      <option key={r} value={r}>
-                        {r}
-                      </option>
-                    ))}
-                  </Select>
-                </div>
                 <div className="space-y-1.5">
                   <Label htmlFor="firstTime">{t('field.firstTime')}</Label>
                   <Select
@@ -452,6 +397,103 @@ export default function AssessmentPage() {
                     <option value="false">{t('field.firstTimeNo')}</option>
                   </Select>
                 </div>
+
+                <details className="group rounded-lg border border-border bg-secondary/30 p-3 open:pb-3.5">
+                  <summary className="flex cursor-pointer list-none items-center justify-between gap-2 text-sm font-medium text-foreground">
+                    {t('assessment.optionalDetails')}
+                    <ChevronDown
+                      className="h-4 w-4 shrink-0 text-muted-foreground transition-transform duration-200 group-open:rotate-180"
+                      aria-hidden
+                    />
+                  </summary>
+                  <div className="mt-4 space-y-4 border-t border-border pt-4">
+                    <div className="space-y-1.5">
+                      <Label htmlFor="businessName">{t('field.businessName')}</Label>
+                      <Input
+                        id="businessName"
+                        value={profile.businessName}
+                        onChange={(e) => updateProfile({ businessName: e.target.value })}
+                        placeholder={t('field.businessNamePlaceholder')}
+                      />
+                    </div>
+                    <div className="space-y-1.5">
+                      <Label htmlFor="businessType">{t('field.businessType')}</Label>
+                      <Select
+                        id="businessType"
+                        value={profile.businessType}
+                        onChange={(e) => updateProfile({ businessType: e.target.value as typeof profile.businessType })}
+                      >
+                        <option value="">{t('field.selectBusinessType')}</option>
+                        {BUSINESS_TYPE_OPTIONS.map((bt) => (
+                          <option key={bt} value={bt}>
+                            {bt}
+                          </option>
+                        ))}
+                      </Select>
+                    </div>
+                    <div className="grid gap-4 sm:grid-cols-2">
+                      <div className="space-y-1.5">
+                        <Label htmlFor="yearsInOperation">{t('field.yearsInOperation')}</Label>
+                        <Input
+                          id="yearsInOperation"
+                          type="number"
+                          min={0}
+                          value={profile.yearsInOperation}
+                          onChange={(e) => updateProfile({ yearsInOperation: parseOptionalNumber(e.target.value) })}
+                        />
+                      </div>
+                      <div className="space-y-1.5">
+                        <Label htmlFor="numberOfEmployees">{t('field.numberOfEmployees')}</Label>
+                        <Input
+                          id="numberOfEmployees"
+                          type="number"
+                          min={0}
+                          value={profile.numberOfEmployees}
+                          onChange={(e) => updateProfile({ numberOfEmployees: parseOptionalNumber(e.target.value) })}
+                        />
+                      </div>
+                    </div>
+                    <div className="grid gap-4 sm:grid-cols-2">
+                      <div className="space-y-1.5">
+                        <Label htmlFor="annualTurnoverLakh">{t('field.annualTurnoverLakh')}</Label>
+                        <Input
+                          id="annualTurnoverLakh"
+                          type="number"
+                          min={0}
+                          step="0.1"
+                          value={profile.annualTurnoverLakh}
+                          onChange={(e) => updateProfile({ annualTurnoverLakh: parseOptionalNumber(e.target.value) })}
+                        />
+                      </div>
+                      <div className="space-y-1.5">
+                        <Label htmlFor="businessLocation">{t('field.businessLocation')}</Label>
+                        <Input
+                          id="businessLocation"
+                          value={profile.businessLocation}
+                          onChange={(e) => updateProfile({ businessLocation: e.target.value })}
+                          placeholder={t('field.businessLocationPlaceholder')}
+                        />
+                      </div>
+                    </div>
+                    <div className="space-y-1.5">
+                      <Label htmlFor="registrationStatus">{t('field.registrationStatus')}</Label>
+                      <Select
+                        id="registrationStatus"
+                        value={profile.registrationStatus}
+                        onChange={(e) =>
+                          updateProfile({ registrationStatus: e.target.value as typeof profile.registrationStatus })
+                        }
+                      >
+                        <option value="">{t('field.selectRegistrationStatus')}</option>
+                        {REGISTRATION_STATUS_OPTIONS.map((r) => (
+                          <option key={r} value={r}>
+                            {r}
+                          </option>
+                        ))}
+                      </Select>
+                    </div>
+                  </div>
+                </details>
               </>
             )}
 
@@ -473,75 +515,90 @@ export default function AssessmentPage() {
                     ))}
                   </Select>
                 </div>
-                <div className="grid gap-4 sm:grid-cols-2">
-                  <div className="space-y-1.5">
-                    <Label htmlFor="investmentRequiredLakh">{t('field.investmentRequiredLakh')}</Label>
-                    <Input
-                      id="investmentRequiredLakh"
-                      type="number"
-                      min={0}
-                      step="0.1"
-                      value={profile.investmentRequiredLakh}
-                      onChange={(e) => updateProfile({ investmentRequiredLakh: parseOptionalNumber(e.target.value) })}
+                <details className="group rounded-lg border border-border bg-secondary/30 p-3 open:pb-3.5">
+                  <summary className="flex cursor-pointer list-none items-center justify-between gap-2 text-sm font-medium text-foreground">
+                    {t('assessment.optionalDetails')}
+                    <ChevronDown
+                      className="h-4 w-4 shrink-0 text-muted-foreground transition-transform duration-200 group-open:rotate-180"
+                      aria-hidden
                     />
+                  </summary>
+                  <div className="mt-4 space-y-4 border-t border-border pt-4">
+                    <div className="grid gap-4 sm:grid-cols-2">
+                      <div className="space-y-1.5">
+                        <Label htmlFor="investmentRequiredLakh">{t('field.investmentRequiredLakh')}</Label>
+                        <Input
+                          id="investmentRequiredLakh"
+                          type="number"
+                          min={0}
+                          step="0.1"
+                          value={profile.investmentRequiredLakh}
+                          onChange={(e) =>
+                            updateProfile({ investmentRequiredLakh: parseOptionalNumber(e.target.value) })
+                          }
+                        />
+                      </div>
+                      <div className="space-y-1.5">
+                        <Label htmlFor="fundingRequirementLakh">{t('field.fundingRequirementLakh')}</Label>
+                        <Input
+                          id="fundingRequirementLakh"
+                          type="number"
+                          min={0}
+                          step="0.1"
+                          value={profile.fundingRequirementLakh}
+                          onChange={(e) =>
+                            updateProfile({ fundingRequirementLakh: parseOptionalNumber(e.target.value) })
+                          }
+                        />
+                      </div>
+                    </div>
+                    <div className="space-y-1.5">
+                      <Label>{t('field.existingLoan')}</Label>
+                      <RadioGroup>
+                        {YES_NO_OPTIONS.map((opt) => (
+                          <RadioOption
+                            key={opt}
+                            id={`existingLoan-${opt}`}
+                            name="existingLoan"
+                            label={opt}
+                            checked={profile.existingLoan === opt}
+                            onChange={() => updateProfile({ existingLoan: opt })}
+                          />
+                        ))}
+                      </RadioGroup>
+                    </div>
+                    <div className="space-y-1.5">
+                      <Label>{t('field.creditRequirement')}</Label>
+                      <RadioGroup>
+                        {YES_NO_OPTIONS.map((opt) => (
+                          <RadioOption
+                            key={opt}
+                            id={`creditRequirement-${opt}`}
+                            name="creditRequirement"
+                            label={opt}
+                            checked={profile.creditRequirement === opt}
+                            onChange={() => updateProfile({ creditRequirement: opt })}
+                          />
+                        ))}
+                      </RadioGroup>
+                    </div>
+                    <div className="space-y-1.5">
+                      <Label>{t('field.subsidyRequirement')}</Label>
+                      <RadioGroup>
+                        {YES_NO_OPTIONS.map((opt) => (
+                          <RadioOption
+                            key={opt}
+                            id={`subsidyRequirement-${opt}`}
+                            name="subsidyRequirement"
+                            label={opt}
+                            checked={profile.subsidyRequirement === opt}
+                            onChange={() => updateProfile({ subsidyRequirement: opt })}
+                          />
+                        ))}
+                      </RadioGroup>
+                    </div>
                   </div>
-                  <div className="space-y-1.5">
-                    <Label htmlFor="fundingRequirementLakh">{t('field.fundingRequirementLakh')}</Label>
-                    <Input
-                      id="fundingRequirementLakh"
-                      type="number"
-                      min={0}
-                      step="0.1"
-                      value={profile.fundingRequirementLakh}
-                      onChange={(e) => updateProfile({ fundingRequirementLakh: parseOptionalNumber(e.target.value) })}
-                    />
-                  </div>
-                </div>
-                <div className="space-y-1.5">
-                  <Label>{t('field.existingLoan')}</Label>
-                  <RadioGroup>
-                    {YES_NO_OPTIONS.map((opt) => (
-                      <RadioOption
-                        key={opt}
-                        id={`existingLoan-${opt}`}
-                        name="existingLoan"
-                        label={opt}
-                        checked={profile.existingLoan === opt}
-                        onChange={() => updateProfile({ existingLoan: opt })}
-                      />
-                    ))}
-                  </RadioGroup>
-                </div>
-                <div className="space-y-1.5">
-                  <Label>{t('field.creditRequirement')}</Label>
-                  <RadioGroup>
-                    {YES_NO_OPTIONS.map((opt) => (
-                      <RadioOption
-                        key={opt}
-                        id={`creditRequirement-${opt}`}
-                        name="creditRequirement"
-                        label={opt}
-                        checked={profile.creditRequirement === opt}
-                        onChange={() => updateProfile({ creditRequirement: opt })}
-                      />
-                    ))}
-                  </RadioGroup>
-                </div>
-                <div className="space-y-1.5">
-                  <Label>{t('field.subsidyRequirement')}</Label>
-                  <RadioGroup>
-                    {YES_NO_OPTIONS.map((opt) => (
-                      <RadioOption
-                        key={opt}
-                        id={`subsidyRequirement-${opt}`}
-                        name="subsidyRequirement"
-                        label={opt}
-                        checked={profile.subsidyRequirement === opt}
-                        onChange={() => updateProfile({ subsidyRequirement: opt })}
-                      />
-                    ))}
-                  </RadioGroup>
-                </div>
+                </details>
               </>
             )}
 
@@ -572,6 +629,18 @@ export default function AssessmentPage() {
             </Button>
           </CardFooter>
         </Card>
+
+        {(step.id === 'business' || step.id === 'financial') && canAdvance && (
+          <div className="text-center">
+            <button
+              type="button"
+              onClick={() => router.push('/recommendations')}
+              className="text-xs font-medium text-primary underline-offset-4 hover:underline"
+            >
+              {t('assessment.skipToMatches')}
+            </button>
+          </div>
+        )}
       </div>
 
       <div id="demo-profiles" className="mx-auto w-full max-w-2xl space-y-3 scroll-mt-6">

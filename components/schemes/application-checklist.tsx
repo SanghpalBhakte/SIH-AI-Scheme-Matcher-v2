@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { ArrowRight, CheckCircle2, Circle, ExternalLink } from 'lucide-react'
+import { ArrowRight, CheckCircle2, Circle, ExternalLink, MapPin } from 'lucide-react'
 
 import { cn } from '@/lib/utils'
 import { useLanguage } from '@/lib/i18n/language-context'
@@ -9,6 +9,26 @@ import { GENERIC_CHECKLIST_STEPS, type ChecklistStepId } from '@/lib/schemes/che
 import { loadPersistedChecklist, savePersistedChecklist } from '@/lib/schemes/checklist-persistence'
 import { DocumentsChecklistLink } from '@/components/schemes/documents-checklist-link'
 import type { Scheme } from '@/lib/matching/types'
+
+/**
+ * The official Common Service Centre locator — the government's own
+ * network of walk-in centres for exactly this kind of task (a village-
+ * level operator helps fill in and submit government scheme/portal
+ * applications in person, for a small fixed fee). Several schemes in
+ * this dataset explicitly route applicants through a CSC, a bank
+ * branch, or a Lead District Manager rather than a pure self-service
+ * portal, so this is offered on every scheme's checklist rather than
+ * gated behind a per-scheme flag we'd otherwise have to invent.
+ *
+ * Verified live end-to-end (2026-08, via browser navigation, since
+ * WebFetch is blocked on most .nic.in/.gov.in domains): reached from
+ * the official https://digitalseva.csc.gov.in/ portal's own "CSC
+ * Locator" nav link. `findmycsc.nic.in` (the other commonly-cited URL)
+ * loads a page but its backend lookup calls return HTTP 503 — dead —
+ * and `register.csc.gov.in` is a different tool (VLE registration, not
+ * a citizen-facing locator), so neither is used here.
+ */
+const CSC_LOCATOR_URL = 'https://locator.csccloud.in/'
 
 /**
  * Per-step guidance. Reads only the scheme's OWN requiredDocuments /
@@ -198,6 +218,17 @@ export function ApplicationChecklist({ scheme }: { scheme: Scheme }) {
           )
         })}
       </ul>
+
+      <a
+        href={CSC_LOCATOR_URL}
+        target="_blank"
+        rel="noreferrer"
+        className="flex items-center gap-1.5 rounded-md border border-dashed border-border p-2.5 text-xs font-medium text-foreground transition-colors hover:border-primary hover:text-primary"
+      >
+        <MapPin className="h-3.5 w-3.5 shrink-0 text-primary" aria-hidden />
+        {t('checklist.findCscHelp')}
+        <ExternalLink className="ml-auto h-3 w-3 shrink-0" aria-hidden />
+      </a>
 
       <p className="text-xs text-muted-foreground">{t('checklist.footerNote')}</p>
     </div>

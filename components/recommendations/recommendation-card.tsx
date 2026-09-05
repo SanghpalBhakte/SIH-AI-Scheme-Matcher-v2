@@ -8,8 +8,11 @@ import { EligibilityStatusBadge, ELIGIBILITY_STATUS_ACCENT } from './eligibility
 import { MatchExplanation } from './match-explanation'
 import { RecommendationReasoning } from './recommendation-reasoning'
 import { SaveSchemeButton } from '@/components/schemes/save-scheme-button'
+import { WhatsAppShareButton } from '@/components/schemes/whatsapp-share-button'
 import { DataConfidenceNote } from '@/components/schemes/data-confidence-note'
+import { SpeakButton } from '@/components/ui/speak-button'
 import { useLanguage } from '@/lib/i18n/language-context'
+import { SCHEME_CONTENT_SPEECH_LANG } from '@/lib/i18n/speech-lang'
 import { cn } from '@/lib/utils'
 import type { SchemeMatchResult } from '@/lib/matching/types'
 
@@ -45,6 +48,11 @@ export function RecommendationCard({ result }: { result: SchemeMatchResult }) {
               <span className="text-sm font-bold text-primary">{matchScore}</span>
               <span className="text-[9px] font-medium text-muted-foreground">%</span>
             </div>
+            <SpeakButton
+              text={[scheme.name, scheme.benefit, scheme.summary].join('. ')}
+              lang={SCHEME_CONTENT_SPEECH_LANG}
+            />
+            <WhatsAppShareButton scheme={scheme} />
             <SaveSchemeButton schemeId={scheme.id} />
           </div>
         </div>
