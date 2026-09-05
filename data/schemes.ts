@@ -167,12 +167,21 @@ export const schemes: Scheme[] = [
     summary:
       'Trade Related Entrepreneurship Assistance and Development for women in non-farm activities, bundled with training support.',
     officialUrl: 'https://msme.gov.in/',
-    // requiredDocuments intentionally left undefined: checked 2026-09-05
-    // — the official DC-MSME TREAD user manual only instructs applicants
-    // to use an "Upload Documents" tab without naming the documents, and
-    // the scheme's Office Memorandum states only that applications "in
-    // the prescribed format" must be submitted — no itemized list to
-    // cite honestly.
+    // Re-checked 2026-09-05, correcting the prior "no itemized list" note
+    // below: DC-MSME's own TREAD-for-Women online application user
+    // manual (for the sponsoring NGO) names the exact file uploads on its
+    // "Upload Documents" tab, referencing the scheme's own lettered
+    // annexures (there's no "Annexure C" in the source — that label is
+    // skipped there, not omitted here).
+    requiredDocuments: [
+      "Chief Functionary's photograph",
+      "Key Functionaries' photograph(s)",
+      'Registration Certificate of the NGO/Organisation (Annexure A)',
+      'Main objectives as given in the bye-laws (Annexure B)',
+      'Audited balance sheets for the last 3 years (Annexure D)',
+    ],
+    lastVerified: '2026-09-05',
+    sourceUrl: 'https://www.dcmsme.gov.in/schemes/TREAD_UserManual_for_NGO.pdf',
   },
   {
     id: 'vcf-sc',
@@ -292,18 +301,25 @@ export const schemes: Scheme[] = [
     summary:
       'Supports traditional artisans and craftspeople with low-interest credit and a toolkit incentive to formalise their trade.',
     officialUrl: 'https://pmvishwakarma.gov.in/',
-    // requiredDocuments intentionally left undefined: the official
-    // press release only mentions Aadhaar-based biometric
-    // authentication as part of enrolment (folded into the first
-    // step below) and explicitly does not list further documents.
+    // Re-checked 2026-09-05, correcting the prior note below: the PIB
+    // press release indeed names nothing further, but the scheme's own
+    // official Guidelines PDF (§5.1, "Application for enrolment") does.
+    requiredDocuments: [
+      'Ration Card — if you have none, Aadhaar numbers of every family member instead',
+      "Bank account (a Common Service Centre can help you open one if you don't have one)",
+    ],
     applicationSteps: [
       'Enrol at a Common Service Centre (CSC) using Aadhaar-based biometric authentication on the PM Vishwakarma portal.',
       'Your application is verified at the Gram Panchayat / Urban Local Body level.',
       'The District Implementation Committee reviews and recommends your application.',
       "A Screening Committee gives final approval before you're issued a PM Vishwakarma certificate and ID card.",
     ],
-    lastVerified: '2026-08-27',
-    sourceUrl: 'https://www.pib.gov.in/Pressreleaseshare.aspx?PRID=1959098&reg=48&lang=2',
+    // sourceUrl covers requiredDocuments/lastVerified; applicationSteps
+    // still trace to the PIB release cited here previously — both
+    // describe the same enrolment process, just at different detail
+    // levels.
+    lastVerified: '2026-09-05',
+    sourceUrl: 'https://pmvishwakarma.gov.in/cdn/MiscFiles/eng_v30.0_PM_Vishwakarma_Guidelines_final.pdf',
   },
   {
     id: 'seed-fund',
@@ -443,13 +459,20 @@ export const schemes: Scheme[] = [
     summary:
       'Guarantees bank and NBFC loans to micro and small enterprises, so a lender can extend credit without collateral or a third-party guarantor.',
     officialUrl: 'https://www.cgtmse.in/',
-    // requiredDocuments intentionally left undefined: checked 2026-09-05
-    // — CGTMSE does publish a "list of documents," but it's for lending
-    // institutions (banks/NBFCs) registering as Member Lending
-    // Institutions, not for the borrowing entrepreneur. CGTMSE itself
-    // states it "does not provide any financial assistance" directly —
-    // borrower documents follow the individual lender's own MSE/KYC
-    // requirements, which CGTMSE doesn't standardise or publish.
+    // Re-checked 2026-09-05, refining the prior note below: CGTMSE's own
+    // borrower-facing FAQ does name two identifiers it requires directly.
+    requiredDocuments: [
+      'Udyam Registration Number — mandatory, entered into the system when the lender submits your guarantee application',
+      'Income Tax PAN — mandatory before availing the facility; must be indicated for credit facilities above ₹5 lakh',
+    ],
+    // Everything beyond these two CGTMSE-mandated identifiers follows the
+    // individual lending bank/NBFC's own MSE/KYC requirements, which
+    // CGTMSE doesn't standardise or publish — CGTMSE itself states it
+    // "does not provide any financial assistance" directly, and its
+    // separate "list of documents" page is for banks/NBFCs registering
+    // as Member Lending Institutions, not for the borrowing entrepreneur.
+    lastVerified: '2026-09-05',
+    sourceUrl: 'https://www.cgtmse.in/Home/VS/95',
   },
   {
     id: 'scst-hub',
@@ -528,13 +551,14 @@ export const schemes: Scheme[] = [
     summary:
       'Formerly the National Handicapped Finance & Development Corporation (NHFDC) — concessional loans and skill-training support for persons with disabilities starting or expanding a self-employment venture.',
     officialUrl: 'https://depwd.gov.in/en/national-handicapped-finance-and-development-corporation/',
-    // requiredDocuments intentionally left undefined: checked 2026-09-05
-    // — NDFDC's own domains (nhfdc.nic.in, ndfdc.nic.in) could not be
-    // reached at all this session (DNS resolution failure), including a
-    // page whose title suggested a document checklist might exist there.
-    // The reachable DEPWD parent-ministry page only says to "visit the
-    // NDFDC website" with no specifics. Re-check once nhfdc.nic.in is
-    // reachable, rather than guessing from an unreachable source.
+    // Re-checked 2026-09-05: ndfdc.nic.in IS reachable now (correcting
+    // the prior DNS-failure note below). Its only published checklist is
+    // for the Vishesh Microfinance Yojana route — the NGO/NBFC-MFI
+    // channel partner's own application (RBI registration, MoA, audited
+    // financials, etc.), not a document list for an individual PwD
+    // applying directly. Applying that NGO-facing list here would
+    // misrepresent what an individual entrepreneur needs, so
+    // requiredDocuments is still left unset.
   },
   {
     id: 'aspire',
@@ -574,11 +598,21 @@ export const schemes: Scheme[] = [
     summary:
       'Helps existing micro food-processing units (and new ones under the One District One Product approach) formalise, upgrade equipment, and access credit.',
     officialUrl: 'https://pmfme.mofpi.gov.in/',
-    // requiredDocuments intentionally left undefined: checked 2026-09-05
-    // — the official Scheme Guidelines and FAQ describe a DPR-based
-    // application ("necessary documents such as lease/ownership
-    // documents, registration and Government clearances, basic KYC")
-    // without a single itemized checklist to cite.
+    // Re-checked 2026-09-05, correcting the prior note below: the
+    // official portal does publish an itemized "Mandatory Document Check
+    // List" under its own Downloads section — it isn't a single flat
+    // list since requirements differ by applicant type. Listed here is
+    // the New Enterprise/Individual tier; existing enterprises and FPCs/
+    // Cooperatives/SHGs additionally need registration, licenses, and
+    // governance documents not listed below (see source).
+    requiredDocuments: [
+      'PAN card of all promoters',
+      'Aadhaar card and photograph of all promoters/guarantors',
+      'Address proof (utility bill, property tax receipt, or ration card)',
+      'Bank statement/passbook for the last 6 months',
+    ],
+    lastVerified: '2026-09-05',
+    sourceUrl: 'https://pmfme.mofpi.gov.in/mofpi/api/home/getDownloads/38',
   },
   {
     id: 'pmmsy',
@@ -599,11 +633,18 @@ export const schemes: Scheme[] = [
     summary:
       'Supports fish farmers and fisheries-sector entrepreneurs with subsidised capital for ponds, hatcheries, cold chain, and other allied infrastructure.',
     officialUrl: 'https://pmmsy.dof.gov.in/',
-    // requiredDocuments intentionally left undefined: checked 2026-09-05
-    // — the official Operational Guidelines and FAQ describe a Detailed
-    // Project Report (DPR) with supporting content (feasibility, land/
-    // statutory clearances, funding sources) rather than a fixed
-    // personal-document checklist.
+    // Re-checked 2026-09-05: still no fixed personal-KYC checklist, but
+    // NFDB's own official FAQ does itemize what your DPR/Self-Contained
+    // Proposal (submitted to the District Fisheries Office) must
+    // include — listed here as that, not as personal documents.
+    requiredDocuments: [
+      'Documentary evidence of land availability and required statutory clearances/permissions/licenses',
+      'Registered lease document, if the land is leased',
+      'Financial statements for the last 3 years (for entrepreneurs/autonomous agencies)',
+      'Feasibility study (where needed) and a detailed cost estimate per the prescribed methodology',
+    ],
+    lastVerified: '2026-09-05',
+    sourceUrl: 'https://nfdb.gov.in/PDF/PMMSY-FAQS.pdf',
   },
   {
     id: 'cgss-startups',
@@ -762,15 +803,13 @@ export const schemes: Scheme[] = [
     benefit: 'Collateral-free loan up to ₹3 lakh; subsidy 50% (max ₹1.5 lakh) for SC/ST, 30% (max ₹90,000) for general category',
     summary:
       'Subsidised, collateral-free loans for women aged 18–55 starting a small business across roughly 88 approved trades, with a higher subsidy tier for SC/ST applicants.',
-    // requiredDocuments NOT added despite a lead (checked 2026-09-05):
-    // the official page (kswdc.karnataka.gov.in/21/udyogini/en) does have
-    // an "Eligibility criteria and Required Documents" section, opening
-    // with Aadhaar card / residential certificate / project report — but
-    // the page repeatedly timed out on direct fetch, so only that
-    // fragment could be independently corroborated (via a search-index
-    // cache), not the full list verbatim. TODO: revisit with a live
-    // browser fetch before adding requiredDocuments here — do not guess
-    // the remainder from third-party aggregator sites.
+    // requiredDocuments NOT added: re-checked 2026-09-05 with a live
+    // browser render of kswdc.karnataka.gov.in/21/udyogini/en (confirmed
+    // fully loaded, not a broken shell) — the earlier lead (an
+    // "Eligibility criteria and Required Documents" fragment surfaced via
+    // a search-index cache) no longer matches what the live page shows:
+    // just loan-amount and subsidy-percentage text, no documents section.
+    // Treating the cached fragment as stale rather than citing it.
     officialUrl: 'https://kswdc.karnataka.gov.in/21/udyogini/en',
     // See Task 3 (2026-09-03): mirrors the comment above — flagged as a
     // data-confidence caveat, not just an internal note.
@@ -1023,15 +1062,16 @@ export const schemes: Scheme[] = [
       "Seed-stage grant support under Andhra Pradesh's Innovation & Startup Policy 4.0 (2024–2029) for startups and students with innovative ideas, administered by the AP Innovation Society.",
     officialUrl: 'https://apit.ap.gov.in/assets/files/2025ITC_36424_MS9_E.pdf',
     // requiredDocuments / applicationSteps intentionally left undefined:
-    // re-checked the policy PDF on 2026-09-03 — it requires a project
-    // proposal (company/founder background, innovation, investment,
-    // timeline) for grant approval, and lists specific supporting
-    // documents for OTHER incentive lines (e.g. patent reimbursement,
-    // event participation), but has no consolidated document/step list
-    // for the seed-stage grant this record describes, and defers actual
-    // filing to the separate "AP Startup One Portal."
+    // re-checked the policy PDF again 2026-09-05, same result as the
+    // 2026-09-03 pass — it requires a project proposal (company/founder
+    // background, innovation, investment, timeline) for grant approval,
+    // and lists specific supporting documents for OTHER incentive lines
+    // (e.g. patent reimbursement, event participation), but has no
+    // consolidated document/step list for the seed-stage grant this
+    // record describes, and defers actual filing to the separate "AP
+    // Startup One Portal."
     sourceUrl: 'https://www.startupindia.gov.in/content/sih/en/state-startup-policies/Andhra-Pradesh-state-policy.html',
-    lastVerified: '2026-09-03',
+    lastVerified: '2026-09-05',
   },
   {
     id: 'delhi-composite-loan-scheme',
@@ -1066,25 +1106,38 @@ export const schemes: Scheme[] = [
     // See Task 3 (2026-09-03): mirrors the comments above — flagged as a
     // data-confidence caveat, not just an internal note.
     dataConfidenceNote:
-      "The Scheduled Tribe benefit tier isn't separately stated in the sources checked, and the full required-document list is only hedged, not confirmed — verify directly with DSFDC.",
+      "The Scheduled Tribe benefit tier isn't separately stated in the sources checked — verify the ST amount directly with DSFDC. (The required-document list below is now confirmed directly from DSFDC's own PDF, resolving the earlier hedge.)",
     summary:
       'Composite loan assistance for small business/self-employment for SC/ST/OBC/Minority/PwD applicants below a low income threshold, administered by DSFDC under the Social Welfare Department, Government of NCT of Delhi.',
     officialUrl: 'https://dsfdc.delhi.gov.in/sites/default/files/cls_schem_details.pdf',
-    // requiredDocuments intentionally left undefined: the sourceUrl below
-    // only hedges on documents ("Applicants may need Aadhaar card, income
-    // certificate... or occupation-related documents") and explicitly
-    // defers the complete list to the official guidelines PDF — the PDF
-    // itself could not be fetched this session (robots.txt error on
-    // dsfdc.delhi.gov.in, tried twice), so no source explicitly states a
-    // definitive document list.
+    // Re-checked 2026-09-05, resolving the prior hedge below: the
+    // official DSFDC PDF's own "Documents Required" section (page 2) was
+    // read directly this pass.
+    requiredDocuments: [
+      'Duly filled Loan Application Form (from a DSFDC branch/HQ, or the official DSFDC website)',
+      'Aadhaar card (identity/residence proof)',
+      'Caste Certificate (Government of Delhi) — or an affidavit, for minority-community applicants',
+      'PWD Certificate from a government hospital (≥40% disability), if applicable',
+      'Age proof — Birth Certificate, School Leaving Certificate, or an affidavit',
+      'Income Certificate (affidavit)',
+      "Affidavit confirming you haven't availed a loan from any other financial institution/government body",
+      'Estimate of the items/machines to be procured',
+      "Ownership proof of your workplace (electricity/water/telephone bill, or a property document) — or a rent agreement plus the owner's ID proof and a no-objection affidavit if a blood relative owns the premises",
+      'Affidavit of personal guarantee',
+      'ECS mandate, 5 blank post-dated cheques (for DSFDC), and 1 cancelled cheque (for RTGS)',
+      'Additional 5 blank post-dated cheques from your guarantor, if the loan exceeds ₹2 lakh',
+      "Affidavit of legal heir, plus the legal heir's photo ID (for succession purposes)",
+      'Copy of your PMSBY/PMJJBY insurance receipt',
+      'Two witnesses with ID proof, present at the time of application',
+    ],
     applicationSteps: [
       'Print the prescribed application form (available from DSFDC).',
       'Fill in all mandatory fields, paste a passport-sized photograph, and attach copies of all mandatory documents (self-attested where required).',
       'Submit the completed, signed application form with documents to the Branch In-Charge / Section In-Charge of DSFDC.',
       'Request a receipt or acknowledgement of your submission.',
     ],
-    sourceUrl: 'https://www.publicservicesmap.in/schemes/composite-loan-scheme--cls',
-    lastVerified: '2026-09-03',
+    sourceUrl: 'https://dsfdc.delhi.gov.in/sites/default/files/cls_schem_details.pdf',
+    lastVerified: '2026-09-05',
   },
   {
     id: 'gujarat-scheme-for-assistance-startups',
@@ -1123,13 +1176,28 @@ export const schemes: Scheme[] = [
     // data-confidence caveat, not just an internal note.
     dataConfidenceNote:
       "The official Gujarat scheme page couldn't be reached this pass — these figures are corroborated via a secondary source (GUSEC) instead of the primary portal.",
-    // requiredDocuments / applicationSteps intentionally left undefined:
-    // startup.gujarat.gov.in remains unreachable this session (robots.txt
-    // fetch failure), a third consecutive failed attempt across this and
-    // an earlier session pass — same known issue already noted above for
-    // this scheme's sector data. Left unset rather than guessed.
+    // Re-checked 2026-09-05, correcting the prior note below:
+    // startup.gujarat.gov.in itself now loads (via a live browser render)
+    // but still has no document checklist, only eligibility/assistance-
+    // amount text. The actual checklist is in the scheme's own official
+    // "Funding Support to Startups" guidelines PDF (hosted on Gujarat's
+    // iNDEXTb/Industrial Extension Bureau infrastructure, which also runs
+    // the startup.gujarat.gov.in portal) — listed here for the Seed
+    // Support Assistance tier this record describes; other assistance
+    // types (sustenance allowance, skill development, acceleration,
+    // social impact) have their own shorter lists in the same PDF.
+    requiredDocuments: [
+      'CV of the founder and co-founder',
+      'Detailed Project Report',
+      'ROC (Registrar of Companies) certificate',
+      'Unique ID (issued by the nodal institute)',
+      'Registration/Incorporation Certificate, if available',
+      'DIPP Startup Recognition Certificate, if available',
+    ],
     officialUrl: 'https://startup.gujarat.gov.in/scheme-for-assistance/scheme-one',
-    lastVerified: '2026-09-02',
+    sourceUrl:
+      'https://indextbdemo1.orpgujarat.com/files/2025/3/215b44b0-5c33-4db1-a30c-d4993a583d3b_Guidelines%20for%20Funding%20support%20to%20startups.pdf',
+    lastVerified: '2026-09-05',
   },
   {
     id: 'maharashtra-cmegp',
@@ -1185,11 +1253,22 @@ export const schemes: Scheme[] = [
     summary:
       "Maharashtra's own state-level equivalent of PMEGP: credit-linked margin-money subsidy for setting up new micro and small manufacturing/services enterprises, for applicants aged 18–45 who haven't already availed a subsidy under another central or state scheme (one beneficiary per family).",
     officialUrl: 'https://mskvib.org/en/chief-ministers-employment-generation-programme-cmegp/',
-    // requiredDocuments / applicationSteps intentionally left undefined:
-    // re-checked mskvib.org on 2026-09-03 — its only procedural line is
-    // "Application Through Online Mechanism CMEGP. www.cmegp.gov.in
-    // Maharashtra," with no document list or multi-step process stated
-    // on this page to cite.
-    lastVerified: '2026-09-03',
+    // Re-checked 2026-09-05, correcting the prior note below: mskvib.org
+    // itself still has no checklist, but the scheme's own official
+    // "Procedural Guidelines of CMEGP" PDF (Directorate of Industries,
+    // Maharashtra) does list the documents applicants upload.
+    requiredDocuments: [
+      'Passport-size photograph',
+      'Aadhaar card',
+      'Birth Certificate, School Leaving Certificate, or Domicile Certificate, if required',
+      'Educational qualification details',
+      'Undertaking Form',
+      'Project Report',
+      'Caste Certificate / Caste Validity certificate, if applicable',
+      'Special Category certificate, if applicable',
+      "REDP/EDP/Skill Development training certificate, if you've completed one",
+    ],
+    sourceUrl: 'https://maha-cmegp.gov.in/resources/application-doc/Guidelines.pdf',
+    lastVerified: '2026-09-05',
   },
 ]
