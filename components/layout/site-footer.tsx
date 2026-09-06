@@ -7,6 +7,7 @@ import { DisclaimerBanner } from '@/components/layout/disclaimer-banner'
 import { MachineTranslationNotice } from '@/components/layout/machine-translation-notice'
 import { InstallPrompt } from '@/components/pwa/install-prompt'
 import { useLanguage } from '@/lib/i18n/language-context'
+import { CSC_LOCATOR_URL } from '@/lib/schemes/csc-locator'
 
 // Footer content inspired by the reference site's 3-column layout (brand
 // blurb / platform links / important notes) — rewritten in our own words
@@ -60,6 +61,14 @@ export function SiteFooter() {
               <Link href="/emi-calculator" className="text-muted-foreground transition-colors hover:text-foreground">
                 {t('nav.emiCalculator')}
               </Link>
+              <a
+                href={CSC_LOCATOR_URL}
+                target="_blank"
+                rel="noreferrer"
+                className="text-muted-foreground transition-colors hover:text-foreground"
+              >
+                {t('checklist.findCscHelp')}
+              </a>
             </nav>
           </div>
 

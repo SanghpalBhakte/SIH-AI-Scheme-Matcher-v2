@@ -7,28 +7,19 @@ import { cn } from '@/lib/utils'
 import { useLanguage } from '@/lib/i18n/language-context'
 import { GENERIC_CHECKLIST_STEPS, type ChecklistStepId } from '@/lib/schemes/checklist'
 import { loadPersistedChecklist, savePersistedChecklist } from '@/lib/schemes/checklist-persistence'
+import { getDocumentIcon } from '@/lib/schemes/document-icon'
+import { CSC_LOCATOR_URL } from '@/lib/schemes/csc-locator'
 import { DocumentsChecklistLink } from '@/components/schemes/documents-checklist-link'
 import type { Scheme } from '@/lib/matching/types'
 
-/**
- * The official Common Service Centre locator — the government's own
- * network of walk-in centres for exactly this kind of task (a village-
- * level operator helps fill in and submit government scheme/portal
- * applications in person, for a small fixed fee). Several schemes in
- * this dataset explicitly route applicants through a CSC, a bank
- * branch, or a Lead District Manager rather than a pure self-service
- * portal, so this is offered on every scheme's checklist rather than
- * gated behind a per-scheme flag we'd otherwise have to invent.
- *
- * Verified live end-to-end (2026-08, via browser navigation, since
- * WebFetch is blocked on most .nic.in/.gov.in domains): reached from
- * the official https://digitalseva.csc.gov.in/ portal's own "CSC
- * Locator" nav link. `findmycsc.nic.in` (the other commonly-cited URL)
- * loads a page but its backend lookup calls return HTTP 503 — dead —
- * and `register.csc.gov.in` is a different tool (VLE registration, not
- * a citizen-facing locator), so neither is used here.
- */
-const CSC_LOCATOR_URL = 'https://locator.csccloud.in/'
+// Several schemes in this dataset explicitly route applicants through
+// a CSC, a bank branch, or a Lead District Manager rather than a pure
+// self-service portal, so CSC_LOCATOR_URL (see lib/schemes/csc-locator.ts
+// for sourcing/verification notes) is offered on every scheme's
+// checklist below, rather than gated behind a per-scheme flag we'd
+// otherwise have to invent. It's also surfaced globally in the site
+// header (components/layout/site-header.tsx) — this per-scheme link
+// stays too, for anyone who reaches it via a scheme page directly.
 
 /**
  * Per-step guidance. Reads only the scheme's OWN requiredDocuments /
@@ -47,10 +38,16 @@ function StepDetail({ id, scheme, t }: { id: ChecklistStepId; scheme: Scheme; t:
     case 'prepare-documents':
       return scheme.requiredDocuments && scheme.requiredDocuments.length > 0 ? (
         <div className="space-y-1.5">
-          <ul className="list-disc space-y-0.5 pl-4 text-xs text-muted-foreground">
-            {scheme.requiredDocuments.map((doc) => (
-              <li key={doc}>{doc}</li>
-            ))}
+          <ul className="space-y-1">
+            {scheme.requiredDocuments.map((doc) => {
+              const DocIcon = getDocumentIcon(doc)
+              return (
+                <li key={doc} className="flex items-start gap-1.5 text-xs text-muted-foreground">
+                  <DocIcon className="mt-0.5 h-3.5 w-3.5 shrink-0 text-primary/70" aria-hidden />
+                  <span>{doc}</span>
+                </li>
+              )
+            })}
           </ul>
           <DocumentsChecklistLink scheme={scheme} />
         </div>

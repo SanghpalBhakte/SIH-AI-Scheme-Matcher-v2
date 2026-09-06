@@ -9,6 +9,7 @@ import { Badge } from '@/components/ui/badge'
 import { ThemeToggle } from '@/components/theme/theme-toggle'
 import { LanguageToggle } from '@/components/i18n/language-toggle'
 import { LanguageNudge } from '@/components/i18n/language-nudge'
+import { ToolsMenu } from '@/components/layout/tools-menu'
 import { cn } from '@/lib/utils'
 import { useAssessment } from '@/lib/assessment/assessment-context'
 import { useSavedSchemes } from '@/lib/schemes/saved-schemes-context'
@@ -122,6 +123,13 @@ export function SiteHeader() {
               </span>
             )}
           </Link>
+          {/* EMI Calculator and the CSC locator used to live only in the
+              footer / a specific scheme's checklist respectively — on
+              mobile that meant scrolling past an entire page (or first
+              opening a scheme) to find either. One combined icon here
+              (see components/layout/tools-menu.tsx for why it's one
+              icon, not two) fixes that without crowding the row. */}
+          <ToolsMenu />
           <div className="relative">
             <LanguageToggle onOpenChange={setLangOpen} />
             <LanguageNudge hidden={langOpen} />
