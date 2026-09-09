@@ -27,11 +27,11 @@ export function CriteriaList({ tone, items }: { tone: CriterionTone; items: Crit
 
   return (
     <div>
-      <p className={cn('flex items-center gap-1.5 text-xs font-semibold', className)}>
+      <p className={cn('flex items-center gap-1.5 font-semibold', className)}>
         <Icon className="h-3.5 w-3.5 shrink-0" aria-hidden />
         {heading}
       </p>
-      <ul className="mt-1.5 space-y-1 text-xs text-muted-foreground">
+      <ul className="mt-1.5 space-y-1 leading-relaxed text-muted-foreground">
         {items.map((c) => (
           <li key={c.key} className="flex items-start gap-2">
             <span className={cn('mt-1.5 h-1 w-1 shrink-0 rounded-full bg-current', className)} aria-hidden />

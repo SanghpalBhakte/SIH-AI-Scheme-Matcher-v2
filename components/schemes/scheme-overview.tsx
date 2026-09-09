@@ -35,11 +35,11 @@ export function SchemeOverview({ scheme }: { scheme: Scheme }) {
       </div>
 
       <div>
-        <p className="flex items-center gap-1.5 text-xs font-semibold text-foreground">
+        <p className="flex items-center gap-1.5 text-sm font-semibold text-foreground">
           <Users className="h-3.5 w-3.5 shrink-0 text-primary" aria-hidden />
           {t('schemeDetails.whoCanBenefit')}
         </p>
-        <ul className="mt-1.5 space-y-1 text-xs text-muted-foreground">
+        <ul className="mt-1.5 space-y-1 text-sm leading-relaxed text-muted-foreground">
           {audience.map((line) => (
             <li key={line} className="flex items-start gap-2">
               <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-primary" aria-hidden />

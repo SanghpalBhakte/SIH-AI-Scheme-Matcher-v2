@@ -33,16 +33,16 @@ import type { Scheme } from '@/lib/matching/types'
 function StepDetail({ id, scheme, t }: { id: ChecklistStepId; scheme: Scheme; t: (key: string) => string }) {
   switch (id) {
     case 'check-eligibility':
-      return <p className="text-xs text-muted-foreground">{t('checklist.detail.check-eligibility')}</p>
+      return <p className="text-sm leading-relaxed text-muted-foreground">{t('checklist.detail.check-eligibility')}</p>
 
     case 'prepare-documents':
       return scheme.requiredDocuments && scheme.requiredDocuments.length > 0 ? (
         <div className="space-y-1.5">
-          <ul className="space-y-1">
+          <ul className="space-y-1 text-sm">
             {scheme.requiredDocuments.map((doc) => {
               const DocIcon = getDocumentIcon(doc)
               return (
-                <li key={doc} className="flex items-start gap-1.5 text-xs text-muted-foreground">
+                <li key={doc} className="flex items-start gap-1.5 leading-relaxed text-muted-foreground">
                   <DocIcon className="mt-0.5 h-3.5 w-3.5 shrink-0 text-primary/70" aria-hidden />
                   <span>{doc}</span>
                 </li>
@@ -53,11 +53,11 @@ function StepDetail({ id, scheme, t }: { id: ChecklistStepId; scheme: Scheme; t:
         </div>
       ) : scheme.officialChecklistUrl ? (
         <div className="space-y-1.5">
-          <p className="text-xs text-muted-foreground">{t('checklist.detail.prepare-documents-fallback')}</p>
+          <p className="text-sm leading-relaxed text-muted-foreground">{t('checklist.detail.prepare-documents-fallback')}</p>
           <DocumentsChecklistLink scheme={scheme} />
         </div>
       ) : (
-        <p className="text-xs text-muted-foreground">{t('checklist.detail.prepare-documents-fallback')}</p>
+        <p className="text-sm leading-relaxed text-muted-foreground">{t('checklist.detail.prepare-documents-fallback')}</p>
       )
 
     case 'visit-portal':
@@ -66,33 +66,33 @@ function StepDetail({ id, scheme, t }: { id: ChecklistStepId; scheme: Scheme; t:
           href={scheme.officialUrl}
           target="_blank"
           rel="noreferrer"
-          className="break-all text-xs font-semibold text-primary underline-offset-4 hover:underline"
+          className="break-all text-sm font-semibold text-primary underline-offset-4 hover:underline"
         >
           {scheme.officialUrl}
         </a>
       ) : (
-        <p className="text-xs text-muted-foreground">{t('checklist.detail.visit-portal-fallback')}</p>
+        <p className="text-sm leading-relaxed text-muted-foreground">{t('checklist.detail.visit-portal-fallback')}</p>
       )
 
     case 'register-login':
-      return <p className="text-xs text-muted-foreground">{t('checklist.detail.register-login')}</p>
+      return <p className="text-sm leading-relaxed text-muted-foreground">{t('checklist.detail.register-login')}</p>
 
     case 'complete-application':
       return scheme.applicationSteps && scheme.applicationSteps.length > 0 ? (
-        <ol className="list-decimal space-y-0.5 pl-4 text-xs text-muted-foreground">
+        <ol className="list-decimal space-y-1 pl-4 text-sm leading-relaxed text-muted-foreground">
           {scheme.applicationSteps.map((step) => (
             <li key={step}>{step}</li>
           ))}
         </ol>
       ) : (
-        <p className="text-xs text-muted-foreground">{t('checklist.detail.complete-application-fallback')}</p>
+        <p className="text-sm leading-relaxed text-muted-foreground">{t('checklist.detail.complete-application-fallback')}</p>
       )
 
     case 'upload-documents':
-      return <p className="text-xs text-muted-foreground">{t('checklist.detail.upload-documents')}</p>
+      return <p className="text-sm leading-relaxed text-muted-foreground">{t('checklist.detail.upload-documents')}</p>
 
     case 'submit-track':
-      return <p className="text-xs text-muted-foreground">{t('checklist.detail.submit-track')}</p>
+      return <p className="text-sm leading-relaxed text-muted-foreground">{t('checklist.detail.submit-track')}</p>
   }
 }
 

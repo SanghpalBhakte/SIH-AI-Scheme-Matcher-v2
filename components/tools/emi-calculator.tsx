@@ -122,7 +122,7 @@ export function EmiCalculator() {
           <p className="text-sm text-muted-foreground">{t('emi.invalidInputs')}</p>
         )}
 
-        <p className="text-xs text-muted-foreground">{t('emi.disclaimer')}</p>
+        <p className="text-sm leading-relaxed text-muted-foreground">{t('emi.disclaimer')}</p>
       </CardContent>
     </Card>
   )

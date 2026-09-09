@@ -14,9 +14,9 @@ import { useLanguage } from '@/lib/i18n/language-context'
 export function DisclaimerBanner({ className }: { className?: string }) {
   const { t } = useLanguage()
   return (
-    <div className={cn('flex items-start gap-2 text-xs text-muted-foreground', className)}>
+    <div className={cn('flex items-start gap-2 text-sm text-muted-foreground', className)}>
       <ShieldAlert className="mt-0.5 h-4 w-4 shrink-0 text-warning" aria-hidden />
-      <p>
+      <p className="leading-relaxed">
         <strong className="text-foreground">{t('disclaimer.title')}</strong> {t('disclaimer.body')}
       </p>
     </div>

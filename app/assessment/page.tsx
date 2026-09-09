@@ -616,7 +616,7 @@ export default function AssessmentPage() {
               </div>
             )}
 
-            {!canAdvance && <p className="text-xs text-warning">{helperText[step.id]}</p>}
+            {!canAdvance && <p className="text-sm leading-relaxed text-warning">{helperText[step.id]}</p>}
           </CardContent>
           <CardFooter className="flex justify-between">
             <Button variant="outline" onClick={previousStep} disabled={isFirstStep} className="group">
