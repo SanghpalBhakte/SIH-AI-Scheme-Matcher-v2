@@ -90,10 +90,25 @@ const config: Config = {
           '7.14%, 33.33%': { opacity: '1' },
           '40.48%': { opacity: '0' },
         },
+        // The hero's one signature moment (see components/landing/
+        // approval-stamp.tsx) — a rubber stamp coming down onto the
+        // hero photo like a real approval stamp landing on a document:
+        // drops from a steep angle, overshoots past its resting tilt as
+        // it "hits," then settles. The 0.6s start delay (set on the
+        // `animation` shorthand below, not here) lets the photo/heading
+        // land first, so this reads as one orchestrated sequence rather
+        // than everything appearing at once.
+        'stamp-down': {
+          '0%': { opacity: '0', transform: 'perspective(600px) rotateX(-65deg) rotateZ(-14deg) scale(.55) translateY(-36px)' },
+          '55%': { opacity: '1', transform: 'perspective(600px) rotateX(0deg) rotateZ(-11deg) scale(1.1) translateY(0)' },
+          '75%': { transform: 'perspective(600px) rotateX(0deg) rotateZ(-6deg) scale(.96)' },
+          '100%': { opacity: '1', transform: 'perspective(600px) rotateX(0deg) rotateZ(-8deg) scale(1)' },
+        },
       },
       animation: {
         'fade-in-up': 'fade-in-up 0.5s ease-out both',
         'hero-crossfade': 'hero-crossfade 21s ease-in-out infinite',
+        'stamp-down': 'stamp-down 0.85s cubic-bezier(.25,.85,.35,1) 0.6s both',
       },
     },
   },

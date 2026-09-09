@@ -33,6 +33,8 @@ import { Button } from '@/components/ui/button'
 import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { HeroPhoto } from '@/components/landing/hero-photo'
+import { HeroPhotoTilt } from '@/components/landing/hero-photo-tilt'
+import { ApprovalStamp } from '@/components/landing/approval-stamp'
 import { HeroBackdrop } from '@/components/landing/hero-backdrop'
 import { LanguageChipStrip } from '@/components/i18n/language-chip-strip'
 import { useSchemes } from '@/lib/schemes/live-schemes'
@@ -129,7 +131,13 @@ export default function HomePage() {
               {t('landing.eyebrow')}
             </Badge>
 
-            <h1 className="font-display max-w-2xl text-4xl font-semibold leading-[1.1] text-foreground sm:text-5xl">
+            {/* Bumped up a size step from the previous 4xl/5xl and given
+                tighter tracking — Fraunces was already the right
+                display face (see tailwind.config.ts), this just lets
+                it actually carry the page the way an editorial serif
+                at this weight is meant to, instead of reading like a
+                slightly-larger body font. */}
+            <h1 className="font-display max-w-2xl text-5xl font-semibold leading-[1.05] tracking-tight text-foreground sm:text-6xl">
               {t('landing.heroTitle')}
             </h1>
 
@@ -144,20 +152,26 @@ export default function HomePage() {
                 dedicated desktop instance below takes over); see
                 hero-photo.tsx for why each instance is safe to render
                 unconditionally without double-fetching. */}
-            <div className="relative mx-auto w-full max-w-[280px] py-1 lg:hidden">
-              <HeroPhoto
-                sizes="(min-width: 1024px) 0px, 280px"
-                className="animate-fade-in-up relative aspect-[4/5] w-full overflow-hidden rounded-xl border border-border shadow-elevated"
-              />
-              <div
-                className="animate-fade-in-up absolute -bottom-3 left-1/2 w-48 -translate-x-1/2 rounded-lg border border-border bg-card/95 px-3 py-2 text-center shadow-elevated backdrop-blur-sm"
-                style={{ animationDelay: '150ms' }}
-              >
-                <p className="flex items-center justify-center gap-1.5 text-xs font-semibold text-foreground">
-                  <ShieldCheck className="h-3.5 w-3.5 shrink-0 text-success" aria-hidden />
-                  {t('landing.trust1Title')}
-                </p>
-              </div>
+            <div className="mx-auto w-full max-w-[280px] py-1 lg:hidden">
+              <HeroPhotoTilt>
+                <HeroPhoto
+                  sizes="(min-width: 1024px) 0px, 280px"
+                  className="animate-fade-in-up relative aspect-[4/5] w-full overflow-hidden rounded-xl border border-border shadow-elevated"
+                />
+                {/* The one signature moment on this page — see
+                    approval-stamp.tsx for why an unlabelled stamp
+                    rather than a text badge. */}
+                <ApprovalStamp className="absolute -right-4 -top-4 z-20 h-20 w-20" />
+                <div
+                  className="animate-fade-in-up absolute -bottom-3 left-1/2 w-48 -translate-x-1/2 rounded-lg border border-border bg-card/95 px-3 py-2 text-center shadow-elevated backdrop-blur-sm"
+                  style={{ animationDelay: '150ms' }}
+                >
+                  <p className="flex items-center justify-center gap-1.5 text-xs font-semibold text-foreground">
+                    <ShieldCheck className="h-3.5 w-3.5 shrink-0 text-success" aria-hidden />
+                    {t('landing.trust1Title')}
+                  </p>
+                </div>
+              </HeroPhotoTilt>
             </div>
 
             <div className="flex flex-col gap-3 sm:flex-row">
@@ -185,20 +199,26 @@ export default function HomePage() {
             <LanguageChipStrip />
           </div>
 
-          <div className="relative hidden lg:block">
-            <HeroPhoto
-              sizes="(min-width: 1024px) 448px, 0px"
-              className="animate-fade-in-up relative mx-auto aspect-[4/5] w-full max-w-md overflow-hidden rounded-xl border border-border shadow-elevated-lg"
-            />
-            <div
-              className="animate-fade-in-up absolute -bottom-4 left-1/2 w-56 -translate-x-1/2 rounded-lg border border-border bg-card/95 px-3 py-2 text-center shadow-elevated backdrop-blur-sm"
-              style={{ animationDelay: '150ms' }}
-            >
-              <p className="flex items-center justify-center gap-1.5 text-xs font-semibold text-foreground">
-                <ShieldCheck className="h-3.5 w-3.5 text-success" aria-hidden />
-                {t('landing.trust1Title')}
-              </p>
-            </div>
+          <div className="hidden lg:block">
+            <HeroPhotoTilt className="mx-auto max-w-md">
+              <HeroPhoto
+                sizes="(min-width: 1024px) 448px, 0px"
+                className="animate-fade-in-up relative aspect-[4/5] w-full overflow-hidden rounded-xl border border-border shadow-elevated-lg"
+              />
+              {/* The one signature moment on this page — see
+                  approval-stamp.tsx for why an unlabelled stamp rather
+                  than a text badge. */}
+              <ApprovalStamp className="absolute -right-6 -top-6 z-20 h-28 w-28" />
+              <div
+                className="animate-fade-in-up absolute -bottom-4 left-1/2 w-56 -translate-x-1/2 rounded-lg border border-border bg-card/95 px-3 py-2 text-center shadow-elevated backdrop-blur-sm"
+                style={{ animationDelay: '150ms' }}
+              >
+                <p className="flex items-center justify-center gap-1.5 text-xs font-semibold text-foreground">
+                  <ShieldCheck className="h-3.5 w-3.5 text-success" aria-hidden />
+                  {t('landing.trust1Title')}
+                </p>
+              </div>
+            </HeroPhotoTilt>
           </div>
         </div>
       </section>
@@ -232,22 +252,36 @@ export default function HomePage() {
       <section className="border-y border-border bg-secondary/30 py-16 sm:py-20">
         <div className="container">
           <SectionHeader eyebrow="" title={t('landing.howItWorks')} />
-          <div className="grid gap-5 sm:grid-cols-3">
-            {STEPS.map((step) => (
-              <Card
-                key={step.titleKey}
-                className="transition-all duration-200 hover:-translate-y-0.5 hover:shadow-elevated"
-              >
-                <CardHeader>
-                  <div className="mb-2 flex h-10 w-10 items-center justify-center rounded-md bg-primary/10">
-                    <step.icon className="h-5 w-5 text-primary" aria-hidden />
+          {/* The only card grid on this page that becomes a numbered,
+              connected path instead — because this is the one section
+              where the numbers mean something (a real 3-step sequence),
+              unlike the icon grids below it (trust reasons, audience,
+              features, differentiators) which aren't sequences and
+              stay plain grids on purpose. A dashed thread rather than a
+              solid line, echoing the hero photo's own subject (people
+              who work with textiles, weaving, embroidery). */}
+          <ol className="relative grid gap-8 border-l-2 border-dashed border-accent/40 pl-9 sm:grid-cols-3 sm:gap-x-6 sm:border-l-0 sm:border-t-2 sm:pl-0 sm:pt-9">
+            {STEPS.map((step, i) => (
+              <li key={step.titleKey} className="relative sm:text-center">
+                <div className="absolute -left-[42px] top-0 flex h-9 w-9 shrink-0 items-center justify-center rounded-full border-2 border-accent bg-background font-display text-sm font-semibold text-accent shadow-soft sm:-top-[38px] sm:left-1/2 sm:-translate-x-1/2">
+                  {i + 1}
+                </div>
+                <div className="flex items-start gap-3 sm:flex-col sm:items-center sm:gap-2">
+                  <step.icon className="mt-0.5 h-5 w-5 shrink-0 text-primary sm:mt-0 sm:h-6 sm:w-6" aria-hidden />
+                  <div>
+                    {/* Every locale's landing.stepNTitle starts with its
+                        own leading numeral + ". " (see translations.ts) —
+                        that made sense when the number lived only in the
+                        copy, but now the numbered badge carries it, so
+                        strip the one token before the first ". " rather
+                        than showing the same number twice. */}
+                    <p className="text-base font-semibold text-foreground">{t(step.titleKey).replace(/^\S+\.\s*/, '')}</p>
+                    <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{t(step.descKey)}</p>
                   </div>
-                  <CardTitle className="text-base">{t(step.titleKey)}</CardTitle>
-                  <CardDescription>{t(step.descKey)}</CardDescription>
-                </CardHeader>
-              </Card>
+                </div>
+              </li>
             ))}
-          </div>
+          </ol>
         </div>
       </section>
 
