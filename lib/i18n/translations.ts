@@ -362,6 +362,7 @@ const en: Dictionary = {
   'nav.institutions': 'Partners',
   'nav.emiCalculator': 'EMI Calculator',
   'nav.toolsMenu': 'Tools',
+  'nav.moreMenu': 'More',
   'institutions.title': 'Who runs these schemes',
   'institutions.subtitle':
     'Browse the real government bodies and corporations that administer each scheme in this dataset — not a branch locator, just an honest map of who to go to.',
@@ -690,6 +691,7 @@ const hi: Dictionary = {
   'nav.institutions': 'भागीदार',
   'nav.emiCalculator': 'ईएमआई कैलकुलेटर',
   'nav.toolsMenu': 'टूल्स',
+  'nav.moreMenu': 'अधिक',
   'institutions.title': 'ये योजनाएं कौन चलाता है',
   'institutions.subtitle':
     'इस डेटा में शामिल हर योजना को चलाने वाली वास्तविक सरकारी संस्थाओं और निगमों को देखें — यह कोई शाखा लोकेटर नहीं है, बस यह ईमानदार जानकारी है कि किससे संपर्क करें।',
@@ -992,6 +994,7 @@ const bn: Dictionary = {
   'nav.institutions': 'অংশীদার',
   'nav.emiCalculator': 'ইএমআই ক্যালকুলেটর',
   'nav.toolsMenu': 'সরঞ্জাম',
+  'nav.moreMenu': 'আরও',
   'institutions.title': 'এই স্কিমগুলো কে পরিচালনা করে',
   'institutions.subtitle':
     'এই ডেটাসেটের প্রতিটি স্কিম পরিচালনাকারী প্রকৃত সরকারি সংস্থা ও কর্পোরেশনগুলো দেখুন — এটি কোনো শাখা লোকেটর নয়, শুধু কার কাছে যেতে হবে তার সৎ তথ্য।',
@@ -1294,6 +1297,7 @@ const mr: Dictionary = {
   'nav.institutions': 'भागीदार',
   'nav.emiCalculator': 'ईएमआय कॅल्क्युलेटर',
   'nav.toolsMenu': 'साधने',
+  'nav.moreMenu': 'अधिक',
   'institutions.title': 'या योजना कोण चालवते',
   'institutions.subtitle':
     'या डेटासेटमधील प्रत्येक योजना चालवणाऱ्या खऱ्या सरकारी संस्था आणि महामंडळे पहा — हे शाखा लोकेटर नाही, फक्त कोणाकडे जायचे याची प्रामाणिक माहिती आहे.',
@@ -1596,6 +1600,7 @@ const te: Dictionary = {
   'nav.institutions': 'భాగస్వాములు',
   'nav.emiCalculator': 'EMI కాలిక్యులేటర్',
   'nav.toolsMenu': 'సాధనాలు',
+  'nav.moreMenu': 'మరిన్ని',
   'institutions.title': 'ఈ పథకాలను ఎవరు నిర్వహిస్తున్నారు',
   'institutions.subtitle':
     'ఈ డేటాసెట్‌లోని ప్రతి పథకాన్ని నిర్వహించే నిజమైన ప్రభుత్వ సంస్థలు మరియు కార్పొరేషన్లను చూడండి — ఇది బ్రాంచ్ లొకేటర్ కాదు, ఎవరిని సంప్రదించాలో నిజాయితీగా చూపే సమాచారం మాత్రమే.',
@@ -1898,6 +1903,7 @@ const ta: Dictionary = {
   'nav.institutions': 'கூட்டாளர்கள்',
   'nav.emiCalculator': 'EMI கால்குலேட்டர்',
   'nav.toolsMenu': 'கருவிகள்',
+  'nav.moreMenu': 'மேலும்',
   'institutions.title': 'இந்தத் திட்டங்களை நிர்வகிப்பது யார்',
   'institutions.subtitle':
     'இந்த தரவுத்தொகுப்பில் உள்ள ஒவ்வொரு திட்டத்தையும் நிர்வகிக்கும் உண்மையான அரசு அமைப்புகள் மற்றும் கழகங்களை பார்வையிடுங்கள் — இது ஒரு கிளை கண்டுபிடிப்பான் அல்ல, யாரை அணுக வேண்டும் என்பதற்கான நேர்மையான தகவல் மட்டுமே.',
@@ -2200,6 +2206,7 @@ const gu: Dictionary = {
   'nav.institutions': 'ભાગીદારો',
   'nav.emiCalculator': 'EMI કેલ્ક્યુલેટર',
   'nav.toolsMenu': 'સાધનો',
+  'nav.moreMenu': 'વધુ',
   'institutions.title': 'આ યોજનાઓ કોણ ચલાવે છે',
   'institutions.subtitle':
     'આ ડેટાસેટમાંની દરેક યોજના ચલાવતી વાસ્તવિક સરકારી સંસ્થાઓ અને નિગમોને જુઓ — આ કોઈ બ્રાન્ચ લોકેટર નથી, ફક્ત કોનો સંપર્ક કરવો તેની પ્રામાણિક માહિતી છે.',
@@ -2502,6 +2509,7 @@ const kn: Dictionary = {
   'nav.institutions': 'ಪಾಲುದಾರರು',
   'nav.emiCalculator': 'EMI ಕ್ಯಾಲ್ಕುಲೇಟರ್',
   'nav.toolsMenu': 'ಪರಿಕರಗಳು',
+  'nav.moreMenu': 'ಇನ್ನಷ್ಟು',
   'institutions.title': 'ಈ ಯೋಜನೆಗಳನ್ನು ಯಾರು ನಡೆಸುತ್ತಾರೆ',
   'institutions.subtitle':
     'ಈ ಡೇಟಾಸೆಟ್‌ನಲ್ಲಿರುವ ಪ್ರತಿ ಯೋಜನೆಯನ್ನು ನಿರ್ವಹಿಸುವ ನಿಜವಾದ ಸರ್ಕಾರಿ ಸಂಸ್ಥೆಗಳು ಮತ್ತು ನಿಗಮಗಳನ್ನು ವೀಕ್ಷಿಸಿ — ಇದು ಶಾಖೆ ಲೊಕೇಟರ್ ಅಲ್ಲ, ಯಾರನ್ನು ಸಂಪರ್ಕಿಸಬೇಕು ಎಂಬ ಪ್ರಾಮಾಣಿಕ ಮಾಹಿತಿ ಮಾತ್ರ.',
@@ -2835,6 +2843,7 @@ const pa: Dictionary = {
   'nav.institutions': 'ਭਾਈਵਾਲ',
   'nav.emiCalculator': 'EMI ਕੈਲਕੁਲੇਟਰ',
   'nav.toolsMenu': 'ਸੰਦ',
+  'nav.moreMenu': 'ਹੋਰ',
   'institutions.title': 'ਇਹ ਸਕੀਮਾਂ ਕੌਣ ਚਲਾਉਂਦਾ ਹੈ',
   'institutions.subtitle':
     'ਇਸ ਡੇਟਾਸੈੱਟ ਵਿੱਚ ਹਰ ਸਕੀਮ ਦਾ ਪ੍ਰਬੰਧਨ ਕਰਨ ਵਾਲੀਆਂ ਅਸਲ ਸਰਕਾਰੀ ਸੰਸਥਾਵਾਂ ਅਤੇ ਨਿਗਮਾਂ ਨੂੰ ਦੇਖੋ — ਇਹ ਕੋਈ ਬ੍ਰਾਂਚ ਲੋਕੇਟਰ ਨਹੀਂ ਹੈ, ਸਿਰਫ਼ ਇਹ ਇਮਾਨਦਾਰ ਜਾਣਕਾਰੀ ਹੈ ਕਿ ਕਿਸ ਕੋਲ ਜਾਣਾ ਹੈ।',
@@ -3176,6 +3185,7 @@ const or: Dictionary = {
   'nav.institutions': 'ଅଂଶୀଦାର',
   'nav.emiCalculator': 'EMI କାଲକୁଲେଟର',
   'nav.toolsMenu': 'ଉପକରଣ',
+  'nav.moreMenu': 'ଅଧିକ',
   'institutions.title': 'ଏହି ଯୋଜନାଗୁଡ଼ିକ କିଏ ଚଳାଏ',
   'institutions.subtitle':
     'ଏହି ଡାଟାସେଟରେ ଥିବା ପ୍ରତ୍ୟେକ ଯୋଜନା ପରିଚାଳନା କରୁଥିବା ପ୍ରକୃତ ସରକାରୀ ସଂସ୍ଥା ଏବଂ ନିଗମଗୁଡ଼ିକୁ ଦେଖନ୍ତୁ — ଏହା କୌଣସି ଶାଖା ଲୋକେଟର ନୁହେଁ, କେବଳ କାହା ପାଖକୁ ଯିବେ ତାହାର ସାଚ୍ଚା ସୂଚନା।',
@@ -3519,6 +3529,7 @@ const ml: Dictionary = {
   'nav.institutions': 'പങ്കാളികൾ',
   'nav.emiCalculator': 'EMI കാൽക്കുലേറ്റർ',
   'nav.toolsMenu': 'ഉപകരണങ്ങൾ',
+  'nav.moreMenu': 'കൂടുതൽ',
   'institutions.title': 'ഈ പദ്ധതികൾ ആരാണ് നടത്തുന്നത്',
   'institutions.subtitle':
     'ഈ ഡാറ്റാസെറ്റിലെ ഓരോ പദ്ധതിയും നടത്തുന്ന യഥാർത്ഥ സർക്കാർ സ്ഥാപനങ്ങളും കോർപ്പറേഷനുകളും കാണുക — ഇത് ഒരു ബ്രാഞ്ച് ലൊക്കേറ്ററല്ല, ആരെ സമീപിക്കണം എന്നതിന്റെ സത്യസന്ധമായ വിവരം മാത്രം.',
@@ -3821,6 +3832,7 @@ const as: Dictionary = {
   'nav.institutions': 'অংশীদাৰ',
   'nav.emiCalculator': 'ইএমআই কেলকুলেটৰ',
   'nav.toolsMenu': 'সঁজুলি',
+  'nav.moreMenu': 'অধিক',
   'institutions.title': 'এই আঁচনিবোৰ কোনে চলায়',
   'institutions.subtitle': 'এই ডাটাছেটত থকা প্ৰতিটো আঁচনি পৰিচালনা কৰা প্ৰকৃত চৰকাৰী সংস্থা আৰু নিগমসমূহ চাওক — এইটো কোনো শাখা লোকেটৰ নহয়, কেৱল কাৰ ওচৰলৈ যাব লাগে তাৰ সৎ তথ্য।',
   'institutions.searchPlaceholder': 'সংস্থা বা আঁচনি বিচাৰক…',

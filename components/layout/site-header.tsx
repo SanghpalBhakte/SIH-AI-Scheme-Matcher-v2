@@ -10,6 +10,7 @@ import { ThemeToggle } from '@/components/theme/theme-toggle'
 import { LanguageToggle } from '@/components/i18n/language-toggle'
 import { LanguageNudge } from '@/components/i18n/language-nudge'
 import { ToolsMenu } from '@/components/layout/tools-menu'
+import { MobileMoreMenu } from '@/components/layout/mobile-more-menu'
 import { cn } from '@/lib/utils'
 import { useAssessment } from '@/lib/assessment/assessment-context'
 import { useSavedSchemes } from '@/lib/schemes/saved-schemes-context'
@@ -107,36 +108,53 @@ export function SiteHeader() {
           <Badge variant="secondary" className="hidden lg:inline-flex">
             SIH26092 · Prototype
           </Badge>
-          <Link
-            href="/dashboard"
-            onClick={(e) => guardNavigation(e, '/dashboard')}
-            aria-label={t('nav.savedSchemesLink')}
-            className={cn(
-              'relative flex h-11 w-11 shrink-0 items-center justify-center rounded-md text-muted-foreground transition-colors duration-150 hover:bg-secondary hover:text-foreground sm:h-9 sm:w-9',
-              pathname === '/dashboard' && 'text-primary'
-            )}
-          >
-            <Bookmark className="h-4 w-4" aria-hidden />
-            {savedCount > 0 && (
-              <span className="absolute -right-0.5 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-accent px-1 text-[10px] font-semibold leading-none text-accent-foreground">
-                {savedCount}
-              </span>
-            )}
-          </Link>
-          {/* EMI Calculator and the CSC locator used to live only in the
-              footer / a specific scheme's checklist respectively — on
-              mobile that meant scrolling past an entire page (or first
-              opening a scheme) to find either. One combined icon here
-              (see components/layout/tools-menu.tsx for why it's one
-              icon, not two) fixes that without crowding the row. */}
-          <ToolsMenu />
-          <div className="relative">
+          {/* Saved schemes / Tools / Language / Theme: four separate
+              icons here plus four primary-nav icons no longer fit one
+              phone-width row (a real mobile audit, 2026-09-09, found
+              them visually colliding at every width from 320-412px —
+              see components/layout/mobile-more-menu.tsx for the
+              measurements). Below `sm` those four collapse into one
+              MobileMoreMenu trigger; at `sm` and up there's room to
+              spare, so they stay exactly as they were. */}
+          <div className="hidden items-center gap-1 sm:flex sm:gap-2">
+            <Link
+              href="/dashboard"
+              onClick={(e) => guardNavigation(e, '/dashboard')}
+              aria-label={t('nav.savedSchemesLink')}
+              className={cn(
+                'relative flex h-9 w-9 shrink-0 items-center justify-center rounded-md text-muted-foreground transition-colors duration-150 hover:bg-secondary hover:text-foreground',
+                pathname === '/dashboard' && 'text-primary'
+              )}
+            >
+              <Bookmark className="h-4 w-4" aria-hidden />
+              {savedCount > 0 && (
+                <span className="absolute -right-0.5 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-accent px-1 text-[10px] font-semibold leading-none text-accent-foreground">
+                  {savedCount}
+                </span>
+              )}
+            </Link>
+            {/* EMI Calculator and the CSC locator used to live only in the
+                footer / a specific scheme's checklist respectively — on
+                mobile that meant scrolling past an entire page (or first
+                opening a scheme) to find either. One combined icon here
+                (see components/layout/tools-menu.tsx for why it's one
+                icon, not two) fixes that without crowding the row. */}
+            <ToolsMenu />
             <LanguageToggle onOpenChange={setLangOpen} />
-            <LanguageNudge hidden={langOpen} />
+            <ThemeToggle />
           </div>
-          <ThemeToggle />
+          <MobileMoreMenu />
         </div>
       </div>
+      {/* Rendered once, independent of the `sm:` split above — on
+          mobile the language control now lives inside MobileMoreMenu,
+          so this can no longer point at a visible icon the way it used
+          to. Fixed to the viewport (not the header) and phrased
+          generically for exactly that reason; see language-nudge.tsx
+          for why it moved off the old "float under the icon" layout
+          entirely (that was covering page headings, not just the
+          language button). */}
+      <LanguageNudge hidden={langOpen} />
     </header>
   )
 }

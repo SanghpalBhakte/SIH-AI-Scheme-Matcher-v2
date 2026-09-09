@@ -11,13 +11,27 @@ const STORAGE_KEY = 'sih26092.languageNudgeDismissed'
 /**
  * One-time discovery hint for the language switcher — most first-time
  * visitors have no reason to notice a small "EN" in the header. Shows
- * once, positioned under LanguageToggle (its parent in site-header.tsx
- * is `relative` for this reason), and disappears for good once
- * dismissed OR once the visitor actually switches language (at that
- * point they've found it; no need to nag). Same isHydrated-safe
- * localStorage pattern as the rest of this app's persisted UI state —
- * server render and first paint always render nothing, so there's no
- * hydration mismatch and no popover flash for a returning visitor.
+ * once, disappears for good once dismissed OR once the visitor actually
+ * switches language (at that point they've found it; no need to nag).
+ * Same isHydrated-safe localStorage pattern as the rest of this app's
+ * persisted UI state — server render and first paint always render
+ * nothing, so there's no hydration mismatch and no popover flash for a
+ * returning visitor.
+ *
+ * Fixed to the bottom of the viewport rather than floating under the
+ * language icon — a real mobile audit (2026-09-09) found the old
+ * "absolute, dropped below the header" version landing directly on top
+ * of the page's own H1 on every page checked (Home, Saved schemes,
+ * Recommendations, a scheme's detail page): a slim 64px sticky header
+ * leaves page content starting almost immediately below it, so a
+ * 3-line tooltip had nowhere to drop without covering something real.
+ * A bottom banner never competes with a page's own heading, and reads
+ * the same regardless of where the language control currently lives
+ * (a standalone icon at `sm` and up, tucked inside the "More" menu
+ * below it — see mobile-more-menu.tsx) — hence the generic "in the
+ * header" wording instead of the old "tap here" pointing at a specific
+ * icon. `bottom-24` clears the fixed chat launcher (bottom-4, 48px
+ * tall) with room to spare.
  */
 export function LanguageNudge({ hidden = false }: { hidden?: boolean }) {
   const { locale, isHydrated } = useLanguage()
@@ -53,7 +67,7 @@ export function LanguageNudge({ hidden = false }: { hidden?: boolean }) {
   return (
     <div
       role="status"
-      className="absolute right-0 top-full z-20 mt-2 w-52 animate-fade-in-up rounded-md border border-border bg-card p-3 text-left shadow-elevated"
+      className="animate-fade-in-up fixed inset-x-4 bottom-24 z-20 mx-auto max-w-sm rounded-md border border-border bg-card p-3 text-left shadow-elevated-lg"
     >
       <button
         type="button"
@@ -67,7 +81,8 @@ export function LanguageNudge({ hidden = false }: { hidden?: boolean }) {
         <X className="h-3 w-3" aria-hidden />
       </button>
       <p className="pr-6 text-xs leading-relaxed text-foreground">
-        <span className="font-semibold">12 Indian languages available</span> — tap here to read this app in yours.
+        <span className="font-semibold">12 Indian languages available.</span> Switch anytime using the language icon
+        in the header.
       </p>
     </div>
   )
