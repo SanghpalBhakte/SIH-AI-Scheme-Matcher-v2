@@ -98,11 +98,24 @@ const config: Config = {
         // `animation` shorthand below, not here) lets the photo/heading
         // land first, so this reads as one orchestrated sequence rather
         // than everything appearing at once.
+        //
+        // The opacity fade is deliberately front-loaded into the first
+        // ~15% of the animation, not spread across the first 55% the
+        // way an earlier version had it — with a flat circular SVG,
+        // fading in WHILE it's still steeply rotateX'd (near edge-on,
+        // squashed to a thin sliver) read as the shape warping into
+        // existence rather than dropping in. Resolving opacity to 1
+        // quickly, while rotateX is still shallow enough to look like a
+        // tilted disc rather than a line, keeps the "reveal" clean; the
+        // rest of the animation is then a fully-opaque object dropping
+        // and bouncing into place, which is the part that should feel
+        // dramatic.
         'stamp-down': {
-          '0%': { opacity: '0', transform: 'perspective(600px) rotateX(-65deg) rotateZ(-14deg) scale(.55) translateY(-36px)' },
-          '55%': { opacity: '1', transform: 'perspective(600px) rotateX(0deg) rotateZ(-11deg) scale(1.1) translateY(0)' },
-          '75%': { transform: 'perspective(600px) rotateX(0deg) rotateZ(-6deg) scale(.96)' },
-          '100%': { opacity: '1', transform: 'perspective(600px) rotateX(0deg) rotateZ(-8deg) scale(1)' },
+          '0%': { opacity: '0', transform: 'perspective(700px) rotateX(-32deg) rotateZ(-18deg) scale(.55) translateY(-40px)' },
+          '15%': { opacity: '1', transform: 'perspective(700px) rotateX(-18deg) rotateZ(-15deg) scale(.7) translateY(-24px)' },
+          '55%': { transform: 'perspective(700px) rotateX(0deg) rotateZ(-11deg) scale(1.08) translateY(0)' },
+          '75%': { transform: 'perspective(700px) rotateX(0deg) rotateZ(-6deg) scale(.97) translateY(0)' },
+          '100%': { opacity: '1', transform: 'perspective(700px) rotateX(0deg) rotateZ(-8deg) scale(1) translateY(0)' },
         },
       },
       animation: {
